@@ -86,7 +86,7 @@ export default function Dressing() {
               <div className="page">
                 <h1>리옷입히기</h1>
                 <div className="rioImg">
-
+                  {[0, 0, 0, 0, 0].map((_,i)=>(codi[i] != '없음' && <text>{codi[i]}</text>))}
                 </div>
                 <div className="shareButton">
                   <button className="share">공유하기</button>
