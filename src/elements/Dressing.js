@@ -1,6 +1,7 @@
 import { useState } from "react";
 import  "./Dressing.css";
 
+
 export default function Dressing() {
     const [stage, setStage] = useState(0);
     const [combi, setCombi] = useState([-1, -1, -1]);
@@ -11,14 +12,14 @@ export default function Dressing() {
         ['빨간모자', '파란모자', '녹색모자']
     ]
     console.log(combi)
-    const a = 1;
+    
     return (
         <div>
             { 
             (stage==0) ? 
             <div style={{display:'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <text style={{fontSize: 15, textAlign: 'center', marginTop: 20, marginBottom: 20}} >리오 옷입히기</text>
-                <div className='RioImg'></div>
+                <div className='rioImg'></div>
                 <button 
                 style={{backgroundColor: '#00ff00', borderWidth: 0, borderRadius: 5, marginTop: 20, width: 200, height: 30,}}
                 onClick={()=>{
@@ -30,7 +31,7 @@ export default function Dressing() {
             </div>:
             <div style={{display:'flex', flexDirection: 'column', alignItems: 'center'}}>
             <text style={{fontSize: 15, textAlign: 'center', marginTop: 20, marginBottom: 20}} >리오 옷입히기</text>
-            <div className='RioImg'>
+            <div className='rioImg'>
 
             </div>
             <div style={{flexDirection: 'row'}}>
