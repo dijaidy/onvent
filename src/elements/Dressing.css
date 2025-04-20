@@ -2,52 +2,119 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 10px;
 }
-.rioImg{
+.page0{
+    background-image: url('../asset/dressingImages/page0.svg');
+    background-size: cover;
+    background-position: center;
+    justify-content: center;
+    width: 440px;
+    height: 956px;
+    position: relative;
     display: flex;
     flex-direction: column;
-    width: 200px;
-    height: 300px;
-    background-color: yellow;
+    justify-content: center;
+    align-items: center; 
 }
-.start{
-    width: 200px;
-    height: 30px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    font-size: large;
-    background-color: aqua;
-    border-width: 0;
+.enterName{
+    background-image: url('../asset/dressingImages/enterName.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 261px;   
+    height: 75px;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top:663px;
+    outline: none;
+    font-size: 30px;
+    text-indent: 80px;
+}
+.startbutton{
+    background-image: url('../asset/dressingImages/startbutton.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 261px;
+    height: 92px;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 744px;
+}
+.rio{
+    background-image: url('../asset/dressingImages/rio.svg');
+    background-size: cover;
+    background-position: center;
+    justify-content: center;
+    width: 440px;
+    height: 956px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
 }
 .dressButtons{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    width: 200px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 440px;
+    position: absolute;
+    top: 715px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-width: 2px;
+}
+.options{   
+    background-color: transparent;
+    background-position: center;
+    border-width: 1px;
+    background-size: cover;
+    margin: 0px;
+    padding: 0px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.options img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+.prevButton{
+    background-image: url('../asset/dressingImages/prevButton.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+    width: 100px;
+    height: 30px;
+}
+.nextButton{
+    background-image: url('../asset/dressingImages/nextButton.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+    width: 100px;
+    height: 30px;
 }
 .stageButtons{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 200px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-.option{
-    display: flex;
-    background-size: cover;
-    background-position: center;
-    border-width: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-    width: 20px;
-    height: 20px;
-}
-.optionImage{
-    width: 20px;
-    height: 20px
+    width: 350px;
+    position: absolute;
+    top: 900px;
 }
 .shareButton{
     display: flex;
