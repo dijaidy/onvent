@@ -4,6 +4,11 @@ import { useDrag } from "react-use-gesture";
 import { useSpring, animated } from "react-spring";
 import { rh, rw } from "../managements/Dimensions";
 import { data, useNavigate } from "react-router-dom";
+import '../index.css';
+import Swal from 'sweetalert2';
+
+import chultui_intro from "../asset/dressingImages/chultui_intro.svg";
+import chultui_button from "../asset/dressingImages/chultui_button.svg"
 
 const screenWidth = rw(440);
 const screenHeight = rh(956);
@@ -27,9 +32,9 @@ export default function Escaping() {
     const stageRef = useRef(stage);
     const animationId = useRef(null);
     const [name, setName] = useState('');
-    const [nameNeed, setNameNeed] = useState(false);
     const [isClear, setIsClear] = useState(false);
     const [time, setTime] = useState(0);
+    const [manual, setManual] = useState(false);
 
     const navigate = useNavigate();
 
@@ -181,23 +186,45 @@ export default function Escaping() {
       <div style={{display: 'flex', justifyContent: 'center'}}>
         {
           (stage==-1)?
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', height: 500, width: 500}}>
-          <text>출튀하고 축제가기~!!</text>
-          <input
-          placeholder="별명 입력하기"
-          value={name}
-          onChange={(e)=>{setName(e.target.value)}}
-          />
-          {(nameNeed) && <text>이름을 입력해주세요</text>}
-          <button onClick={()=>{
+        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', width: screenWidth, height: screenHeight, borderWidth: 1, borderStyle: 'solid', borderColor: '#000000'}}>
+          <text style={{fontFamily: 'fighting', fontSize: rw(90.74), color: '#ec7fbc', marginTop: rh(56)}}>출튀하고</text>
+          <text style={{fontFamily: 'fighting', fontSize: rw(90.74), color: '#ec7fbc'}}>축제가기~!!</text>
+          <img src={chultui_intro} style={{marginTop: rh(37), objectFit: 'cover'}} width={rw(350)} height={rh(294)}/>
+          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: rh(72)}}>
+            <img src={chultui_button} style={{objectFit: 'cover'}} width={rw(254.63)} height={rh(63.63)} ></img>
+            <input
+            placeholder="별명을 입력하세요"
+            value={name}
+            onChange={(e)=>{setName(e.target.value)}}
+            style={{borderWidth: 0, marginTop: rh(-47), marginBottom: rh(20),  backgroundColor: 'transparent', 
+              width: rw(230), height: rh(27), color: '#ffffff', textAlign: 'center',
+            fontFamily: 'Yangjin', fontSize: rw(24)}}
+            />
+          </div>
+          <button style={{ backgroundColor: 'transparent', border: 'none', marginTop: rh(20.37), width: rw(254.63), display: 'flex', flexDirection: 'column', alignItems: 'center'
+          }} onClick={()=>{
             if (!name) {
-              setNameNeed(true);
+              Swal.fire( '이름을 입력해주세요!');
             } else {
-              setNameNeed(false);
               setStage(0);
               setTime(Date.now());
-            }}}>게임시작</button>
-          <button onClick={()=>{navigate('manual')}}>게임설명</button>
+            }}}>
+            <img style={{opacity: 1, objectFit: 'cover'}} src={chultui_button} width={rw(254.63)} height={rh(63.63)}></img>
+            <text style={{fontFamily: 'Yangjin', fontSize: rw(24), color: '#ffffff', marginTop: rh(-50), height: rh(27), marginBottom: rh(23)}}>게임시작</text>
+          </button>
+          <button style={{ backgroundColor: 'transparent', border: 'none', marginTop: rh(20.37), width: rw(254.63), display: 'flex', flexDirection: 'column', alignItems: 'center'
+          }} onClick={()=>{
+            setManual(true);
+          }}>
+            <img style={{opacity: 1, objectFit: 'cover'}} src={chultui_button} width={rw(254.63)} height={rh(63.63)}></img>
+            <text style={{fontFamily: 'Yangjin', fontSize: rw(24), color: '#ffffff', marginTop: rh(-50), height: rh(27), marginBottom: rh(23)}}>게임방법</text>
+          </button>
+          {(manual) && <div style={{position: 'absolute', width: screenWidth, height: screenHeight, opacity: 1, left: 0, top: 0, backgroundColor: 'transparent', zIndex: 2}}>
+            <div style={{position: 'absolute', top: rh(279), backgroundColor: '#ec7fbc', opacity: 1, zIndex: 3}}>
+              <text style={{fontFamily: 'Yangjin', fontSize: rw(64),textAlign: 'center', color: '#ffffff',}}>게임설명</text>
+            </div>
+            <div style={{width: '100%', height: '100%', opacity: 0.7, backgroundColor: '#f4b9d2'}}></div>
+          </div>}
         </div>
         :
         (isClear) ?

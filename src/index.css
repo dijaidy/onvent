@@ -7,6 +7,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+input::placeholder {
+  color: #ffffff; /* placeholder 텍스트 색상 */
+}
+
+@font-face {
+  font-family: 'Fighting'; /* 사용할 폰트의 이름을 정의 */
+  src: url('./asset/fonts/PeoplefirstFighting.otf'); /* 폰트 파일의 위치 */
+}
+
+@font-face {
+  font-family: 'Yangjin'; /* 사용할 폰트의 이름을 정의 */
+  src: url('./asset/fonts/양진체v0.93.otf'); /* 폰트 파일의 위치 */
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
