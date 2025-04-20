@@ -106,7 +106,9 @@ export default function Dressing() {
               <div className="page">
                 <div className="page0">
                   
-                  <input type="text" className="enterName"></input>
+                  <div className='enterNameDiv'>
+                    <input type="text" className="enterName"></input>
+                  </div>
                   
                   <button className="startbutton" onClick={() => setStage(1)}></button>
                 

@@ -51,7 +51,7 @@
     top: 209px;
     z-index: 1;
 }
-.enterName{
+.enterNameDiv{
     background-image: url('../asset/dressingImages/enterName.svg');
     background-size: cover;
     background-repeat: no-repeat;
@@ -63,8 +63,19 @@
     position: absolute;
     top:663px;
     outline: none;
-    font-size: 30px;
-    text-indent: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-start;
+    align-items: center;
+    
+}
+.enterName{
+    font-size: 20px;
+    margin-left: 80px;
+    height: 30px;
+    width: 130px;
+    border-width: 0px;
+    background-color: transparent;
     font-family: 'Romance';
     color: #d73e8a;
 }
