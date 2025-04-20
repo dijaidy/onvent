@@ -17,6 +17,40 @@
     justify-content: center;
     align-items: center; 
 }
+.page1-4{
+    background-image: url('../asset/dressingImages/page1-4.svg');
+    background-size: cover;
+    background-position: center;
+    justify-content: center;
+    width: 440px;
+    height: 956px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+}
+.page5{
+    background-image: url('../asset/dressingImages/page5.svg');
+    background-size: cover;
+    background-position: center;
+    justify-content: center;
+    width: 440px;
+    height: 956px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+}
+.rio{
+    background-image: url('../asset/dressingImages/rio.svg');
+    width: 440px;
+    height: 493px;
+    position: absolute;
+    top: 209px;
+    z-index: 1;
+}
 .enterName{
     background-image: url('../asset/dressingImages/enterName.svg');
     background-size: cover;
@@ -31,6 +65,8 @@
     outline: none;
     font-size: 30px;
     text-indent: 80px;
+    font-family: 'Romance';
+    color: #d73e8a;
 }
 .startbutton{
     background-image: url('../asset/dressingImages/startbutton.svg');
@@ -44,37 +80,24 @@
     position: absolute;
     top: 744px;
 }
-.rio{
-    background-image: url('../asset/dressingImages/rio.svg');
-    background-size: cover;
-    background-position: center;
-    justify-content: center;
-    width: 440px;
-    height: 956px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; 
-}
 .dressButtons{
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+    flex-direction: row;    
     background-size: cover;
     background-repeat: no-repeat;
     width: 440px;
     position: absolute;
-    top: 715px;
+    top: 730px;
     background-color: transparent;
     border: none;
     outline: none;
-    border-width: 2px;
+    border-width: 0px;
+    justify-content: space-evenly;
 }
 .options{   
     background-color: transparent;
     background-position: center;
-    border-width: 1px;
+    border-width: 0px;
     background-size: cover;
     margin: 0px;
     padding: 0px;
@@ -117,14 +140,100 @@
     top: 900px;
 }
 .shareButton{
-    display: flex;
-    width: 200px;
-    height: 30px;
-    justify-content: center;
+    background-image: url('../asset/dressingImages/shareButton.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 258px;
+    height: 91px;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 723px;
 }
-.share{
-    width: 200px;
-    height: 30px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+.info{
+    background-image: url('../asset/dressingImages/info.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 360px;
+    height: 77px;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 835px;
+}
+.outfitChosen{
+    z-index: 2;
+    position: relative;
+}
+.soccerChosen{
+    position: absolute;
+    top: 354px;
+    left: 19px;
+}
+.hockeyChosen{
+    position: absolute;
+    top: 346px;
+    left: 17px;
+}
+.shoes1Chosen{
+    position: absolute;
+    top: 637px;
+    left: 79px;
+}
+.shoes2Chosen{
+    position: absolute;
+    top: 617px;
+    left: 53px;
+}
+.shoes3Chosen{
+    position: absolute;
+    top: 629px;
+    left: 58px;
+}
+.shoes4Chosen{
+    position: absolute;
+    top: 622px;
+    left: 76px;
+}
+.head1Chosen{
+    position: absolute;
+    top: 107px;
+    left: 115px;
+}
+.head2Chosen{
+    position: absolute;
+    top: 167px;
+    left: 96px;
+}
+.head3Chosen{
+    position: absolute;
+    top: 141px;
+    left: 109px;
+}
+.head4Chosen{
+    position: absolute;
+    top: 132px;
+    left: 90px;
+}
+.eye1Chosen{
+    position: absolute;
+    top: 287px;
+    left: 143px;
+}
+.eye2Chosen{
+    position: absolute;
+    top: 255px;
+    left: 104px;
+}
+.eye3Chosen{
+    position: absolute;
+    top: 274px;
+    left: 234px;
+}
+.eye4Chosen{
+    position: absolute;
+    top: 285px;
+    left: 117px;
 }
