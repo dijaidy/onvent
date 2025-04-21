@@ -24,12 +24,12 @@ const imagePaths = [
 const preloadImages = (paths) => {
   paths.forEach((filename) => {
     const img = new Image();
-    img.src = `${process.env.PUBLIC_URL}/asset/dressingImages/${filename}`;
+    img.src = `./asset/dressingImages/${filename}`;
   });
 };
 
 function App() {
-  
+
   useEffect(() => {
     preloadImages(imagePaths);
   }, []);
