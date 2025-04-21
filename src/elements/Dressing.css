@@ -248,3 +248,21 @@
     top: 285px;
     left: 117px;
 }
+.userNameBox{
+    height: 209px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+}
+.userName{
+    max-width: 100%;
+    width: 100%;
+    white-space: nowrap;   
+    font-family: 'Romance';
+    color: #d73e8a;
+    font-size: clamp(30px,2vw,40px);
+    -webkit-text-stroke: 1.3px white;
+}

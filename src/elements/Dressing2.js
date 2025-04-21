@@ -28,6 +28,9 @@ import eye1po from"../asset/dressingImages/eye1po.svg";
 import eye2po from"../asset/dressingImages/eye2po.svg";
 import eye3po from"../asset/dressingImages/eye3po.svg";
 import eye4po from"../asset/dressingImages/eye4po.svg";
+import { sendNameToFirebase } from '../utils/sendNameToFirebase';
+import html2canvas from "html2canvas";
+import Swal from "sweetalert2";
 
 function Call({ codi, setCodi, closet, stage, outfitPutOn }) {
     function selectOutfit(index, outfit) {
@@ -58,6 +61,16 @@ function NextP({stage, setStage}){ //다음버튼
         <button className="nextButton" onClick={()=>setStage(stage+1)}></button>
     )
 }
+
+
+
+
+
+
+
+
+
+
   
 export default function Dressing() {
     const [stage, setStage] = useState(0);
@@ -94,8 +107,36 @@ export default function Dressing() {
        {src: eye4po, className: "eye4Chosen"}
       ]
     ];
+    const [name, setName] = useState('');
 
-   
+    const handleDownloadImage = () => {
+      const target = document.querySelector(".page5"); // 저장할 전체 영역
+      const shareButton = document.querySelector(".shareButton"); // 공유 버튼만 숨기기
+  
+      // 공유 버튼 숨기기
+      shareButton.style.visibility = "hidden";
+  
+      html2canvas(target, {
+        useCORS: true,
+        scale: 2,
+      }).then((canvas) => {
+        const link = document.createElement("a");
+        link.download = "코디저장.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+  
+        // 다시 보이게
+        shareButton.style.visibility = "visible";
+      });
+    };
+  
+    const getFontSizeByName = (name) => {
+      const length = name.length;
+      if (length <= 3) return 55;   // 아주 짧은 이름은 크게
+      if (length <= 5) return 45;
+      if (length <= 8) return 40;
+      return 24;                    // 긴 이름은 작게
+    };
     
   
     return (
@@ -107,10 +148,10 @@ export default function Dressing() {
                 <div className="page0">
                   
                   <div className='enterNameDiv'>
-                    <input type="text" className="enterName"></input>
+                    <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName"></input>
                   </div>
                   
-                  <button className="startbutton" onClick={() => setStage(1)}></button>
+                  <button className="startbutton" onClick={() =>{if(!name.trim()){Swal.fire('이름을 입력해주세요!'); return;}setStage(1)}}></button>
                 
                 </div>
               </div>
@@ -149,7 +190,13 @@ export default function Dressing() {
             return (
               <div className="page">
                 <div className="page5">
-                   
+                
+                <div className="userNameBox">
+                  <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
+                    {name}의 코디!
+                  </div>  
+                </div>
+
                 {codi.map(
                   (item, i) =>
                     item && (
@@ -164,9 +211,9 @@ export default function Dressing() {
                  
                   <div className="rio"></div>
 
-                  <button className="shareButton"></button>
+                  <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleDownloadImage(); Swal.fire("코디가 저장되었습니다!")}} ></button>
                   <div className="info"></div>
-
+                  
                 </div>
               </div>
             );
