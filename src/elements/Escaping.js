@@ -33,6 +33,17 @@ import start2 from "../asset/dressingImages/스테이지 2 입구.svg";
 import coffee_table from "../asset/dressingImages/coffee_table.svg"; 
 import 리딸라 from "../asset/dressingImages/리딸라.svg";  
 import 리딸라2 from "../asset/dressingImages/리딸라 2.svg"; 
+import 컵홀더 from "../asset/dressingImages/컵홀더.svg"; 
+import 장애물사람 from "../asset/dressingImages/장애물 사람.svg"; 
+import fail_새치기 from "../asset/dressingImages/fail_새치기.svg"
+import fail_ridala from "../asset/dressingImages/fail_ridala.svg"
+import 나무1 from "../asset/dressingImages/나무1.svg";
+import 나무2 from "../asset/dressingImages/나무2.svg";
+import 현장이벤트 from "../asset/dressingImages/현장이벤트 2.svg";
+import 사람2 from "../asset/dressingImages/사람 2.svg";
+import 사람1 from "../asset/dressingImages/사람 1.svg";
+import 부스 from "../asset/dressingImages/부스 2.svg";
+import success from "../asset/dressingImages/success.svg";
 
 const screenWidth = rw(440);
 const screenHeight = rh(956);
@@ -59,7 +70,10 @@ export default function Escaping() {
     const [isClear, setIsClear] = useState(false);
     const [time, setTime] = useState(0);
     const [manual, setManual] = useState(false);
+    const [popUp, setPopUp] = useState(false);
+    const [alreadyPopUp, setAlreadyPopUp] = useState(false);
     const [fail, setFail] = useState(false);
+    const [treeTouch, setTreeTouch] = useState(false);
     const rio = useRef(walking1);
     const teacher = useRef(교수앞);
     const ridala = useRef(리딸라);
@@ -69,31 +83,52 @@ export default function Escaping() {
     const ta = [useRef(조교앞), useRef(조교뒤)];
     const taVel = [1.3, 2];
     const taAnimationIdArr = [useRef(null), useRef(null)];
+    const [isBlocked, setIsBlocked] = useState(false);
 
     const stageSetting = {
       bgd: [bgd1, bgd2, bgd3, bgd4, bgd5],
-      starting: [[rw(170), rh(284)], [rw(26), rh(442)], [rw(256), rh(278)]],
+      starting: [[rw(170), rh(284)], [rw(26), rh(442)], [rw(256), rh(278)], [rw(31), rh(23)], [rw(8), rh(251), rw(88), rh(88)]],
       barrier: [
         [[rw(201), rh(68), rw(106), rh(140), teacher, null], [rw(14), rh(184), rw(240), rh(94), 학생들], [rw(14), rh(374), rw(240), rh(94), 학생들],[rw(102), rh(275), rw(64), rh(98), 리아_stage1],], 
         [],
-        [[0, 0, rw(350), rh(135)]]
+        [[0, 0, rw(350), rh(135)], [0, rh(459), rw(350), rh(111)]],
+        [],
+        []
       ],
       object: [
         [[rw(14), rh(279), rw(240), rh(94), 학생들2]],
         [[0, rh(442), rw(32), rh(108), start2]],
-        [[rw(127.72), rh(124.01), rw(106.56), rh(45.98), coffee_table], [rw(200), rh(86), rw(30), rh(42), ridala, null]]
+        [[rw(127.72), rh(124.01), rw(106.56), rh(45.98), coffee_table], !alreadyPopUp && [rw(200), rh(86), rw(30), rh(42), ridala, null]],
+        [[0, rh(190), rw(204), rh(96), 장애물사람], !treeTouch && [rw(200), rh(22), rw(142), rh(264), 나무1], treeTouch && [rw(147), rh(231), rw(174), rh(270), 나무2]],
+        [[rw(121), rh(373), rw(52), rh(96), 사람1], [0, rh(85), rw(268), rh(104), 부스], [0, rh(406), rw(268), rh(104), 부스], [rw(20), rh(141), rw(64), rh(96), 사람2], [rw(273), rh(31), rw(64), rh(96), 사람2], [rw(20), rh(471), rw(64), rh(96), 사람2], [rw(201), rh(122), rw(64), rh(96), 사람2], [rw(123), rh(163), rw(52), rh(96), 사람1], [rw(247), rh(459), rw(52), rh(96), 사람1]]
       ],
       event: [
         [],
         [],
-        [rw(109), rh(45), rw(144), rh(114), ()=>{
-          stopRidalaAnimation();
-          ridala.current?.setAttribute('src', 리딸라);}]
+        [[rw(119), rh(45), rw(125), rh(115), ()=>{
+          if (!alreadyPopUp){
+            stopRidalaAnimation();
+            setPopUp(true);
+            ridala.current?.setAttribute('src', 리딸라);
+          }
+        }]],
+        [[0, rh(190), rw(194), rh(96), ()=>{
+          setTimeout(()=>{
+            setFail(fail_새치기);
+          }, 200);
+        },],
+        (!treeTouch && [rw(221), rh(190), rw(130), rh(93), ()=>{
+          setTreeTouch(true);
+        }]),
+      ],
+      []
       ],
       goal: [
         [rw(14.32), rh(561.01), rw(63.36), rh(8.99), goal1], 
         [rw(341), rh(20), rw(8.99), rh(108), goal2],
-        [0, rh(170), rw(13), rh(289), false]
+        [0, rh(170), rw(13), rh(289), false],
+        [rw(316), rh(518), rw(24), rh(44)],
+        [rw(276), rh(179), rw(74), rh(244), 현장이벤트]
       ],
         
     }
@@ -101,10 +136,16 @@ export default function Escaping() {
     const navigate = useNavigate();
 
     const joystickPos = useSpring({x: 0, y: 0});
-    const rioPos = useSpring({x: stageSetting.starting[0][0], y: stageSetting.starting[0][1]});
-
+    const [rioPos, api] = useSpring(() => ({
+      x: stageSetting.starting[0][0],
+      y: stageSetting.starting[0][1],
+    }));
+    
     useEffect(()=>{
       stageRef.current = stage;
+      if (stage >= 0) {
+        rio.current?.setAttribute('src', walkFrame.current === 0 ? walking1 : walking2);
+      }
       if (stage == 1) {
         updateTA1Position();
         updateTA2Position();
@@ -152,7 +193,7 @@ export default function Escaping() {
     
         ridalaFrame.current = (ridalaFrame.current + 1) % 2;
         ridala.current?.setAttribute('src', ridalaFrame.current === 0 ? 리딸라 : 리딸라2);
-      }, 800); // 150ms마다 교체 (애니메이션 속도)
+      }, 600); // 150ms마다 교체 (애니메이션 속도)
     };
 
     const stopRidalaAnimation = () => {
@@ -281,15 +322,14 @@ export default function Escaping() {
 
       // event
       for (let i= 0 ; i < stageSetting.event[stageRef.current].length; i++) {
-        boxLeft = stageSetting.event[stageRef.current][0];
-        boxRight = stageSetting.event[stageRef.current][0]+stageSetting.event[stageRef.current][2];
-        boxTop = stageSetting.event[stageRef.current][1];
-        boxBottom = stageSetting.event[stageRef.current][1]+stageSetting.event[stageRef.current][3];
+        boxLeft = stageSetting.event[stageRef.current][i][0];
+        boxRight = stageSetting.event[stageRef.current][i][0]+stageSetting.event[stageRef.current][i][2];
+        boxTop = stageSetting.event[stageRef.current][i][1];
+        boxBottom = stageSetting.event[stageRef.current][i][1]+stageSetting.event[stageRef.current][i][3];
 
-
-      if ( boxTop < newY + rioHeight &&  boxBottom > newY && newX + rioWidth > boxLeft && newX < boxRight){ // top collision
-        stageSetting.event[stageRef.current][4]();
-      }
+        if ( boxTop < newY + rioHeight &&  boxBottom > newY && newX + rioWidth > boxLeft && newX < boxRight){ // top collision
+          stageSetting.event[stageRef.current][i][4]();
+        }
       }
 
 
@@ -303,12 +343,16 @@ export default function Escaping() {
 
       if ( boxTop < newY + rioHeight &&  boxBottom > newY && newX + rioWidth > boxLeft && newX < boxRight){ // top collision
         if (stageRef.current+1 < stageSetting.barrier.length) {
+          if (stageRef.current == 2 && !alreadyPopUp) {
+            setFail(fail_ridala)
+            return;
+          }
           newX = stageSetting.starting[stageRef.current+1][0];
           newY = stageSetting.starting[stageRef.current+1][1];
           if (stageRef.current == 0) {
             teacherWatch.current = false;
             stopTeacherAnimation();
-            rio.current?.setAttribute('src', walking1)
+            rio.current?.setAttribute('src', walking1);
           } else if (stageRef.current == 1) {
             for ( let i = 0; i < 2; i++) {
               if (taAnimationIdArr[i].current !== null) {
@@ -318,7 +362,9 @@ export default function Escaping() {
             }
             startRidalaAnimation();
           }
+          stopWalkingAnimation();
           setStage(stageRef.current+1);
+          startWalkingAnimation();
         } else {
           setIsClear(true);
           setTime(Date.now() - time);
@@ -328,7 +374,7 @@ export default function Escaping() {
           }
         }
       }
-        
+
       rioPos.x.set(newX);
       rioPos.y.set(newY);
       
@@ -342,6 +388,7 @@ export default function Escaping() {
         joystickPos.y.set(0);
         updatePosition();
       } else if (e.down){
+        if (isBlocked) return;
         if (teacherWatch.current) {
           setTimeout(()=>{/*setFail(fail_teacher);*/}, 150);
         }
@@ -358,7 +405,9 @@ export default function Escaping() {
             joystickPos.x.set(e.movement[0]);
            joystickPos.y.set(e.movement[1]);
         }
-
+        if (popUp) {
+          setIsBlocked(true);
+        }
 
       } else if (e.last) {
         console.log('ld')
@@ -455,7 +504,8 @@ export default function Escaping() {
         :
         (isClear) ?
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', height: 500, width: 500}}>
-          <text>축제 도착</text>
+          <text style={{fontFamily: 'fighting', fontSize: rw(90.74), color: '#000000', marginTop: rh(133), zIndex: 3}} >축제도착~!!</text>
+          <img style={{marginTop: rh(-42)}} src={success} width={rw(350)} height={rh(438)}></img> 
           <text>{name}</text>
           <text>{time/1000}초</text>
           <button onClick={()=>{navigate('/ranking')}}>순위 보러가기</button>
@@ -469,11 +519,11 @@ export default function Escaping() {
           <img src={fail} style={{objectFit: 'cover'}} width={rw(350)} height={rh(438)}></img>
         </div>
         :
-        <div style={{display: 'flex', flexDirection: 'column', borderWidth: 1, borderStyle: 'solid', width: screenWidth, height: screenHeight, borderColor: '#000000', alignItems: 'center'}}>
+        <div style={{display: 'flex', flexDirection: 'column', position: 'relative', borderWidth: 1, borderStyle: 'solid', width: screenWidth, height: screenHeight, borderColor: '#000000', alignItems: 'center'}}>
           <text style={{marginTop: rh(36), fontSize: rw(40), fontFamily: 'Fighting', }}>{`스테이지 ${stage+1}`}</text>
           <div style={{position: 'relative', backgroundImage: `url(${stageSetting.bgd[stage]})`, backgroundSize: '100% 100%', width: gameScreenWidth, height: gameScreenHeight, touchAction: 'none', borderWidth: 1, borderStyle: 'solid', marginTop: rh(27)}}>
             {stageSetting.object[stage].map((pos, i)=>(pos[4] && <img src={pos.length == 6 ? pos[4].current :pos[4]} key={'barrier'+i.toString()} ref={(pos.length == 6) ? pos[4]: null} style={{ position: 'absolute', left: pos[0], top: pos[1], width: pos[2], height: pos[3],}}></img>))}
-            {stageSetting.barrier[stage].map((pos, i)=>(pos[4] && <img src={pos.length == 6 ? pos[4].current :pos[4] } key={'barrier'+i.toString()} ref={(pos.length == 6) ? pos[4]: null} style={{ position: 'absolute', left: pos[0], top: pos[1], width: pos[2], height: pos[3],}}></img>))}
+            {stageSetting.barrier[stage].map((pos, i)=>(pos[4] && <img src={pos.length == 6 ? pos[4].current :pos[4] } key={'barrier'+i.toString()} ref={(pos.length == 6) ? pos[4]: null} style={{ position: 'absolute', left: pos[0], top: pos[1], width: pos[2], height: pos[3], }}></img>))}
             {stageSetting.goal[stage][4] ? 
             <img src={stageSetting.goal[stage][4]} style={{ position: 'absolute', left: stageSetting.goal[stage][0], top: stageSetting.goal[stage][1], width: stageSetting.goal[stage][2], height: stageSetting.goal[stage][3]}}></img>
             : 
@@ -493,10 +543,15 @@ export default function Escaping() {
             </animated.div>
           </div>
           <div style={{display: 'flex', justifyContent: 'center', width: rw(203), height: rw(203), borderRadius: rw(203), borderColor: '#ec7fbc', backgroundColor: '#ffd3ea', borderWidth: 2, borderStyle: 'solid', marginTop: rh(35)}}>
-              <animated.div {...bindLogoPos()}  style={{width: rw(76.99), height: rw(76.99), x:joystickPos.x, y:joystickPos.y, borderRadius: rw(77), background: 'transparent', alignSelf: 'center', pointerEvents: 'auto'}}>
+              <animated.div {...bindLogoPos()}  style={{width: rw(76.99), height: rw(76.99), x:joystickPos.x, y:joystickPos.y, borderRadius: rw(77), background: 'transparent', alignSelf: 'center', pointerEvents: isBlocked ? 'none' : 'auto'}}>
                 <img src={joystickImg} style={{width: rw(76.99), height: rw(76.99)}} draggable={false} ></img>
               </animated.div>
           </div>
+          {(popUp && !alreadyPopUp) && <div style={{position: 'absolute', display: 'flex', flexDirection: 'column',alignItems: 'center', width: screenWidth, height: screenHeight, opacity: 1, left: 0, top: 0, backgroundColor: 'transparent', zIndex: 2}}>
+            <img width={rw(350)} style={{ position: 'absolute', left: rw(45), top: rh(50), zIndex: 3}} src={컵홀더}></img>
+            <text style={{marginTop: rh(589), fontSize: rw(60), color: '#ea7aba', fontFamily: 'Fighting', }}>리딸라 획득!</text>
+            <button style={{ position: 'absolute', width: '100%', height: '100%',  borderWidth: 0, backgroundColor: 'transparent'}} onClick={()=>{setAlreadyPopUp(true);setPopUp(false); setIsBlocked(false);}}></button>
+          </div>}
         </div>
         }
       </div>
