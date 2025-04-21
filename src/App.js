@@ -94,9 +94,9 @@ export const imagePaths = [
 ];
 
 const preloadImages = (paths) => {
-  return paths.map((filename, i) => {
+  /*return paths.map((filename, i) => {
     return(<img src={filename}></img>);
-  });
+  });*/
 };
 
 function App() {
