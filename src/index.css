@@ -13,18 +13,18 @@ input::placeholder {
 
 @font-face {
   font-family: 'Fighting'; /* 사용할 폰트의 이름을 정의 */
-  src: url('./asset/fonts/PeoplefirstFighting.otf'); /* 폰트 파일의 위치 */
+  src: url('../../public/asset/fonts/PeoplefirstFighting.otf'); /* 폰트 파일의 위치 */
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Yangjin'; /* 사용할 폰트의 이름을 정의 */
-  src: url('./asset/fonts/양진체v0.93.otf'); /* 폰트 파일의 위치 */
+  src: url('../../public/asset/fonts/양진체v0.93.otf'); /* 폰트 파일의 위치 */
   font-display: swap;
 }
 @font-face {
   font-family: 'Romance'; /* 사용할 폰트의 이름을 정의 */
-  src: url('./asset/fonts/GumiRomance.otf'); /* 폰트 파일의 위치 */
+  src: url('../../public/asset/fonts/GumiRomance.otf'); /* 폰트 파일의 위치 */
   font-display: swap;
 }
 
