@@ -4,7 +4,10 @@ import Escaping from "./elements/Escaping";
 import Ranking from "./elements/Ranking";
 import Dressing from "./elements/Dressing2";
 
+
 export default function Navigation() {
+
+
     return (
         <Routes>
             <Route path='/' element={<MainPage/>}/>
