@@ -210,7 +210,7 @@ export default function Dressing() {
                  
                   <div className="rio"></div>
 
-                  <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleDownloadImage(); alert("코디가 저장되었습니다!")}} ></button>
+                  <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleDownloadImage(); Swal.fire("코디가 저장되었습니다!")}} ></button>
                   <div className="info"></div>
 
                 </div>
