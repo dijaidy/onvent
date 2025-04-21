@@ -95,8 +95,7 @@ export const imagePaths = [
 
 const preloadImages = (paths) => {
   paths.forEach((filename) => {
-    const img = new Image();
-    img.src = filename;
+    const img = <img src={filename}/>;
   });
 };
 
