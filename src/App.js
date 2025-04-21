@@ -94,19 +94,20 @@ export const imagePaths = [
 ];
 
 const preloadImages = (paths) => {
-  paths.map((filename, i) => {
+  return paths.map((filename, i) => {
     return(<img src={filename}></img>);
   });
 };
 
 function App() {
-  
+  const [a, setA] = useState([]);
   useEffect(() => {
-    preloadImages(imagePaths);
+    setA(preloadImages(imagePaths))
   }, []);
 
   return (
     <div className="App">
+      {a}
       <Navigation/>
     </div>
   );
