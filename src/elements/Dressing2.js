@@ -30,6 +30,7 @@ import eye3po from"../asset/dressingImages/eye3po.svg";
 import eye4po from"../asset/dressingImages/eye4po.svg";
 import { sendNameToFirebase } from '../utils/sendNameToFirebase';
 import html2canvas from "html2canvas";
+import Swal from "sweetalert2";
 
 function Call({ codi, setCodi, closet, stage, outfitPutOn }) {
     function selectOutfit(index, outfit) {
@@ -150,7 +151,7 @@ export default function Dressing() {
                     <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName"></input>
                   </div>
                   
-                  <button className="startbutton" onClick={() => setStage(1)}></button>
+                  <button className="startbutton" onClick={() =>{if(!name.trim()){Swal.fire('이름을 입력해주세요!'); return;}setStage(1)}}></button>
                 
                 </div>
               </div>
@@ -212,7 +213,7 @@ export default function Dressing() {
 
                   <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleDownloadImage(); Swal.fire("코디가 저장되었습니다!")}} ></button>
                   <div className="info"></div>
-
+                  
                 </div>
               </div>
             );
