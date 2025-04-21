@@ -102,6 +102,7 @@ const preloadImages = (paths) => {
 function App() {
   const [a, setA] = useState([]);
   useEffect(() => {
+    console.log(preloadImages(imagePaths));
     setA(preloadImages(imagePaths))
   }, []);
 
