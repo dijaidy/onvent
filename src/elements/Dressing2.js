@@ -43,9 +43,9 @@ function Call({ codi, setCodi, closet, stage, outfitPutOn }) {
   
     return (
       <div className="dressButtons">
-        {closet[stage - 1].map((outfit, idx) => (
+        {closet[stage - 1].map((outfit, idx) => ( //이미지 버튼 만들기
           <button className="options" key={idx} onClick={() => {selectOutfit(stage - 1, outfitPutOn[stage-1][idx]);}}>
-            <img src={outfit} alt={`option ${idx}`} className="dress-img"/>
+            <img src={outfit} alt={`option ${idx}`} className="dress-img"/> 
           </button>
         ))}
       </div>
@@ -76,14 +76,14 @@ export default function Dressing() {
     const [stage, setStage] = useState(0);
     const [codi, setCodi] = useState([null, null, null, null]);
   
-    const closet = [
+    const closet = [ // 버튼용 이미지 저장
       [soccer, hockey],
       [shoes1, shoes2, shoes3, shoes4],
       [head1, head2, head3, head4],
       [eye1, eye2, eye3, eye4],
     ];
 
-    const outfitPutOn = [
+    const outfitPutOn = [ //입혀진 이미지
       [
        {src: soccerpo, className: "soccerChosen"}, 
        {src: hockeypo, className: "hockeyChosen"}
@@ -147,12 +147,12 @@ export default function Dressing() {
               <div className="page">
                 <div className="page0">
                   
-                  <div className='enterNameDiv'>
+                  <div className='enterNameDiv'> {/*이름입력*/}                  
                     <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName"></input>
                   </div>
-                  
+                  {/*시작버튼튼 */}
                   <button className="startbutton" onClick={() =>{if(!name.trim()){Swal.fire('이름을 입력해주세요!'); return;}setStage(1)}}></button>
-                
+
                 </div>
               </div>
             );
@@ -161,7 +161,7 @@ export default function Dressing() {
               <div className="page">
                 <div className="page1-4">
                    
-                {codi.map(
+                {codi.map( //선택된 의상 입히기기
                   (item, i) =>
                     item && (
                       <img
@@ -178,7 +178,7 @@ export default function Dressing() {
                     {/* ✅ Call 컴포넌트 한 번만 사용 */}
                   <Call codi={codi} setCodi={setCodi} closet={closet} stage={stage} outfitPutOn={outfitPutOn} />      
                     
-                  <div className="stageButtons">
+                  <div className="stageButtons"> {/* 스테이지버튼튼 */}
                     <PrevP stage={stage} setStage={setStage} />
                     <NextP stage={stage} setStage={setStage} />
                   </div>
@@ -191,13 +191,13 @@ export default function Dressing() {
               <div className="page">
                 <div className="page5">
                 
-                <div className="userNameBox">
+                <div className="userNameBox"> {/** 상단 메시지지 */}
                   <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
                     {name}의 코디!
                   </div>  
                 </div>
 
-                {codi.map(
+                {codi.map( //옷입은 리오모습습
                   (item, i) =>
                     item && (
                       <img
@@ -210,9 +210,10 @@ export default function Dressing() {
                 )}
                  
                   <div className="rio"></div>
-
+                  {/**공유, 이름 저장, 이미지 저장 */}
                   <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleDownloadImage(); Swal.fire("코디가 저장되었습니다!")}} ></button>
-                  <div className="info"></div>
+                  {/**축제정보 */}
+                  <div className="info"></div> 
                   
                 </div>
               </div>

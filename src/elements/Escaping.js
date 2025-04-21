@@ -224,7 +224,7 @@ export default function Escaping() {
         let boxBottom = taPos[i].y.get()+taSize[1];
 
         if ( boxTop < rioPos.y.get() + rioHeight &&  boxBottom > rioPos.y.get() && rioPos.x.get() + rioWidth > boxLeft && rioPos.x.get() < boxRight){
-          /*setFail(fail_TA);*/
+          setFail(fail_TA);
         }
 
 
@@ -255,7 +255,7 @@ export default function Escaping() {
       let boxBottom = taPos[i].y.get()+taSize[1];
 
       if ( boxTop < rioPos.y.get() + rioHeight &&  boxBottom > rioPos.y.get() && rioPos.x.get() + rioWidth > boxLeft && rioPos.x.get() < boxRight){
-        /*setFail(fail_TA);*/
+        setFail(fail_TA);
       }
 
       taAnimationIdArr[i].current = requestAnimationFrame(updateTA2Position);
