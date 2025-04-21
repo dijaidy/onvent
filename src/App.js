@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import Navigation from './Navigation';
 import { useEffect } from 'react';
+import soccer from "../asset/dressingImages/Frame 11.svg";
 
 
 const imagePaths = [
@@ -25,6 +26,7 @@ function App() {
 
   return (
     <div className="App">
+      <img src={soccer}></img>
       <Navigation/>
     </div>
   );
