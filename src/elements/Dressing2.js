@@ -111,63 +111,75 @@ export default function Dressing() {
 
 
     
-    const handleDownloadImg = async () => {
-      const isMobile = window.matchMedia("(pointer: coarse)").matches;
-      const target = document.querySelector(".captureArea");
+    const handleDownloadImg = () => {
+      const target = document.querySelector(".captureContents");
       if (!target) return;
-      
-      // 🔑 팝업 먼저 열어놓음 (모바일만)
-      const popup = isMobile ? window.open("", "_blank") : null;
-
-      const images = target.querySelectorAll("img");
-      await Promise.all(
-        Array.from(images).map(
-          (img) =>
-            new Promise((resolve) => {
-              if (img.complete) resolve();
-              else {
-                img.onload = resolve;
-                img.onerror = resolve;
-              }
-            })
-        )
-      );
-      
-      
-      if (isMobile && !popup) {
-        alert("팝업을 허용해야 코디를 저장할 수 있으리오ㅠㅠㅠ");
-        return;
-      }
     
-      // 🪧 사용자 안내 (이건 사용자 입력이라 안전)
-      await Swal.fire({
-        html: `<div style="white-space: pre-line; text-align: center;">이미지가 새창으로 열렷다리오!\n길게 눌러서 저장하리오!</div>`,
-        showConfirmButton: true,
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-      });
+      const isMobile = window.matchMedia("(pointer:coarse)").matches;
     
-
+      // 공유 버튼 숨기기 등 필요한 조작이 있다면 여기서 처리
     
-      // 🖼️ 캡처
-      html2canvas(target, {
-        useCORS: true,
-        backgroundColor: null,
-      }).then((canvas) => {
+      html2canvas(target, { useCORS: true }).then((canvas) => {
         const image = canvas.toDataURL("image/png");
     
         if (isMobile) {
-          // 이미지 삽입 (팝업은 이미 열려 있음)
-          popup.document.write(`<img src="${image}" style="width:100%;" />`);
-          popup.document.close();
+          // 알림 먼저!
+          Swal.fire({
+            text: "이미지가 새창으로 열렷다리오오!\n길게 눌러서 저장하리오!",
+            showConfirmButton: true,
+            didClose: () => {
+              const popup = window.open("", "_blank");
+              if (popup) {
+                popup.document.write(`
+                  <!DOCTYPE html>
+                  <html>
+                    <head>
+                      <meta charset="UTF-8" />
+                      <style>
+                        html, body {
+                          margin: 0;
+                          padding: 0;
+                          background: #fff;
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;
+                          height: 100%;
+                        }
+                        img {
+                          max-width: 100%;
+                          height: auto;
+                        }
+                      </style>
+                    </head>
+                    <body>
+                      <img src="${image}" alt="코디 이미지" />
+                    </body>
+                  </html>
+                `);
+                popup.document.close();
+              } else {
+                alert("팝업을 허용해야 코디를 저장할 수 있으리오ㅠㅠㅠ");
+              }
+            },
+          });
         } else {
+          // 데스크탑: 자동 다운로드
           const link = document.createElement("a");
           link.href = image;
           link.download = `Rio_${new Date().toLocaleString()}.png`;
+          document.body.appendChild(link);
           link.click();
+          document.body.removeChild(link);
+    
+          Swal.fire({
+            text: "코디가 저장되었어요!",
+            timer: 1500,
+            showConfirmButton: false,
+          });
         }
       });
     };
+    
     
     
     
