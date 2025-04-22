@@ -109,64 +109,60 @@ export default function Dressing() {
     ];
     const [name, setName] = useState('');
 
-    const handleDownloadImg = () => {
-      const target = document.querySelector(".background05");
-      const shareButton = document.querySelector(".shareButton");
+    const handleDownloadImg = async () => {
       const isMobile = window.matchMedia("(pointer: coarse)").matches;
-    
+      const target = document.querySelector(".captureArea");
       if (!target) return;
     
-      if (shareButton) shareButton.style.visibility = "hidden";
+      // 이미지들이 로드될 때까지 대기
+      const images = target.querySelectorAll("img");
+      await Promise.all(
+        Array.from(images).map(
+          (img) =>
+            new Promise((resolve) => {
+              if (img.complete) resolve();
+              else {
+                img.onload = resolve;
+                img.onerror = resolve;
+              }
+            })
+        )
+      );
     
-      // 📌 모바일인 경우: 먼저 빈 창 열어두기 (팝업 차단 방지)
-      let popupWin = null;
-      if (isMobile) {
-        popupWin = window.open("", "_blank");
-        if (!popupWin) {
-          alert({
-            
-            text: "팝업을 허용해야 코디를 저장할 수 있다리오ㅠㅠㅠ",
-            icon: "warning",
-            confirmButtonText: "확인",
-          });
-          if (shareButton) shareButton.style.visibility = "visible";
-          return;
-        }
-      }
-    
-      html2canvas(target, { useCORS: true }).then((canvas) => {
-        const image = canvas.toDataURL("image/png");
-    
-        if (isMobile && popupWin) {
-          // 이미지로 채우기
-          popupWin.document.write(`<html><body style="margin:0;"><img src="${image}" style="width:100%;"/></body></html>`);
-          popupWin.document.close();
-    
-          Swal.fire({
-            
-            text: "이미지가 새창으로 열렷다리오! \n 길게 눌러 코디를 저장하리오!",
-            
-            confirmButtonText: "확인",
-          });
-        } else {
-          const link = document.createElement("a");
-          link.href = image;
-          link.download = "my-outfit.png";
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-    
-          Swal.fire({
-            title: "저장 완료!",
-            text: "코디가 저장되었습니다.",
-            icon: "success",
-            timer: 1500,
-            showConfirmButton: false
-          });
-        }
-    
-        if (shareButton) shareButton.style.visibility = "visible";
+      // 알림 먼저 보여주기
+      const result = await Swal.fire({
+        
+        text: '이미지가 새창으로 열렷다리오! \n 길게 눌러서 저장하리오!';
+        
+        confirmButtonText: "확인",
       });
+    
+      if (result.isConfirmed) {
+        html2canvas(target, { useCORS: true }).then((canvas) => {
+          const image = canvas.toDataURL("image/png");
+    
+          if (isMobile) {
+            const popup = window.open("", "_blank");
+            if (popup) {
+              popup.document.write(`<img src="${image}" style="width:100%;" />`);
+              popup.document.close();
+              popup.focus();
+            } else {
+              alert(
+                '팝업을 허용해야 코디를 저장할 수 잇으리오ㅠㅠㅠ'
+              );
+            }
+          } else {
+            const link = document.createElement("a");
+            link.href = image;
+            link.download = `Rio_${new Date().toLocaleString()}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            Swal.fire("저장 완료!", "코디가 저장되었습니다.", "success");
+          }
+        });
+      }
     };
     
     
