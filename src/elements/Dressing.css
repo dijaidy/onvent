@@ -1,16 +1,36 @@
+html, body{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:#d73e8a;
+}
 .page{
+    aspect-ratio: 440/956;
+    width: 100vw;
+    height: auto;
+  
+    
+    max-width: calc(100vh * (440 / 956));
+    max-height: 100vh;
+
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin-top: 10px;
+    margin: 0;
+    padding: 0;
+    
 }
 .page0{
     background-image: url('../asset/dressingImages/page0.svg');
     background-size: cover;
     background-position: center;
     justify-content: center;
-    width: 440px;
-    height: 956px;
+    width: 100%;
+    height: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -22,8 +42,8 @@
     background-size: cover;
     background-position: center;
     justify-content: center;
-    width: 440px;
-    height: 956px;
+    width: 100%;
+    height: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -35,8 +55,8 @@
     background-size: cover;
     background-position: center;
     justify-content: center;
-    width: 440px;
-    height: 956px;
+    width: 100%;
+    height: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -45,10 +65,11 @@
 }
 .rio{
     background-image: url('../asset/dressingImages/rio.svg');
-    width: 440px;
-    height: 493px;
+    background-size: contain;
+    width: 100%;
+    height: calc(493/956 * 100%);
     position: absolute;
-    top: 209px;
+    top: calc(209/956 *100%);
     z-index: 1;
 }
 .enterNameDiv{
@@ -56,12 +77,12 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    width: 261px;   
-    height: 75px;
+    width: calc(261/440 *100%);   
+    height: calc(75/956 *100%);
     background-color: transparent;
     border: none;
     position: absolute;
-    top:663px;
+    top: calc(663/956 *100%);
     outline: none;
     display: flex;
     flex-direction: row;
@@ -71,9 +92,9 @@
 }
 .enterName{
     font-size: 20px;
-    margin-left: 80px;
-    height: 30px;
-    width: 130px;
+    margin-left: 30%;
+    height: 80%;
+    width: 65%;
     border-width: 0px;
     background-color: transparent;
     font-family: 'Romance';
@@ -84,21 +105,21 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    width: 261px;
-    height: 92px;
+    width: calc(261/440 *100%);
+    height: calc(92/956 *100%);
     background-color: transparent;
     border: none;
     position: absolute;
-    top: 744px;
+    top: calc(744/956 * 100%);
 }
 .dressButtons{
     display: flex;
     flex-direction: row;    
     background-size: cover;
     background-repeat: no-repeat;
-    width: 440px;
+    width: min;
     position: absolute;
-    top: 730px;
+    top: calc(730/956 *100%);
     background-color: transparent;
     border: none;
     outline: none;
@@ -129,8 +150,8 @@
     background-position: center;
     background-color: transparent;
     border: none;
-    width: 100px;
-    height: 30px;
+    width: calc(100/440 *100%);
+    height: 100%;
 }
 .nextButton{
     background-image: url('../asset/dressingImages/nextButton.svg');
@@ -139,117 +160,167 @@
     background-position: center;
     background-color: transparent;
     border: none;
-    width: 100px;
-    height: 30px;
+    width: calc(100/440 *100%);
+    height: 100%;
 }
 .stageButtons{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 350px;
+    width: calc(350/440 * 100%);
+    height: calc(30/956 * 100%);
     position: absolute;
-    top: 900px;
+    top: calc(900/956 *100%);
 }
 .shareButton{
     background-image: url('../asset/dressingImages/shareButton.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    width: 258px;
-    height: 91px;
+    width: calc(258/440 * 100%);
+    height: calc(91/956 * 100%);
     background-color: transparent;
     border: none;
     position: absolute;
-    top: 723px;
+    top: calc(723/956 * 100%);
 }
 .info{
     background-image: url('../asset/dressingImages/info.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    width: 360px;
-    height: 77px;
+    width: calc(360/440 *100%);
+    height: calc(77/956 *100%);
     background-color: transparent;
     border: none;
     position: absolute;
-    top: 835px;
+    top: calc(835/956 * 100%);
 }
-.outfitChosen{
+.outfitBox{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 0;
+}
+/*.outfitChosen{
     z-index: 2;
     position: relative;
-}
+
+}*/
 .soccerChosen{
+    width: calc(385/440 * 100%);
+    height: calc(248/956 * 100%);
     position: absolute;
-    top: 354px;
-    left: 19px;
+    top: calc(354/956 * 100%);
+    left: calc(19/440 * 100%);
+    z-index: 2;
 }
 .hockeyChosen{
+    width: calc(403/440 * 100%);
+    height: calc(253/956 * 100%);
     position: absolute;
-    top: 346px;
-    left: 17px;
+    top: calc(346/956 * 100%);
+    left: calc(17/440 *100%);
+    z-index: 2;
 }
 .shoes1Chosen{
+    width: calc(277/440 * 100%);
+    height: calc(83/956 * 100%);
     position: absolute;
-    top: 637px;
-    left: 79px;
+    top: calc(637/956 * 100%);
+    left: calc(79/440 * 100%);
+    z-index: 2;
 }
 .shoes2Chosen{
+    width: calc(329/440 * 100%);
+    height: calc(102/956 * 100%);
+    z-index: 2;
     position: absolute;
-    top: 617px;
-    left: 53px;
+    top: calc(617/956 * 100%);
+    left: calc(53/440 * 100%);
 }
 .shoes3Chosen{
+    width: calc(316/440 * 100%);
+    height: calc(90/956 * 100%);
+    z-index: 2;
     position: absolute;
-    top: 629px;
-    left: 58px;
+    top: calc(629/956 *100%);
+    left: calc(58/440 *100%);
 }
 .shoes4Chosen{
+    width: calc(283/440 * 100%);
+    height: calc(86/956 * 100%);
+    z-index: 2;
     position: absolute;
-    top: 622px;
-    left: 76px;
+    top: calc(622/956 *100%);
+    left: calc(76/440 * 100%);
 }
 .head1Chosen{
+    width: calc(256/440 * 100%);
+    height: calc(183/956 * 100%);
+    z-index: 2;
     position: absolute;
-    top: 107px;
-    left: 115px;
+    top: calc(107/956 * 100%);
+    left: calc(115/440 * 100%);
 }
 .head2Chosen{
+    width: calc(233/440 * 100%);
+    height: calc(95/956 * 100%);
+    z-index: 2;
     position: absolute;
-    top: 167px;
-    left: 96px;
+    top: calc(167/956 * 100%);
+    left: calc(96/440 * 100%);
 }
 .head3Chosen{
+    width: calc(212/440 * 100%);
+    height: calc(141/956 * 100%);
+    z-index: 2;
     position: absolute;
-    top: 141px;
-    left: 109px;
+    top: calc(141/956 * 100%);
+    left: calc(109/440 * 100%);
 }
 .head4Chosen{
+    width: calc(262/440 * 100%);
+    height: calc(159/956 * 100%);
+    z-index: 2;
     position: absolute;
-    top: 132px;
-    left: 90px;
+    top: calc(132/956 * 100%);
+    left: calc(90/440 * 100%);
 }
 .eye1Chosen{
+    width: calc(151/440 * 100%);
+    height: calc(66/956 * 100%);
+    z-index: 2;
     position: absolute;
-    top: 287px;
-    left: 143px;
+    top: calc(287/956 * 100%);
+    left: calc(143/440 * 100%);
 }
 .eye2Chosen{
+    width: calc(218/440 * 100%);
+    height: calc(68/956 * 100%);
+    z-index: 2;
     position: absolute;
-    top: 255px;
-    left: 104px;
+    top: calc(255/956 * 100%);
+    left: calc(104/440 * 100%);
 }
 .eye3Chosen{
+    width: calc(90/440 * 100%);
+    height: calc(70/956 * 100%);
+    z-index: 2;
     position: absolute;
-    top: 274px;
-    left: 234px;
+    top: calc(274/956 * 100%);
+    left: calc(234/440 * 100%);
 }
 .eye4Chosen{
+    width: calc(68/440 * 100%);
+    height: calc((64/956 * 100%));
+    z-index: 2;
     position: absolute;
-    top: 285px;
-    left: 117px;
+    top: calc(285/956 * 100%);
+    left: calc(117/440 * 100%);
 }
 .userNameBox{
-    height: 209px;
+    height: calc(209/956 * 100%);
     display: flex;
     justify-content: center;
     align-items: center;

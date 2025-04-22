@@ -45,7 +45,7 @@ function Call({ codi, setCodi, closet, stage, outfitPutOn }) {
       <div className="dressButtons">
         {closet[stage - 1].map((outfit, idx) => ( //이미지 버튼 만들기
           <button className="options" key={idx} onClick={() => {selectOutfit(stage - 1, outfitPutOn[stage-1][idx]);}}>
-            <img src={outfit} alt={`option ${idx}`} className="dress-img"/> 
+            <img src={outfit} alt={`option ${idx}`}/> 
           </button>
         ))}
       </div>
@@ -109,26 +109,46 @@ export default function Dressing() {
     ];
     const [name, setName] = useState('');
 
-    const handleDownloadImage = () => {
-      const target = document.querySelector(".page5"); // 저장할 전체 영역
-      const shareButton = document.querySelector(".shareButton"); // 공유 버튼만 숨기기
-  
-      // 공유 버튼 숨기기
-      shareButton.style.visibility = "hidden";
-  
-      html2canvas(target, {
-        useCORS: true,
-        scale: 2,
-      }).then((canvas) => {
-        const link = document.createElement("a");
-        link.download = "코디저장.png";
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-  
-        // 다시 보이게
-        shareButton.style.visibility = "visible";
+    const handleDownloadImg = () => {
+      const target = document.querySelector(".page5");
+      const shareButton = document.querySelector(".shareButton");
+      const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+    
+      if (!target) return;
+    
+      if (shareButton) {
+        shareButton.style.visibility = "hidden";
+      }
+    
+      html2canvas(target, { useCORS: true }).then((canvas) => {
+        const image = canvas.toDataURL("image/png");
+    
+        if (isMobile) {
+          const link = document.createElement("a");
+          link.href = image;
+          link.target = "_blank";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+    
+          Swal.fire("이미지가 새 창으로 열렸어요!\n길게 눌러 '이미지 저장'을 선택해주세요.");
+        } else {
+          const link = document.createElement("a");
+          link.href = image;
+          link.download = "my-outfit.png";
+          link.click();
+    
+          Swal.fire("코디가 저장되었습니다!");
+        }
+    
+        if (shareButton) {
+          shareButton.style.visibility = "visible";
+        }
       });
     };
+    
+    
+    
   
     const getFontSizeByName = (name) => {
       const length = name.length;
@@ -150,8 +170,8 @@ export default function Dressing() {
                   <div className='enterNameDiv'> {/*이름입력*/}                  
                     <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName"></input>
                   </div>
-                  {/*시작버튼튼 */}
-                  <button className="startbutton" onClick={() =>{if(!name.trim()){Swal.fire('이름을 입력해주세요!'); return;}setStage(1)}}></button>
+                  {/*시작버튼 */}
+                  <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주세요!'); return;}*/setStage(1)}}></button>
 
                 </div>
               </div>
@@ -160,18 +180,19 @@ export default function Dressing() {
             return (   
               <div className="page">
                 <div className="page1-4">
-                   
-                {codi.map( //선택된 의상 입히기기
-                  (item, i) =>
-                    item && (
-                      <img
-                        src={item.src}
-                        className={`outfitChosen ${item.className}`}
-                        key={i}
-                        style={{ position: "absolute" }}
-                      />
-                    )
-                )}
+                  
+                  {codi.map( //선택된 의상 입히기
+                    (item, i) =>
+                      item && (
+                        <img
+                          src={item.src}
+                          className={item.className}
+                          key={i}
+                          style={{ position: "absolute" }}
+                        />
+                      )
+                  )}
+                    
                   
                   <div className="rio"></div>
                     
@@ -197,12 +218,12 @@ export default function Dressing() {
                   </div>  
                 </div>
 
-                {codi.map( //옷입은 리오모습습
+                {codi.map( //옷입은 리오모습
                   (item, i) =>
                     item && (
                       <img
                         src={item.src}
-                        className={`outfitChosen ${item.className}`}
+                        className={item.className}
                         key={i}
                         style={{ position: "absolute" }}
                       />
@@ -211,7 +232,7 @@ export default function Dressing() {
                  
                   <div className="rio"></div>
                   {/**공유, 이름 저장, 이미지 저장 */}
-                  <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleDownloadImage(); Swal.fire("코디가 저장되었습니다!")}} ></button>
+                  <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleDownloadImg();}} ></button>
                   {/**축제정보 */}
                   <div className="info"></div> 
                   
