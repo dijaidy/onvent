@@ -15,4 +15,4 @@ const deviceRatio = deviceHeight/deviceWidth;
 const rw = (width) => ((deviceRatio < ratioMin) ? width * deviceHeight / (stdWidth*ratioMin) : width * deviceWidth / (stdWidth));
 const rh = (height) => ((deviceRatio > ratioMax)? height * deviceWidth*ratioMax / stdHeight : height * deviceHeight / stdHeight);
 
-export { rw, rh }
+export { rw, rh, deviceWidth, deviceHeight }

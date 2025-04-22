@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDrag } from "react-use-gesture";
-import { useSpring, animated } from "react-spring";
-import { rh, rw } from "../managements/Dimensions";
+import { useSpring, animated } from "@react-spring/web";
+import { deviceHeight, deviceWidth, rh, rw } from "../managements/Dimensions";
 import { data, useNavigate } from "react-router-dom";
 import '../index.css';
 import Swal from 'sweetalert2';
@@ -51,7 +51,7 @@ const gameScreenWidth = rw(350);
 const gameScreenHeight = rh(570);
 const rioWidth = rw(85);
 const rioHeight = rh(92);
-const joystickRadius = rw(96);
+const joystickRadius = rw(98);
 const joystickInterRadius = 25;
 const velocity = 0.05;
 
@@ -390,7 +390,7 @@ export default function Escaping() {
       } else if (e.down){
         if (isBlocked) return;
         if (teacherWatch.current) {
-          setTimeout(()=>{/*setFail(fail_teacher);*/}, 150);
+          setTimeout(()=>{setFail(fail_teacher);}, 150);
         }
         // joystick setting
         const dx = e.movement[0];
@@ -440,10 +440,10 @@ export default function Escaping() {
     //390 663
 
     return (
-      <div style={{display: 'flex', justifyContent: 'center'}}>
+      <div style={{display: 'flex', justifyContent: 'center', touchAction: 'none',}}>
         {
           (stage==-1)?
-        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', width: screenWidth, height: screenHeight, borderWidth: 1, borderStyle: 'solid', borderColor: '#000000'}}>
+        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', width: screenWidth, height: screenHeight,}}>
           <text style={{fontFamily: 'fighting', fontSize: rw(90.74), color: '#ec7fbc', marginTop: rh(56)}}>출튀하고</text>
           <text style={{fontFamily: 'fighting', fontSize: rw(90.74), color: '#ec7fbc'}}>축제가기~!!</text>
           <img src={chultui_intro} style={{marginTop: rh(37), objectFit: 'cover'}} width={rw(350)} height={rh(294)}/>
@@ -519,7 +519,7 @@ export default function Escaping() {
           <img src={fail} style={{objectFit: 'cover'}} width={rw(350)} height={rh(438)}></img>
         </div>
         :
-        <div style={{display: 'flex', flexDirection: 'column', position: 'relative', borderWidth: 1, borderStyle: 'solid', width: screenWidth, height: screenHeight, borderColor: '#000000', alignItems: 'center'}}>
+        <div style={{display: 'flex', flexDirection: 'column', position: 'relative',  width: screenWidth, height: screenHeight, alignItems: 'center'}}>
           <text style={{marginTop: rh(36), fontSize: rw(40), fontFamily: 'Fighting', }}>{`스테이지 ${stage+1}`}</text>
           <div style={{position: 'relative', backgroundImage: `url(${stageSetting.bgd[stage]})`, backgroundSize: '100% 100%', width: gameScreenWidth, height: gameScreenHeight, touchAction: 'none', borderWidth: 1, borderStyle: 'solid', marginTop: rh(27)}}>
             {stageSetting.object[stage].map((pos, i)=>(pos[4] && <img src={pos.length == 6 ? pos[4].current :pos[4]} key={'barrier'+i.toString()} ref={(pos.length == 6) ? pos[4]: null} style={{ position: 'absolute', left: pos[0], top: pos[1], width: pos[2], height: pos[3],}}></img>))}
