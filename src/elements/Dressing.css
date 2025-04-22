@@ -207,9 +207,11 @@ html, body{
 
 }*/
 .soccerChosen{
+    
     position: absolute;
     top: calc(354/956 * 100%);
     left: calc(19/440 * 100%);
+    z-index: 1;
 }
 .hockeyChosen{
     position: absolute;
