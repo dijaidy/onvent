@@ -132,9 +132,9 @@ export default function Dressing() {
       // 알림 먼저 보여주기
       const result = await Swal.fire({
         
-        text: '이미지가 새창으로 열렷다리오! \n 길게 눌러서 저장하리오!';
+        text: '이미지가 새창으로 열렷다리오! \n 길게 눌러서 저장하리오!',
         
-        confirmButtonText: "확인",
+        confirmButtonText: "확인"
       });
     
       if (result.isConfirmed) {
