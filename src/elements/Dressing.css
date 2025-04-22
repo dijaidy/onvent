@@ -231,56 +231,89 @@ html, body{
     z-index: 2;
 }
 .shoes2Chosen{
+    width: calc(329/440 * 100%);
+    height: calc(102/956 * 100%);
+    z-index: 2;
     position: absolute;
     top: calc(617/956 * 100%);
     left: calc(53/440 * 100%);
 }
 .shoes3Chosen{
+    width: calc(316/440 * 100%);
+    height: calc(90/956 * 100%);
+    z-index: 2;
     position: absolute;
     top: calc(629/956 *100%);
     left: calc(58/440 *100%);
 }
 .shoes4Chosen{
+    width: calc(283/440 * 100%);
+    height: calc(86/956 * 100%);
+    z-index: 2;
     position: absolute;
     top: calc(622/956 *100%);
     left: calc(76/440 * 100%);
 }
 .head1Chosen{
+    width: calc(256/440 * 100%);
+    height: calc(183/956 * 100%);
+    z-index: 2;
     position: absolute;
     top: calc(107/956 * 100%);
     left: calc(115/440 * 100%);
 }
 .head2Chosen{
+    width: calc(233/440 * 100%);
+    height: calc(95/956 * 100%);
+    z-index: 2;
     position: absolute;
     top: calc(167/956 * 100%);
     left: calc(96/440 * 100%);
 }
 .head3Chosen{
+    width: calc(212/440 * 100%);
+    height: calc(141/956 * 100%);
+    z-index: 2;
     position: absolute;
     top: calc(141/956 * 100%);
     left: calc(109/440 * 100%);
 }
 .head4Chosen{
+    width: calc(262/440 * 100%);
+    height: calc(159/956 * 100%);
+    z-index: 2;
     position: absolute;
     top: calc(132/956 * 100%);
     left: calc(90/440 * 100%);
 }
 .eye1Chosen{
+    width: calc(151/440 * 100%);
+    height: calc(66/956 * 100%);
+    z-index: 2;
     position: absolute;
     top: calc(287/956 * 100%);
     left: calc(143/440 * 100%);
 }
 .eye2Chosen{
+    width: calc(218/440 * 100%);
+    height: calc(68/956 * 100%);
+    z-index: 2;
     position: absolute;
     top: calc(255/956 * 100%);
     left: calc(104/440 * 100%);
 }
 .eye3Chosen{
+    width: calc(90/440 * 100%);
+    height: calc(70/956 * 100%);
+    z-index: 2;
     position: absolute;
     top: calc(274/956 * 100%);
     left: calc(234/440 * 100%);
 }
 .eye4Chosen{
+    width: calc(68/440 * 100%);
+    height: calc((64/956 * 100%));
+    z-index: 2;
     position: absolute;
     top: calc(285/956 * 100%);
     left: calc(117/440 * 100%);

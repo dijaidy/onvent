@@ -162,7 +162,7 @@ export default function Dressing() {
                   <div className='enterNameDiv'> {/*이름입력*/}                  
                     <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName"></input>
                   </div>
-                  {/*시작버튼튼 */}
+                  {/*시작버튼 */}
                   <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주세요!'); return;}*/setStage(1)}}></button>
 
                 </div>
@@ -173,7 +173,7 @@ export default function Dressing() {
               <div className="page">
                 <div className="page1-4">
                   
-                  {codi.map( //선택된 의상 입히기기
+                  {codi.map( //선택된 의상 입히기
                     (item, i) =>
                       item && (
                         <img
@@ -210,7 +210,7 @@ export default function Dressing() {
                   </div>  
                 </div>
 
-                {codi.map( //옷입은 리오모습습
+                {codi.map( //옷입은 리오모습
                   (item, i) =>
                     item && (
                       <img
