@@ -215,14 +215,20 @@ html, body{
     z-index: 2;
 }
 .hockeyChosen{
+    width: calc(403/440 * 100%);
+    height: calc(253/956 * 100%);
     position: absolute;
     top: calc(346/956 * 100%);
     left: calc(17/440 *100%);
+    z-index: 2;
 }
 .shoes1Chosen{
+    width: calc(277/440 * 100%);
+    height: calc(83/956 * 100%);
     position: absolute;
     top: calc(637/956 * 100%);
     left: calc(79/440 * 100%);
+    z-index: 2;
 }
 .shoes2Chosen{
     position: absolute;
