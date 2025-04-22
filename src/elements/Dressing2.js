@@ -115,24 +115,10 @@ export default function Dressing() {
       const isMobile = window.matchMedia("(pointer: coarse)").matches;
       const target = document.querySelector(".captureArea");
       if (!target) return;
-    
+      
       // 🔑 팝업 먼저 열어놓음 (모바일만)
       const popup = isMobile ? window.open("", "_blank") : null;
-    
-      if (isMobile && !popup) {
-        alert("팝업을 허용해야 코디를 저장할 수 있으리오ㅠㅠㅠ");
-        return;
-      }
-    
-      // 🪧 사용자 안내 (이건 사용자 입력이라 안전)
-      await Swal.fire({
-        html: `<div style="white-space: pre-line; text-align: center;">"이미지가 새창으로 열렷다리오!\n길게 눌러서 저장하리오!"</div>`,
-        showConfirmButton: true,
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-      });
-    
-      // ⏳ 이미지 로딩 대기
+
       const images = target.querySelectorAll("img");
       await Promise.all(
         Array.from(images).map(
@@ -146,6 +132,22 @@ export default function Dressing() {
             })
         )
       );
+      
+      
+      if (isMobile && !popup) {
+        alert("팝업을 허용해야 코디를 저장할 수 있으리오ㅠㅠㅠ");
+        return;
+      }
+    
+      // 🪧 사용자 안내 (이건 사용자 입력이라 안전)
+      await Swal.fire({
+        html: `<div style="white-space: pre-line; text-align: center;">이미지가 새창으로 열렷다리오!\n길게 눌러서 저장하리오!</div>`,
+        showConfirmButton: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      });
+    
+
     
       // 🖼️ 캡처
       html2canvas(target, {
