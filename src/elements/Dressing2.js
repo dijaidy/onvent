@@ -31,6 +31,7 @@ import eye4po from"../asset/dressingImages/eye4po.svg";
 import { sendNameToFirebase } from '../utils/sendNameToFirebase';
 import html2canvas from "html2canvas";
 import Swal from "sweetalert2";
+import { useEffect } from "react";
 
 function Call({ codi, setCodi, closet, stage, outfitPutOn }) {
     function selectOutfit(index, outfit) {
