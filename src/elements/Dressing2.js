@@ -116,28 +116,37 @@ export default function Dressing() {
     
       if (!target) return;
     
-      // 공유 버튼 숨김
       if (shareButton) shareButton.style.visibility = "hidden";
+    
+      // 📌 모바일인 경우: 먼저 빈 창 열어두기 (팝업 차단 방지)
+      let popupWin = null;
+      if (isMobile) {
+        popupWin = window.open("", "_blank");
+        if (!popupWin) {
+          alert({
+            
+            text: "팝업을 허용해야 코디를 저장할 수 있다리오ㅠㅠㅠ",
+            icon: "warning",
+            confirmButtonText: "확인",
+          });
+          if (shareButton) shareButton.style.visibility = "visible";
+          return;
+        }
+      }
     
       html2canvas(target, { useCORS: true }).then((canvas) => {
         const image = canvas.toDataURL("image/png");
     
-        if (isMobile) {
+        if (isMobile && popupWin) {
+          // 이미지로 채우기
+          popupWin.document.write(`<html><body style="margin:0;"><img src="${image}" style="width:100%;"/></body></html>`);
+          popupWin.document.close();
+    
           Swal.fire({
-            title: "코디 저장 안내!",
-            text: "이미지가 새 창으로 열렷다리오!. 길게 눌러 이미지를 저장하리오!",
-            icon: "info",
-            confirmButtonText: "확인"
-          }).then(() => {
-            const newWindow = window.open(image, "_blank");
-            if (!newWindow || newWindow.closed || typeof newWindow.closed === "undefined") {
-              alert({
-                title: "팝업 차단 안내",
-                text: "팝업을 허용해줘야 코디를 저장할 수 있다리오ㅠㅠㅠ",
-                icon: "warning",
-                confirmButtonText: "확인"
-              });
-            }
+            
+            text: "이미지가 새창으로 열렷다리오! 길게 눌러 코디를 저장하리오!",
+            
+            confirmButtonText: "확인",
           });
         } else {
           const link = document.createElement("a");
@@ -156,10 +165,10 @@ export default function Dressing() {
           });
         }
     
-        // 공유 버튼 다시 보이게
         if (shareButton) shareButton.style.visibility = "visible";
       });
     };
+    
     
     
     
