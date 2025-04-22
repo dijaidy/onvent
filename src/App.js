@@ -74,6 +74,17 @@ import eye1po from "./asset/dressingImages/eye1po.svg";
 import eye2po from "./asset/dressingImages/eye2po.svg";
 import eye3po from "./asset/dressingImages/eye3po.svg";
 import eye4po from "./asset/dressingImages/eye4po.svg";
+import page0 from './asset/dressingImages/page0.svg';
+import page1_4 from './asset/dressingImages/page1-4.svg';
+import page5 from './asset/dressingImages/page5.svg';
+import rio from './asset/dressingImages/rio.svg';
+import enterName from './asset/dressingImages/enterName.svg';
+import prevButton from './asset/dressingImages/prevButton.svg';
+import nextButton from './asset/dressingImages/nextButton.svg';
+import shareButton from './asset/dressingImages/shareButton.svg';
+import info from './asset/dressingImages/info.svg';
+import 화살표우 from './asset/dressingImages/화살표 우.svg';
+import 화살표좌 from './asset/dressingImages/화살표 좌.svg';
 
 export const imagePaths = [
   chultui_intro, chultui_button, 리오, 리아, joystick, walking1, walking2,
@@ -82,7 +93,7 @@ export const imagePaths = [
   goal1, goal2, fail_teacher, fail_TA, 조교앞, 조교뒤,
   start2, coffee_table, 리딸라, 리딸라2, 컵홀더, 장애물사람,
   fail_새치기, fail_ridala, 나무1, 나무2, 현장이벤트, 사람2, 사람1, 부스,
-  success,
+  success, 화살표우, 화살표좌,
 
   frame11, frame10, frame12, frame13, frame14, frame15,
   head1, head2, head3, head4,
@@ -90,6 +101,7 @@ export const imagePaths = [
   soccerpo, hockeypo, shoes1po, shoes2po, shoes3po, shoes4po,
   head1po, head2po, head3po, head4po,
   eye1po, eye2po, eye3po, eye4po,
+  page0, page1_4, page5, rio, enterName, prevButton, nextButton, shareButton, info
 ];
 
 const preloadImages = (paths) => {
