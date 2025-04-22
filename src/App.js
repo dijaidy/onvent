@@ -102,9 +102,9 @@ function App() {
 
   return (
     <div className="App">
-      <text style={{fontFamily: 'Fighting'}}>a</text> 
-      <text style={{fontFamily: 'Yangjin'}}>a</text> 
-      <text style={{fontFamily: 'Romance'}}>a</text> 
+      <text style={{position: 'absolute', color: 'transparent', fontFamily: 'Fighting'}}>a</text> 
+      <text style={{position: 'absolute', color: 'transparent', fontFamily: 'Yangjin'}}>a</text> 
+      <text style={{position: 'absolute', color: 'transparent', fontFamily: 'Romance'}}>a</text> 
       {imgArr}
       <Navigation/>
     </div>
