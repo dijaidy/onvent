@@ -172,18 +172,19 @@ export default function Dressing() {
             return (   
               <div className="page">
                 <div className="page1-4">
-                   
-                {codi.map( //선택된 의상 입히기기
-                  (item, i) =>
-                    item && (
-                      <img
-                        src={item.src}
-                        className={`outfitChosen ${item.className}`}
-                        key={i}
-                        style={{ position: "absolute" }}
-                      />
-                    )
-                )}
+                  <div className="outfitBox">   
+                    {codi.map( //선택된 의상 입히기기
+                      (item, i) =>
+                        item && (
+                          <img
+                            src={item.src}
+                            className={`outfitChosen ${item.className}`}
+                            key={i}
+                            style={{ position: "absolute" }}
+                          />
+                        )
+                    )}
+                  </div>  
                   
                   <div className="rio"></div>
                     

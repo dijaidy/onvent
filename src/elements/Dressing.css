@@ -195,11 +195,16 @@ html, body{
     position: absolute;
     top: calc(835/956 * 100%);
 }
+.outfitBox{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+}
 .outfitChosen{
     z-index: 2;
     position: relative;
-    width: 100%;
-    height: 100%;
+
 }
 .soccerChosen{
     position: absolute;
