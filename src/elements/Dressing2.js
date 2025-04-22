@@ -275,27 +275,29 @@ export default function Dressing() {
                     <div className="info"></div> 
 
                     <div className="captureArea">
-                      <div className="userNameBox"> {/** 상단 메시지지 */}
-                        <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
-                          {name}의 코디!
-                        </div>  
-                      </div>
+                      <div className="captureContents">
+                        <div className="userNameBox"> {/** 상단 메시지지 */}
+                          <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
+                            {name}의 코디!
+                          </div>  
+                        </div>
 
-                      {codi.map( //옷입은 리오모습
-                        (item, i) =>
-                          item && (
-                            <img
-                              src={item.src}
-                              className={item.className}
-                              key={i}
-                              style={{ position: "absolute" }}
-                            />
-                          )
-                      )}
+                        {codi.map( //옷입은 리오모습
+                          (item, i) =>
+                            item && (
+                              <img
+                                src={item.src}
+                                className={item.className}
+                                key={i}
+                                style={{ position: "absolute" }}
+                              />
+                            )
+                        )}
 
-                      <div className="rio"></div>
-                          
-                      <div className="info"></div>
+                        <div className="rio"></div>
+                            
+                        <div className="info"></div>
+                      </div>  
 
                     </div>
                   
