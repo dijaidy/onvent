@@ -93,7 +93,7 @@ export default function Escaping() {
       bgd: [bgd1, bgd2, bgd3, bgd4, bgd5],
       starting: [[rw(170), rh(284)], [rw(26), rh(442)], [rw(256), rh(278)], [rw(31), rh(23)], [rw(8), rh(251), rw(88), rh(88)]],
       barrier: [
-        [[rw(201), rh(68), rw(106), rh(140), teacher, null], [rw(14), rh(184), rw(230), rh(94)], [rw(14), rh(374), rw(230), rh(94)],[rw(102), rh(275), rw(64), rh(98), 리아_stage1],], 
+        [[rw(201), rh(68), rw(106), rh(140), teacher, null], [rw(14), rh(184), rw(230), rh(79)], [rw(14), rh(374), rw(230), rh(79)],[rw(102), rh(275), rw(64), rh(98), 리아_stage1],], 
         [],
         [[0, 0, rw(350), rh(135)], [0, rh(459), rw(350), rh(111)]],
         [],
@@ -112,11 +112,12 @@ export default function Escaping() {
         [[rw(119), rh(45), rw(125), rh(115), ()=>{
           if (!alreadyPopUp){
             stopRidalaAnimation();
+            setIsBlocked(true);
             setPopUp(true);
             ridala.current?.setAttribute('src', 리딸라);
           }
         }]],
-        [[0, rh(190), rw(194), rh(96), ()=>{
+        [[0, rh(190), rw(174), rh(96), ()=>{
           setTimeout(()=>{
             setIsBlocked(true);
           }, 190);
@@ -167,6 +168,8 @@ export default function Escaping() {
     useEffect(()=>{
       if (fail) {
         setIsBlocked(false);
+        setAlreadyPopUp(false);
+        setTreeTouch(false);
         teacherFrame.current = 1;
         teacherWatch.current = false;
         cancelAnimationFrame(animationId.current);
@@ -423,6 +426,23 @@ export default function Escaping() {
         joystickPos.x.set(0);
         joystickPos.y.set(0);
         updatePosition();
+      } else if (e.last) {
+        console.log('last')
+        joystickPos.x.start(0, {config: {duration: 200}});
+        joystickPos.y.start(0, {config: {duration: 200}});
+        if (isClear){
+          if (animationId.current !== null) {
+            cancelAnimationFrame(animationId.current);
+            animationId.current = null;
+          }
+        } else {
+          setTimeout(()=>{
+            if (animationId.current !== null) {
+              cancelAnimationFrame(animationId.current);
+              animationId.current = null;
+            }
+          }, 200);
+        }
       } else if (e.down){
         if (isBlocked) {
           e.cancel();
@@ -450,23 +470,8 @@ export default function Escaping() {
           setIsBlocked(true);
         }
 
-      } else if (e.last) {
-        joystickPos.x.start(0, {config: {duration: 200}});
-        joystickPos.y.start(0, {config: {duration: 200}});
-        if (isClear){
-          if (animationId.current !== null) {
-            cancelAnimationFrame(animationId.current);
-            animationId.current = null;
-          }
-        } else {
-          setTimeout(()=>{
-            if (animationId.current !== null) {
-              cancelAnimationFrame(animationId.current);
-              animationId.current = null;
-            }
-          }, 200);
-        }
-      }
+      } 
+      
 
         },
       {
@@ -558,8 +563,8 @@ export default function Escaping() {
           <div style={{display: 'flex', flexDirection: 'column', position: 'relative',  width: screenWidth, height: screenHeight, alignItems: 'center'}}>
             <text style={{marginTop: rh(36), fontSize: rw(40), fontFamily: 'Fighting', }}>{`스테이지 ${stage+1}`}</text>
             <div style={{position: 'relative', backgroundImage: `url(${stageSetting.bgd[stage]})`, backgroundSize: '100% 100%', width: gameScreenWidth, height: gameScreenHeight, touchAction: 'none', borderWidth: 1, borderStyle: 'solid', marginTop: rh(27)}}>
+              {stageSetting.barrier[stage].map((pos, i)=>(pos[4] && <img src={pos.length == 6 ? pos[4].current :pos[4] } key={'barrier'+i.toString()} ref={(pos.length == 6) ? pos[4]: null} style={{ position: 'absolute', left: pos[0], top: pos[1], width: pos[2], height: pos[3],  zIndex: pos[4] === 리아_stage1 ? 2 : 'auto'}}></img>))}
               {stageSetting.object[stage].map((pos, i)=>(pos[4] && <img src={pos.length == 6 ? pos[4].current :pos[4]} key={'barrier'+i.toString()} ref={(pos.length == 6) ? pos[4]: null} style={{ position: 'absolute', left: pos[0], top: pos[1], width: pos[2], height: pos[3],}}></img>))}
-              {stageSetting.barrier[stage].map((pos, i)=>(pos[4] && <img src={pos.length == 6 ? pos[4].current :pos[4] } key={'barrier'+i.toString()} ref={(pos.length == 6) ? pos[4]: null} style={{ position: 'absolute', left: pos[0], top: pos[1], width: pos[2], height: pos[3], }}></img>))}
               {stageSetting.goal[stage][4] ? 
               <img src={stageSetting.goal[stage][4]} style={{ position: 'absolute', left: stageSetting.goal[stage][0], top: stageSetting.goal[stage][1], width: stageSetting.goal[stage][2], height: stageSetting.goal[stage][3]}}></img>
               : 
@@ -589,10 +594,11 @@ export default function Escaping() {
             </div>}
           </div>
           {(fail) &&
-          <div style={{position: 'absolute', top: 0, width: screenWidth, height: '100%', display: 'flex', backgroundColor: '#ffffff', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+          <div style={{position: 'absolute', top: 0, zIndex: 2, width: screenWidth, height: '100%', display: 'flex', backgroundColor: '#ffffff', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
             <img src={fail} style={{objectFit: 'cover', alignSelf: 'center'}} width={rw(350)} height={rh(438)}></img>
             <button onClick={()=>{
               setFail(false);
+              setIsBlocked(false);
               startTeacherAnimation();
               setStage(0);
               setTime(Date.now());
