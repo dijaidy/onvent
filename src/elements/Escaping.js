@@ -589,8 +589,8 @@ export default function Escaping() {
             </div>}
           </div>
           {(fail) &&
-          <div style={{position: 'absolute', top: 0, width: '100%', height: '100%', display: 'flex', backgroundColor: '#ffffff', flexDirection: 'column', alignItems: 'center'}}>
-            <img src={fail} style={{objectFit: 'cover'}} width={rw(350)} height={rh(438)}></img>
+          <div style={{position: 'absolute', top: 0, width: screenWidth, height: '100%', display: 'flex', backgroundColor: '#ffffff', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+            <img src={fail} style={{objectFit: 'cover', alignSelf: 'center'}} width={rw(350)} height={rh(438)}></img>
             <button onClick={()=>{
               setFail(false);
               startTeacherAnimation();
