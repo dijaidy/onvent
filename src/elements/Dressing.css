@@ -139,7 +139,7 @@
     background-color: transparent;
     border: none;
     width: calc(100/440 *100%);
-    height: calc(30/956 *100%);
+    height: 100%;
 }
 .nextButton{
     background-image: url('../asset/dressingImages/nextButton.svg');
@@ -149,7 +149,7 @@
     background-color: transparent;
     border: none;
     width: calc(100/440 *100%);
-    height: calc(30/956 *100%);
+    height: 100%;
 }
 .stageButtons{
     display: flex;
