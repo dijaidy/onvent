@@ -109,49 +109,66 @@ export default function Dressing() {
     ];
     const [name, setName] = useState('');
 
-    const handleDownloadImg = () => {
+    const handleDownloadImg = async () => {
       const target = document.querySelector(".page5");
       const shareButton = document.querySelector(".shareButton");
     
       const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    
       if (!target) return;
     
-      if (shareButton) {
-        shareButton.style.visibility = "hidden";
+      if (shareButton) shareButton.style.visibility = "hidden";
+    
+      const canvas = await html2canvas(target, { useCORS: true });
+      const picture_url = canvas
+        .toDataURL("image/png")
+        .replace(/^data:image\/png/, "data:application/octet-stream");
+    
+      if (!isMobile) {
+        // ✅ PC: 자동 다운로드
+        const link = document.createElement("a");
+        link.download = `Rio_${new Date().toLocaleString()}.png`;
+        link.href = picture_url;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    
+        Swal.fire("코디가 저장되었습니다!");
+      } else {
+        // ✅ 모바일: 터치 이벤트 등록
+        const share_y = canvas.height * 0.9;
+        const share_height = canvas.height * 0.1;
+    
+        canvas.addEventListener("touchstart", (e) => {
+          const x = e.changedTouches[0].pageX * window.devicePixelRatio;
+          const y = e.changedTouches[0].pageY * window.devicePixelRatio;
+    
+          if (0.17 * canvas.width <= x && x <= 0.83 * canvas.width) {
+            if (share_y - share_height / 2 <= y && y <= share_y) {
+              // ⬇ 이미지 다운로드
+              const picture_download = document.createElement("a");
+              picture_download.setAttribute(
+                "download",
+                `Rio_${new Date().toLocaleString()}.png`
+              );
+              picture_download.setAttribute("href", picture_url);
+              document.body.appendChild(picture_download);
+              picture_download.click();
+              alert("리오, 내 마음속에 저장🩷");
+            } else if (share_y < y && y <= share_y + share_height / 2) {
+              // ⬇ 링크 복사
+              navigator.clipboard.writeText(window.location.href);
+              alert("링크가 복사되었다리오!");
+            }
+          }
+        });
+    
+        document.body.appendChild(canvas); // 필요하다면 이미지 화면에 삽입
+        alert("화면 하단을 터치하여 저장하거나 링크 복사할 수 있어요!");
       }
     
-      html2canvas(target, { useCORS: true }).then((canvas) => {
-        const image = canvas.toDataURL("image/png");
-    
-        if (isMobile) {
-          window.open(image, "_blank");
-          Swal.fire({
-            icon: "info",
-            title: "이미지가 새 창으로 열렸어요!",
-            text: "길게 눌러 '이미지 저장'을 선택해주세요.",
-          });
-        } else {
-          const link = document.createElement("a");
-          link.href = image;
-          link.download = "my-outfit.png";
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-    
-          Swal.fire({
-            icon: "success",
-            title: "코디가 저장되었습니다!",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-    
-        if (shareButton) {
-          shareButton.style.visibility = "visible";
-        }
-      });
+      if (shareButton) shareButton.style.visibility = "visible";
     };
+    
     
     
     
