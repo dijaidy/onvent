@@ -74,9 +74,6 @@ import eye1po from "./asset/dressingImages/eye1po.svg";
 import eye2po from "./asset/dressingImages/eye2po.svg";
 import eye3po from "./asset/dressingImages/eye3po.svg";
 import eye4po from "./asset/dressingImages/eye4po.svg";
-import page0 from './asset/dressingImages/page0.svg';
-import page1_4 from './asset/dressingImages/page1-4.svg';
-import page5 from './asset/dressingImages/page5.svg';
 import rio from './asset/dressingImages/rio.svg';
 import enterName from './asset/dressingImages/enterName.svg';
 import prevButton from './asset/dressingImages/prevButton.svg';
@@ -85,6 +82,11 @@ import shareButton from './asset/dressingImages/shareButton.svg';
 import info from './asset/dressingImages/info.svg';
 import 화살표우 from './asset/dressingImages/화살표 우.svg';
 import 화살표좌 from './asset/dressingImages/화살표 좌.svg';
+import background05 from './asset/dressingImages/page5.svg';
+import background14 from './asset/dressingImages/page1-4.svg';
+import title from './asset/dressingImages/title.svg';
+import firstRio from './asset/dressingImages/firstRio.svg';
+import firstInfo from './asset/dressingImages/firstInfo.svg';
 
 export const imagePaths = [
   chultui_intro, chultui_button, 리오, 리아, joystick, walking1, walking2,
@@ -101,7 +103,8 @@ export const imagePaths = [
   soccerpo, hockeypo, shoes1po, shoes2po, shoes3po, shoes4po,
   head1po, head2po, head3po, head4po,
   eye1po, eye2po, eye3po, eye4po,
-  page0, page1_4, page5, rio, enterName, prevButton, nextButton, shareButton, info
+  background05, background14, rio, enterName, prevButton, nextButton, shareButton, info,
+  firstInfo, firstRio, title
 ];
 
 const preloadImages = (paths) => {
