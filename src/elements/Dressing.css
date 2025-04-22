@@ -64,6 +64,7 @@ html, body{
 }
 .rio{
     background-image: url('../asset/dressingImages/rio.svg');
+    background-size: contain;
     width: 100%;
     height: calc(493/956 * 100%);
     position: absolute;
