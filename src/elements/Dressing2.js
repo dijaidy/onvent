@@ -109,12 +109,16 @@ export default function Dressing() {
     ];
     const [name, setName] = useState('');
 
+
+    
     const handleDownloadImg = async () => {
       const isMobile = window.matchMedia("(pointer: coarse)").matches;
       const target = document.querySelector(".captureArea");
       if (!target) return;
-    
-      // 이미지들이 로드될 때까지 대기
+      
+      // 🔑 팝업 먼저 열어놓음 (모바일만)
+      const popup = isMobile ? window.open("", "_blank") : null;
+
       const images = target.querySelectorAll("img");
       await Promise.all(
         Array.from(images).map(
@@ -128,42 +132,43 @@ export default function Dressing() {
             })
         )
       );
+      
+      
+      if (isMobile && !popup) {
+        alert("팝업을 허용해야 코디를 저장할 수 있으리오ㅠㅠㅠ");
+        return;
+      }
     
-      // 알림 먼저 보여주기
-      const result = await Swal.fire({
-        
-        text: '이미지가 새창으로 열렷다리오! \n 길게 눌러서 저장하리오!',
-        
-        confirmButtonText: "확인"
+      // 🪧 사용자 안내 (이건 사용자 입력이라 안전)
+      await Swal.fire({
+        html: `<div style="white-space: pre-line; text-align: center;">이미지가 새창으로 열렷다리오!\n길게 눌러서 저장하리오!</div>`,
+        showConfirmButton: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
       });
     
-      if (result.isConfirmed) {
-        html2canvas(target, { useCORS: true }).then((canvas) => {
-          const image = canvas.toDataURL("image/png");
+
     
-          if (isMobile) {
-            const popup = window.open("", "_blank");
-            if (popup) {
-              popup.document.write(`<img src="${image}" style="width:100%;" />`);
-              popup.document.close();
-              popup.focus();
-            } else {
-              alert(
-                '팝업을 허용해야 코디를 저장할 수 잇으리오ㅠㅠㅠ'
-              );
-            }
-          } else {
-            const link = document.createElement("a");
-            link.href = image;
-            link.download = `Rio_${new Date().toLocaleString()}.png`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            Swal.fire("저장 완료!", "코디가 저장되었습니다.", "success");
-          }
-        });
-      }
+      // 🖼️ 캡처
+      html2canvas(target, {
+        useCORS: true,
+        backgroundColor: null,
+      }).then((canvas) => {
+        const image = canvas.toDataURL("image/png");
+    
+        if (isMobile) {
+          // 이미지 삽입 (팝업은 이미 열려 있음)
+          popup.document.write(`<img src="${image}" style="width:100%;" />`);
+          popup.document.close();
+        } else {
+          const link = document.createElement("a");
+          link.href = image;
+          link.download = `Rio_${new Date().toLocaleString()}.png`;
+          link.click();
+        }
+      });
     };
+    
     
     
     
@@ -269,32 +274,31 @@ export default function Dressing() {
                       {/**축제정보 */}
                     <div className="info"></div> 
 
-                  
-                  </div>
+                    <div className="captureArea">
+                      <div className="userNameBox"> {/** 상단 메시지지 */}
+                        <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
+                          {name}의 코디!
+                        </div>  
+                      </div>
 
-                  <div className="captureArea">
-                    <div className="userNameBox"> {/** 상단 메시지지 */}
-                      <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
-                        {name}의 코디!
-                      </div>  
+                      {codi.map( //옷입은 리오모습
+                        (item, i) =>
+                          item && (
+                            <img
+                              src={item.src}
+                              className={item.className}
+                              key={i}
+                              style={{ position: "absolute" }}
+                            />
+                          )
+                      )}
+
+                      <div className="rio"></div>
+                          
+                      <div className="info"></div>
+
                     </div>
-
-                    {codi.map( //옷입은 리오모습
-                      (item, i) =>
-                        item && (
-                          <img
-                            src={item.src}
-                            className={item.className}
-                            key={i}
-                            style={{ position: "absolute" }}
-                          />
-                        )
-                    )}
-                      
-                    <div className="rio"></div>
-                        
-                    <div className="info"></div>
-
+                  
                   </div>
                 </div>
               </div>
