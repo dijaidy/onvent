@@ -1,3 +1,8 @@
+html, body{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
 .page{
     aspect-ratio: 440/956;
     width: min(100vw, calc(956/440 *100vh));
