@@ -132,14 +132,14 @@ export default function Dressing() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        alert("코디가 저장되었습니다!");
+        Swal.fire("코디가 저장되었습니다!");
       } else {
         // ✅ 모바일: 새 창 or 터치 저장
         const newWindow = window.open();
         if (newWindow) {
           newWindow.document.write(`<img src="${picture_url}" style="width:100%">`);
           newWindow.document.close();
-          alert("길게 눌러 이미지를 저장해주세요!");
+          Swal.fire("길게 눌러 이미지를 저장해주세요!");
         } else {
           alert("팝업 차단이 되어 있어요. 브라우저 설정을 확인해주세요!");
         }

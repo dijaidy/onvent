@@ -174,7 +174,8 @@
     flex-direction: row;    
     background-size: cover;
     background-repeat: no-repeat;
-    width: min;
+    width: 100%;
+    height: calc(110/956 * 100%);
     position: absolute;
     top: calc(730/956 *100%);
     background-color: transparent;
@@ -188,6 +189,8 @@
     background-position: center;
     border-width: 0px;
     background-size: cover;
+    width: 25%;
+    height: 100%;
     margin: 0px;
     padding: 0px;
     display:flex;
