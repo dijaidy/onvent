@@ -45,7 +45,7 @@ function Call({ codi, setCodi, closet, stage, outfitPutOn }) {
       <div className="dressButtons">
         {closet[stage - 1].map((outfit, idx) => ( //이미지 버튼 만들기
           <button className="options" key={idx} onClick={() => {selectOutfit(stage - 1, outfitPutOn[stage-1][idx]);}}>
-            <img src={outfit} alt={`option ${idx}`} className="dress-img"/> 
+            <img src={outfit} alt={`option ${idx}`}/> 
           </button>
         ))}
       </div>
@@ -109,26 +109,38 @@ export default function Dressing() {
     ];
     const [name, setName] = useState('');
 
-    const handleDownloadImage = () => {
-      const target = document.querySelector(".page5"); // 저장할 전체 영역
-      const shareButton = document.querySelector(".shareButton"); // 공유 버튼만 숨기기
-  
-      // 공유 버튼 숨기기
-      shareButton.style.visibility = "hidden";
-  
-      html2canvas(target, {
-        useCORS: true,
-        scale: 2,
-      }).then((canvas) => {
-        const link = document.createElement("a");
-        link.download = "코디저장.png";
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-  
-        // 다시 보이게
-        shareButton.style.visibility = "visible";
+    const handleDownloadImg = () => {
+      const target = document.querySelector(".page5"); // ← 여기 클래스 선택자
+      const shareButton = document.querySelector(".shareButton");
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+      if (!target) return;
+    
+      if (shareButton) {
+        shareButton.style.visibility = "hidden";
+      }
+    
+      html2canvas(target, { useCORS: true }).then((canvas) => {
+        const image = canvas.toDataURL("image/png");
+    
+        if (isMobile) {
+          window.open(image, "_blank");
+          Swal.fire("이미지가 새 창으로 열렸어요!\n길게 눌러 '이미지 저장'을 선택해주세요.");
+        } else {
+          const link = document.createElement("a");
+          link.href = image;
+          link.download = "my-outfit.png";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+    
+        if (shareButton) {
+          shareButton.style.visibility = "visible";
+        }
       });
     };
+    
   
     const getFontSizeByName = (name) => {
       const length = name.length;
@@ -211,7 +223,7 @@ export default function Dressing() {
                  
                   <div className="rio"></div>
                   {/**공유, 이름 저장, 이미지 저장 */}
-                  <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleDownloadImage(); Swal.fire("코디가 저장되었습니다!")}} ></button>
+                  <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleDownloadImg(); Swal.fire("코디가 저장되었습니다!")}} ></button>
                   {/**축제정보 */}
                   <div className="info"></div> 
                   

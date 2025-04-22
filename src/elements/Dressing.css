@@ -2,15 +2,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 10px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 .page0{
     background-image: url('../asset/dressingImages/page0.svg');
     background-size: cover;
     background-position: center;
     justify-content: center;
-    width: 440px;
-    height: 956px;
+    width: min(100vw, 440px);
+    height: min(100vh, 956px);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -22,8 +25,8 @@
     background-size: cover;
     background-position: center;
     justify-content: center;
-    width: 440px;
-    height: 956px;
+    width: min(100vw,440px);
+    height: min(100vh,956px);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -35,8 +38,8 @@
     background-size: cover;
     background-position: center;
     justify-content: center;
-    width: 440px;
-    height: 956px;
+    width: min(100vw,440px);
+    height: min(100vh,956px);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -45,10 +48,10 @@
 }
 .rio{
     background-image: url('../asset/dressingImages/rio.svg');
-    width: 440px;
-    height: 493px;
+    width: min(100%,440px);
+    height: calc(493/956 * 100vh);
     position: absolute;
-    top: 209px;
+    top: calc(209/956 *100vh);
     z-index: 1;
 }
 .enterNameDiv{
@@ -56,12 +59,12 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    width: 261px;   
-    height: 75px;
+    width: calc(262/440 *100vw);   
+    height: calc(75/956 *100vh);
     background-color: transparent;
     border: none;
     position: absolute;
-    top:663px;
+    top: calc(663/956 *100vh);
     outline: none;
     display: flex;
     flex-direction: row;
@@ -71,9 +74,9 @@
 }
 .enterName{
     font-size: 20px;
-    margin-left: 80px;
-    height: 30px;
-    width: 130px;
+    margin-left: calc(80/440 * 100vh);
+    height: calc(30/95 * 100vw);
+    width: calc(130/440 *100vh);
     border-width: 0px;
     background-color: transparent;
     font-family: 'Romance';
@@ -84,21 +87,21 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    width: 261px;
-    height: 92px;
+    width: calc(261/440 *100vw);
+    height: calc(92/956 *100vh);
     background-color: transparent;
     border: none;
     position: absolute;
-    top: 744px;
+    top: calc(744/956 * 100vh);
 }
 .dressButtons{
     display: flex;
     flex-direction: row;    
     background-size: cover;
     background-repeat: no-repeat;
-    width: 440px;
+    width: min;
     position: absolute;
-    top: 730px;
+    top: calc(730/956 *100vh);
     background-color: transparent;
     border: none;
     outline: none;
@@ -129,8 +132,8 @@
     background-position: center;
     background-color: transparent;
     border: none;
-    width: 100px;
-    height: 30px;
+    width: calc(100/440 *100vw);
+    height: calc(30/956 *100vh);
 }
 .nextButton{
     background-image: url('../asset/dressingImages/nextButton.svg');
@@ -139,40 +142,40 @@
     background-position: center;
     background-color: transparent;
     border: none;
-    width: 100px;
-    height: 30px;
+    width: calc(100/440 *100vw);
+    height: calc(30/956 *100vh);
 }
 .stageButtons{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 350px;
+    width: calc(350/440 * 100vw);
     position: absolute;
-    top: 900px;
+    top: calc(900/956 *100vh);
 }
 .shareButton{
     background-image: url('../asset/dressingImages/shareButton.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    width: 258px;
-    height: 91px;
+    width: calc(258/440 * 100vw);
+    height: calc(91/956 * 100vh);
     background-color: transparent;
     border: none;
     position: absolute;
-    top: 723px;
+    top: calc(723/956 * 100vh);
 }
 .info{
     background-image: url('../asset/dressingImages/info.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    width: 360px;
-    height: 77px;
+    width: calc(360/440 *100vw);
+    height: calc(77/956 *100vh);
     background-color: transparent;
     border: none;
     position: absolute;
-    top: 835px;
+    top: calc(835/956 * 100vh);
 }
 .outfitChosen{
     z-index: 2;
@@ -180,76 +183,76 @@
 }
 .soccerChosen{
     position: absolute;
-    top: 354px;
-    left: 19px;
+    top: calc(354/956 * 100vh);
+    left: calc(19/440 * 100vw);
 }
 .hockeyChosen{
     position: absolute;
-    top: 346px;
-    left: 17px;
+    top: calc(346/956 * 100vh);
+    left: calc(17/440 *100vw);
 }
 .shoes1Chosen{
     position: absolute;
-    top: 637px;
-    left: 79px;
+    top: calc(637/956 * 100vh);
+    left: calc(79/440 * 100vw);
 }
 .shoes2Chosen{
     position: absolute;
-    top: 617px;
-    left: 53px;
+    top: calc(617/956 * 100vh);
+    left: calc(53/440 * 100vw);
 }
 .shoes3Chosen{
     position: absolute;
-    top: 629px;
-    left: 58px;
+    top: calc(629/956 *100vh);
+    left: calc(58/440 *100vw);
 }
 .shoes4Chosen{
     position: absolute;
-    top: 622px;
-    left: 76px;
+    top: calc(622/956 *100vh);
+    left: calc(76/440 * 100vw);
 }
 .head1Chosen{
     position: absolute;
-    top: 107px;
-    left: 115px;
+    top: calc(107/956 * 100vh);
+    left: calc(115/440 * 100vw);
 }
 .head2Chosen{
     position: absolute;
-    top: 167px;
-    left: 96px;
+    top: calc(167/956 * 100vh);
+    left: calc(96/440 * 100vw);
 }
 .head3Chosen{
     position: absolute;
-    top: 141px;
-    left: 109px;
+    top: calc(141/956 * 100vh);
+    left: calc(109/440 * 100vw);
 }
 .head4Chosen{
     position: absolute;
-    top: 132px;
-    left: 90px;
+    top: calc(132/956 * 100vh);
+    left: calc(90/440 * 100vw);
 }
 .eye1Chosen{
     position: absolute;
-    top: 287px;
-    left: 143px;
+    top: calc(287/956 * 100vh);
+    left: calc(143/440 * 100vw);
 }
 .eye2Chosen{
     position: absolute;
-    top: 255px;
-    left: 104px;
+    top: calc(255/956 * 100vh);
+    left: calc(104/440 * 100vw);
 }
 .eye3Chosen{
     position: absolute;
-    top: 274px;
-    left: 234px;
+    top: calc(274/956 * 100vh);
+    left: calc(234/440 * 100vw);
 }
 .eye4Chosen{
     position: absolute;
-    top: 285px;
-    left: 117px;
+    top: calc(285/956 * 100vh);
+    left: calc(117/40 * 100vw);
 }
 .userNameBox{
-    height: 209px;
+    height: calc(209/956 * 100vh);
     display: flex;
     justify-content: center;
     align-items: center;
