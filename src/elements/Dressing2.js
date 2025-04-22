@@ -113,7 +113,8 @@ export default function Dressing() {
       const target = document.querySelector(".page5");
       const shareButton = document.querySelector(".shareButton");
     
-      const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const isMobile = window.matchMedia("(pointer: coarse)").matches;
+    
       if (!target) return;
     
       if (shareButton) shareButton.style.visibility = "hidden";
@@ -131,43 +132,22 @@ export default function Dressing() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    
-        Swal.fire("코디가 저장되었습니다!");
+        alert("코디가 저장되었습니다!");
       } else {
-        // ✅ 모바일: 터치 이벤트 등록
-        const share_y = canvas.height * 0.9;
-        const share_height = canvas.height * 0.1;
-    
-        canvas.addEventListener("touchstart", (e) => {
-          const x = e.changedTouches[0].pageX * window.devicePixelRatio;
-          const y = e.changedTouches[0].pageY * window.devicePixelRatio;
-    
-          if (0.17 * canvas.width <= x && x <= 0.83 * canvas.width) {
-            if (share_y - share_height / 2 <= y && y <= share_y) {
-              // ⬇ 이미지 다운로드
-              const picture_download = document.createElement("a");
-              picture_download.setAttribute(
-                "download",
-                `Rio_${new Date().toLocaleString()}.png`
-              );
-              picture_download.setAttribute("href", picture_url);
-              document.body.appendChild(picture_download);
-              picture_download.click();
-              alert("리오, 내 마음속에 저장🩷");
-            } else if (share_y < y && y <= share_y + share_height / 2) {
-              // ⬇ 링크 복사
-              navigator.clipboard.writeText(window.location.href);
-              alert("링크가 복사되었다리오!");
-            }
-          }
-        });
-    
-        document.body.appendChild(canvas); // 필요하다면 이미지 화면에 삽입
-        alert("화면 하단을 터치하여 저장하거나 링크 복사할 수 있어요!");
+        // ✅ 모바일: 새 창 or 터치 저장
+        const newWindow = window.open();
+        if (newWindow) {
+          newWindow.document.write(`<img src="${picture_url}" style="width:100%">`);
+          newWindow.document.close();
+          alert("길게 눌러 이미지를 저장해주세요!");
+        } else {
+          alert("팝업 차단이 되어 있어요. 브라우저 설정을 확인해주세요!");
+        }
       }
     
       if (shareButton) shareButton.style.visibility = "visible";
     };
+    
     
     
     
