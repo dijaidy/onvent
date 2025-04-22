@@ -5,10 +5,12 @@ html, body{
 }
 .page{
     aspect-ratio: 440/956;
-    width: min(100vw, calc(956/440 *100vh));
+    width: 100vw;
     height: auto;
-    max-width: 440px;
-    max-height: 956px;
+  
+    
+    max-width: calc(100vh * (440 / 956));
+    max-height: 100vh;
 
     display: flex;
     flex-direction: column;
