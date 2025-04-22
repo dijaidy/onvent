@@ -109,7 +109,25 @@ export default function Dressing() {
     ];
     const [name, setName] = useState('');
 
+    const [capturedImage, setCapturedImage] = useState(null);
 
+    useEffect(() => {
+      if (stage === 5) {
+        const target = document.querySelector(".captureContents");
+        if (target) {
+          html2canvas(target, {
+            useCORS: true,
+            backgroundColor: null,
+            scale: 2,
+          }).then(canvas => {
+            const imgUrl = canvas.toDataURL("image/png");
+            setCapturedImage(imgUrl);
+          }).catch(err => {
+            console.error("❌ 캡처 실패:", err);
+          });
+        }
+      }
+    }, [stage]);
     
 
     
@@ -120,61 +138,24 @@ export default function Dressing() {
  
 
 
-    const handleDownloadImg = async () => {
-      const target = document.querySelector(".captureContents");
-      const isMobile = window.matchMedia("(pointer:coarse)").matches;
-    
-      if (!target) return;
-    
-      let popup = null;
-    
-      if (isMobile) {
-        popup = window.open("", "_blank");
-        if (!popup || popup.closed || typeof popup.closed === "undefined") {
-          alert("팝업을 허용해야 코디를 저장할 수 있습니다.");
-          return;
-        }
-    
-        popup.document.write(`
-          <html><head><title></title></head>
-          <body style="margin:0; display:flex; align-items:center; justify-content:center;">
-            <p>이미지를 불러오는 중...</p>
-          </body></html>
-        `);
+    const handleShareClick = () => {
+      if (!capturedImage) {
+        alert("이미지를 아직 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+        return;
       }
     
-      try {
-        const canvas = await html2canvas(target, {
-          useCORS: true,
-          backgroundColor: null,
-          scale: 2
-        });
-    
-        const image = canvas.toDataURL("image/png");
-    
-        if (isMobile) {
-          await Swal.fire({
-            html: "이미지가 새창으로 열렸습니다!<br>길게 눌러서 저장해주세요!",
-            showConfirmButton: true,
-            confirmButtonText: "확인",
-            customClass: {
-              popup: "swal2-no-title",
-            }
-          });
-    
-          popup.document.body.innerHTML = `<img src="${image}" style="width:100%; height:auto;" />`;
-        } else {
-          const link = document.createElement("a");
-          link.href = image;
-          link.download = `my-outfit_${new Date().toISOString()}.png`;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        }
-      } catch (err) {
-        console.error("이미지 캡처 중 오류:", err);
-        alert("이미지를 저장하는 데 문제가 발생했습니다.");
+      const popup = window.open("", "_blank");
+      if (!popup || popup.closed || typeof popup.closed === "undefined") {
+        alert("팝업을 허용해야 이미지를 저장할 수 있습니다.");
+        return;
       }
+    
+      popup.document.write(`
+        <html><head><title></title></head>
+        <body style="margin:0; display:flex; align-items:center; justify-content:center;">
+          <img src="${capturedImage}" style="width:100%; height:auto;" />
+        </body></html>
+      `);
     };
     
     
@@ -284,7 +265,7 @@ export default function Dressing() {
                     
                     <div className="rio"></div>
                       {/**공유, 이름 저장, 이미지 저장 */}
-                    <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleDownloadImg();}} ></button>
+                    <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleShareClick();}} ></button>
                       {/**축제정보 */}
                     <div className="info"></div> 
 
@@ -304,6 +285,7 @@ export default function Dressing() {
                                 className={item.className}
                                 key={i}
                                 style={{ position: "absolute" }}
+                                crossOrigin="anonymous"
                               />
                             )
                         )}
