@@ -163,7 +163,7 @@ export default function Dressing() {
                     <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName"></input>
                   </div>
                   {/*시작버튼튼 */}
-                  <button className="startbutton" onClick={() =>{if(!name.trim()){Swal.fire('이름을 입력해주세요!'); return;}setStage(1)}}></button>
+                  <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주세요!'); return;}*/setStage(1)}}></button>
 
                 </div>
               </div>
