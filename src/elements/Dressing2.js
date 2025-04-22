@@ -169,28 +169,75 @@ export default function Dressing() {
     
   
     return (
-      <div>
+      <div className="mainContainer">
         {(() => {
           if (stage === 0) {
             return (
-              <div className="page">
-                <div className="page0">
-                  
-                  <div className='enterNameDiv'> {/*이름입력*/}                  
-                    <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName"></input>
-                  </div>
-                  {/*시작버튼 */}
-                  <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주세요!'); return;}*/setStage(1)}}></button>
+              <div className="background05">
+                <div className="page">
+                  <div className="page0">
 
+                    <div className="title"></div>
+
+                    <div className="firstRio"></div>
+
+                    <div className='enterNameDiv'> {/*이름입력*/}                  
+                      <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName"></input>
+                    </div>
+                    {/*시작버튼 */}
+                    <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주세요!'); return;}*/setStage(1)}}></button>
+
+                    <div className="firstInfo"></div>
+                  </div>
                 </div>
               </div>
             );
           } else if (stage >= 1 && stage <= 4) {
-            return (   
-              <div className="page">
-                <div className="page1-4">
+            return ( 
+              <div className="background14">  
+                <div className="page">
+                  <div className="page1-4">
+                    
+                    {codi.map( //선택된 의상 입히기
+                      (item, i) =>
+                        item && (
+                          <img
+                            src={item.src}
+                            className={item.className}
+                            key={i}
+                            style={{ position: "absolute" }}
+                          />
+                        )
+                    )}
+                      
+                    
+                    <div className="rio"></div>
+                      
+                      {/* ✅ Call 컴포넌트 한 번만 사용 */}
+                    <Call codi={codi} setCodi={setCodi} closet={closet} stage={stage} outfitPutOn={outfitPutOn} />      
+                      
+                    <div className="stageButtons"> {/* 스테이지버튼튼 */}
+                      <PrevP stage={stage} setStage={setStage} />
+                      <NextP stage={stage} setStage={setStage} />
+                    </div>
                   
-                  {codi.map( //선택된 의상 입히기
+                  </div>
+                </div>
+              </div>
+            );
+          } else if (stage === 5) {
+            return (
+              <div className="background05">
+                <div className="page">
+                  <div className="page5">
+                  
+                  <div className="userNameBox"> {/** 상단 메시지지 */}
+                    <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
+                      {name}의 코디!
+                    </div>  
+                  </div>
+
+                  {codi.map( //옷입은 리오모습
                     (item, i) =>
                       item && (
                         <img
@@ -201,50 +248,14 @@ export default function Dressing() {
                         />
                       )
                   )}
-                    
                   
-                  <div className="rio"></div>
+                    <div className="rio"></div>
+                    {/**공유, 이름 저장, 이미지 저장 */}
+                    <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleDownloadImg();}} ></button>
+                    {/**축제정보 */}
+                    <div className="info"></div> 
                     
-                    {/* ✅ Call 컴포넌트 한 번만 사용 */}
-                  <Call codi={codi} setCodi={setCodi} closet={closet} stage={stage} outfitPutOn={outfitPutOn} />      
-                    
-                  <div className="stageButtons"> {/* 스테이지버튼튼 */}
-                    <PrevP stage={stage} setStage={setStage} />
-                    <NextP stage={stage} setStage={setStage} />
                   </div>
-                
-                </div>
-              </div>
-            );
-          } else if (stage === 5) {
-            return (
-              <div className="page">
-                <div className="page5">
-                
-                <div className="userNameBox"> {/** 상단 메시지지 */}
-                  <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
-                    {name}의 코디!
-                  </div>  
-                </div>
-
-                {codi.map( //옷입은 리오모습
-                  (item, i) =>
-                    item && (
-                      <img
-                        src={item.src}
-                        className={item.className}
-                        key={i}
-                        style={{ position: "absolute" }}
-                      />
-                    )
-                )}
-                 
-                  <div className="rio"></div>
-                  {/**공유, 이름 저장, 이미지 저장 */}
-                  <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleDownloadImg();}} ></button>
-                  {/**축제정보 */}
-                  <div className="info"></div> 
-                  
                 </div>
               </div>
             );
