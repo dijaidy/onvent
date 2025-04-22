@@ -119,35 +119,50 @@ export default function Dressing() {
     
  
 
+
     const handleDownloadImg = async () => {
       const target = document.querySelector(".captureContents");
       const isMobile = window.matchMedia("(pointer:coarse)").matches;
     
       if (!target) return;
     
-      // 모바일은 팝업 먼저 열기
       let popup = null;
+    
       if (isMobile) {
         popup = window.open("", "_blank");
         if (!popup || popup.closed || typeof popup.closed === "undefined") {
           alert("팝업을 허용해야 코디를 저장할 수 있습니다.");
           return;
         }
+    
+        popup.document.write(`
+          <html><head><title></title></head>
+          <body style="margin:0; display:flex; align-items:center; justify-content:center;">
+            <p>이미지를 불러오는 중...</p>
+          </body></html>
+        `);
       }
     
-      // html2canvas로 캡처
       try {
         const canvas = await html2canvas(target, {
           useCORS: true,
           backgroundColor: null,
-          scale: 2, // 고해상도 대비용 (optional)
+          scale: 2
         });
     
         const image = canvas.toDataURL("image/png");
     
         if (isMobile) {
-          popup.document.write(`<img src="${image}" style="width:100%; height:auto;" />`);
-          popup.document.close();
+          await Swal.fire({
+            html: "이미지가 새창으로 열렸습니다!<br>길게 눌러서 저장해주세요!",
+            showConfirmButton: true,
+            confirmButtonText: "확인",
+            customClass: {
+              popup: "swal2-no-title",
+            }
+          });
+    
+          popup.document.body.innerHTML = `<img src="${image}" style="width:100%; height:auto;" />`;
         } else {
           const link = document.createElement("a");
           link.href = image;
@@ -156,11 +171,12 @@ export default function Dressing() {
           link.click();
           document.body.removeChild(link);
         }
-      } catch (error) {
-        alert("이미지 저장 중 오류가 발생했습니다.");
-        console.error(error);
+      } catch (err) {
+        console.error("이미지 캡처 중 오류:", err);
+        alert("이미지를 저장하는 데 문제가 발생했습니다.");
       }
     };
+    
     
     
     
