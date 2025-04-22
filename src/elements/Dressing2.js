@@ -144,7 +144,7 @@ export default function Dressing() {
     
           Swal.fire({
             
-            text: "이미지가 새창으로 열렷다리오! 길게 눌러 코디를 저장하리오!",
+            text: "이미지가 새창으로 열렷다리오! \n 길게 눌러 코디를 저장하리오!",
             
             confirmButtonText: "확인",
           });
