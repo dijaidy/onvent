@@ -249,30 +249,56 @@ export default function Dressing() {
                 <div className="page">
                   <div className="page5">
                   
-                  <div className="userNameBox"> {/** 상단 메시지지 */}
-                    <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
-                      {name}의 코디!
-                    </div>  
+                    <div className="userNameBox"> {/** 상단 메시지지 */}
+                      <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
+                        {name}의 코디!
+                      </div>  
+                    </div>
+
+                    {codi.map( //옷입은 리오모습
+                      (item, i) =>
+                        item && (
+                          <img
+                            src={item.src}
+                            className={item.className}
+                            key={i}
+                            style={{ position: "absolute" }}
+                          />
+                        )
+                    )}
+                    
+                    <div className="rio"></div>
+                      {/**공유, 이름 저장, 이미지 저장 */}
+                    <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleDownloadImg();}} ></button>
+                      {/**축제정보 */}
+                    <div className="info"></div> 
+
+                  
                   </div>
 
-                  {codi.map( //옷입은 리오모습
-                    (item, i) =>
-                      item && (
-                        <img
-                          src={item.src}
-                          className={item.className}
-                          key={i}
-                          style={{ position: "absolute" }}
-                        />
-                      )
-                  )}
-                  
+                  <div className="captureArea">
+                    <div className="userNameBox"> {/** 상단 메시지지 */}
+                      <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
+                        {name}의 코디!
+                      </div>  
+                    </div>
+
+                    {codi.map( //옷입은 리오모습
+                      (item, i) =>
+                        item && (
+                          <img
+                            src={item.src}
+                            className={item.className}
+                            key={i}
+                            style={{ position: "absolute" }}
+                          />
+                        )
+                    )}
+                      
                     <div className="rio"></div>
-                    {/**공유, 이름 저장, 이미지 저장 */}
-                    <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleDownloadImg();}} ></button>
-                    {/**축제정보 */}
-                    <div className="info"></div> 
-                    
+                        
+                    <div className="info"></div>
+
                   </div>
                 </div>
               </div>
