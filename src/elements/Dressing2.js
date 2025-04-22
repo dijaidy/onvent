@@ -178,7 +178,7 @@ export default function Dressing() {
                         item && (
                           <img
                             src={item.src}
-                            className={`outfitChosen ${item.className}`}
+                            className={item.className}
                             key={i}
                             style={{ position: "absolute" }}
                           />
@@ -215,7 +215,7 @@ export default function Dressing() {
                     item && (
                       <img
                         src={item.src}
-                        className={`outfitChosen ${item.className}`}
+                        className={item.className}
                         key={i}
                         style={{ position: "absolute" }}
                       />

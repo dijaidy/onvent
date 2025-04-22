@@ -201,11 +201,11 @@ html, body{
     position: relative;
     z-index: 0;
 }
-.outfitChosen{
+/*.outfitChosen{
     z-index: 2;
     position: relative;
 
-}
+}*/
 .soccerChosen{
     position: absolute;
     top: calc(354/956 * 100%);
