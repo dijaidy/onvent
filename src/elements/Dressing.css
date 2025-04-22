@@ -91,9 +91,9 @@ html, body{
 }
 .enterName{
     font-size: 20px;
-    margin-left: calc(80/440 * 100%);
-    height: calc(30/956 * 100%);
-    width: calc(130/440 *100%);
+    margin-left: 25%;
+    height: 90%;
+    width: 75%;
     border-width: 0px;
     background-color: transparent;
     font-family: 'Romance';
