@@ -112,10 +112,13 @@ export default function Dressing() {
     const handleDownloadImg = () => {
       const target = document.querySelector(".page5");
       const shareButton = document.querySelector(".shareButton");
-      const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+    
+      // 더 정밀한 모바일 감지
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     
       if (!target) return;
     
+      // 버튼 숨기기
       if (shareButton) {
         shareButton.style.visibility = "hidden";
       }
@@ -124,28 +127,34 @@ export default function Dressing() {
         const image = canvas.toDataURL("image/png");
     
         if (isMobile) {
+          // 모바일은 새 창에 이미지 띄우기
+          const imgWindow = window.open();
+          if (imgWindow) {
+            imgWindow.document.write(`<img src="${image}" style="width:100%"/>`);
+            imgWindow.document.close();
+            Swal.fire("이미지가 새 창으로 열렸어요!\n길게 눌러 '이미지 저장'을 선택해주세요.");
+          } else {
+            Swal.fire("팝업 차단이 감지되었습니다.\n팝업 허용을 확인해주세요.");
+          }
+        } else {
+          // PC는 자동 다운로드
           const link = document.createElement("a");
           link.href = image;
-          link.target = "_blank";
+          link.download = "my-outfit.png";
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
     
-          Swal.fire("이미지가 새 창으로 열렸어요!\n길게 눌러 '이미지 저장'을 선택해주세요.");
-        } else {
-          const link = document.createElement("a");
-          link.href = image;
-          link.download = "my-outfit.png";
-          link.click();
-    
           Swal.fire("코디가 저장되었습니다!");
         }
     
+        // 버튼 다시 보이기
         if (shareButton) {
           shareButton.style.visibility = "visible";
         }
       });
     };
+    
     
     
     
