@@ -111,59 +111,60 @@ export default function Dressing() {
 
 
     
+
+    
     const handleDownloadImg = () => {
-      const target = document.querySelector(".captureContents");
+      const target = document.querySelector(".captureContents"); // className 기준
       if (!target) return;
-    
-      const isMobile = window.matchMedia("(pointer:coarse)").matches;
-    
-      // 공유 버튼 숨기기 등 필요한 조작이 있다면 여기서 처리
     
       html2canvas(target, { useCORS: true }).then((canvas) => {
         const image = canvas.toDataURL("image/png");
     
+        const isMobile = window.matchMedia("(pointer:coarse)").matches;
+    
         if (isMobile) {
-          // 알림 먼저!
+          // 🔔 사용자 알림 먼저
           Swal.fire({
-            text: "이미지가 새창으로 열렷다리오오!\n길게 눌러서 저장하리오!",
-            showConfirmButton: true,
-            didClose: () => {
-              const popup = window.open("", "_blank");
-              if (popup) {
-                popup.document.write(`
-                  <!DOCTYPE html>
-                  <html>
-                    <head>
-                      <meta charset="UTF-8" />
-                      <style>
-                        html, body {
-                          margin: 0;
-                          padding: 0;
-                          background: #fff;
-                          display: flex;
-                          justify-content: center;
-                          align-items: center;
-                          height: 100%;
-                        }
-                        img {
-                          max-width: 100%;
-                          height: auto;
-                        }
-                      </style>
-                    </head>
-                    <body>
-                      <img src="${image}" alt="코디 이미지" />
-                    </body>
-                  </html>
-                `);
-                popup.document.close();
-              } else {
-                alert("팝업을 허용해야 코디를 저장할 수 있으리오ㅠㅠㅠ");
-              }
-            },
+            html: "이미지가 새창으로 열렷다리오!<br>길게 눌러서 저장하리오!",
+            confirmButtonText: "확인",
+          }).then(() => {
+            const popup = window.open("", "_blank");
+    
+            if (popup) {
+              popup.document.write(`
+                <!DOCTYPE html>
+                <html>
+                  <head>
+                    <meta charset="UTF-8" />
+                    <style>
+                      html, body {
+                        margin: 0;
+                        padding: 0;
+                        background: #fff;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100%;
+                      }
+                      img {
+                        max-width: 100%;
+                        height: auto;
+                      }
+                    </style>
+                  </head>
+                  <body>
+                    <img src="${image}" alt="코디 이미지" />
+                  </body>
+                </html>
+              `);
+              popup.document.close();
+            } else {
+              // ❗ 팝업 차단된 경우
+              alert("팝업을 허용해야 코디를 저장할 수 있스리오ㅠㅠㅠ");
+            }
           });
         } else {
-          // 데스크탑: 자동 다운로드
+          // 데스크탑일 경우: 자동 다운로드
           const link = document.createElement("a");
           link.href = image;
           link.download = `Rio_${new Date().toLocaleString()}.png`;
@@ -172,13 +173,13 @@ export default function Dressing() {
           document.body.removeChild(link);
     
           Swal.fire({
-            text: "코디가 저장되었어요!",
-            timer: 1500,
-            showConfirmButton: false,
+            text: "코디가 저장되엇다리오!",
+            confirmButtonText: "확인",
           });
         }
       });
     };
+    
     
     
     
