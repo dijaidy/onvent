@@ -133,40 +133,43 @@ export default function Dressing() {
           }
     
           // ✅ 팝업 기본 구조
-          popup.document.write(`
-            <!DOCTYPE html>
-            <html>
-              <head>
-                <meta charset="UTF-8" />
-                <style>
-                  html, body {
-                    margin: 0;
-                    padding: 0;
-                    background: #fff;
-                    height: 100%;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                  }
-                  img {
-                    width: auto;
-                    height: 100%;
-                    max-height: 100%;
-                  }
-                </style>
-              </head>
-              <body>
-                <img src="${image}" alt="코디 이미지" />
-              </body>
-            </html>
-          `);
-          popup.document.close();
+          setTimeout(() => {
+            popup.document.write(`
+              <!DOCTYPE html>
+              <html>
+                <head>
+                  <meta charset="UTF-8" />
+                  <title>코디 저장</title>
+                  <style>
+                    html, body {
+                      margin: 0;
+                      padding: 0;
+                      height: 100%;
+                      background: #fff;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    }
+                    img {
+                      max-width: 100%;
+                      max-height: 100%;
+                      object-fit: contain;
+                    }
+                  </style>
+                </head>
+                <body>
+                  <img src="${image}" alt="코디 이미지" />
+                </body>
+              </html>
+            `);
+            popup.document.close();
     
-          // ✅ 줄바꿈 포함된 알림 메시지
-          Swal.fire({
-            html: "이미지가 새창으로 열렷다리오!<br>길게 눌러서 저장하리오!",
-            confirmButtonText: "확인",
-          });
+            // 알림 (줄바꿈 포함)
+            Swal.fire({
+              html: "이미지가 새창으로 열렸따리오!<br>길게 눌러서 저장하리오!",
+              confirmButtonText: "확인",
+            });
+          }, 100);
         } else {
           // ✅ 데스크탑: 자동 다운로드
           const link = document.createElement("a");
@@ -177,7 +180,7 @@ export default function Dressing() {
           document.body.removeChild(link);
     
           Swal.fire({
-            text: "코디가 저장되었다리오!",
+            text: "코디가 저장되었다리오오!",
             confirmButtonText: "확인",
           });
         }
