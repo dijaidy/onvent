@@ -59,7 +59,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    width: calc(262/440 *100vw);   
+    width: calc(261/440 *100vw);   
     height: calc(75/956 *100vh);
     background-color: transparent;
     border: none;
@@ -74,9 +74,9 @@
 }
 .enterName{
     font-size: 20px;
-    margin-left: calc(80/440 * 100vh);
-    height: calc(30/95 * 100vw);
-    width: calc(130/440 *100vh);
+    margin-left: calc(80/440 * 100vw);
+    height: calc(30/95 * 100vh);
+    width: calc(130/440 *100vw);
     border-width: 0px;
     background-color: transparent;
     font-family: 'Romance';
