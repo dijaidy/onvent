@@ -115,40 +115,82 @@ export default function Dressing() {
     
 
     
-    const handleDownloadImg = () => {
-      const captureTarget = document.querySelector(".captureContents"); // 캡처할 영역
-      if (!captureTarget) return;
+
     
-      // 1. 팝업 미리 열기 (사용자 클릭 시점에)
-      const popup = window.open("", "_blank");
-      if (!popup) {
-        alert("팝업을 허용해야 코디를 저장할 수 있으리오ㅠㅠㅠ");
+    const handleDownloadImg = () => {
+      const target = document.querySelector(".captureContents");
+      if (!target) {
+        alert("캡처 대상을 찾을 수 없습니다.");
         return;
       }
     
-      // 2. 캡처
-      html2canvas(captureTarget, { useCORS: true }).then((canvas) => {
-        const imgDataUrl = canvas.toDataURL("image/png");
+      const isMobile = window.matchMedia("(pointer:coarse)").matches;
     
-        // 3. 팝업창에 이미지 삽입
-        popup.document.write(`
-          <!DOCTYPE html>
-          <html>
-            <head><meta charset="UTF-8"><title>코디 저장</title></head>
-            <body style="margin:0; display:flex; justify-content:center; align-items:center; height:100vh;">
-              <img src="${imgDataUrl}" style="max-width:100%; max-height:100%;" />
-            </body>
-          </html>
-        `);
-        popup.document.close();
+      html2canvas(target, { useCORS: true }).then((canvas) => {
+        const imageData = canvas.toDataURL("image/png");
     
-        // 4. 안내 알림
-        Swal.fire({
-          html: `이미지가 새창으로 열렷다리오!<br>길게 눌러서 저장하리오!`,
-          confirmButtonText: "확인",
-        });
+        if (isMobile) {
+          // 팝업 먼저 열기
+          const popup = window.open("", "_blank");
+          if (!popup) {
+            alert("팝업을 허용해야 코디를 저장할 수 있으리오ㅠㅠㅠ");
+            return;
+          }
+    
+          // 팝업에 이미지 src 삽입
+          popup.document.write(`
+            <!DOCTYPE html>
+            <html lang="ko">
+              <head>
+                <meta charset="UTF-8" />
+                <title>코디 저장</title>
+                <style>
+                  html, body {
+                    margin: 0;
+                    padding: 0;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background: #fff;
+                  }
+                  img {
+                    max-width: 100%;
+                    max-height: 100%;
+                    object-fit: contain;
+                  }
+                </style>
+              </head>
+              <body>
+                <img src="${imageData}" alt="코디 이미지" />
+              </body>
+            </html>
+          `);
+          popup.document.close();
+    
+          // 줄바꿈 포함 알림
+          Swal.fire({
+            html: `이미지가 새창으로 열렷다리오!<br>길게 눌러서 저장하리오!`,
+            confirmButtonText: "확인",
+          });
+    
+        } else {
+          // 데스크탑 - 바로 저장
+          const link = document.createElement("a");
+          link.href = imageData;
+          link.download = `Rio_${new Date().toLocaleString()}.png`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+    
+          Swal.fire({
+            text: "코디가 저장되엇다리오!",
+            confirmButtonText: "확인",
+          });
+        }
       });
     };
+    
     
     
     
