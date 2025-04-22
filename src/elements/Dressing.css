@@ -1,6 +1,6 @@
 .page{
     aspect-ratio: 440/956;
-    width: 100vw;
+    width: min(100vw, calc(956/440 *100vh));
     height: auto;
     max-width: 440px;
     max-height: 956px;
@@ -256,7 +256,7 @@
 .eye4Chosen{
     position: absolute;
     top: calc(285/956 * 100%);
-    left: calc(117/40 * 100%);
+    left: calc(117/440 * 100%);
 }
 .userNameBox{
     height: calc(209/956 * 100%);
