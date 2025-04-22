@@ -102,6 +102,9 @@ function App() {
 
   return (
     <div className="App">
+      <text style={{fontFamily: 'Fighting'}}></text> 
+      <text style={{fontFamily: 'Yangjin'}}></text> 
+      <text style={{fontFamily: 'Romance'}}></text> 
       {imgArr}
       <Navigation/>
     </div>
