@@ -109,44 +109,58 @@ export default function Dressing() {
     ];
     const [name, setName] = useState('');
 
-    const handleDownloadImg = async () => {
-      const target = document.querySelector(".page5");
+    const handleDownloadImg = () => {
+      const target = document.querySelector(".background05");
       const shareButton = document.querySelector(".shareButton");
-    
       const isMobile = window.matchMedia("(pointer: coarse)").matches;
     
       if (!target) return;
     
+      // 공유 버튼 숨김
       if (shareButton) shareButton.style.visibility = "hidden";
     
-      const canvas = await html2canvas(target, { useCORS: true });
-      const picture_url = canvas
-        .toDataURL("image/png")
-        .replace(/^data:image\/png/, "data:application/octet-stream");
+      html2canvas(target, { useCORS: true }).then((canvas) => {
+        const image = canvas.toDataURL("image/png");
     
-      if (!isMobile) {
-        // ✅ PC: 자동 다운로드
-        const link = document.createElement("a");
-        link.download = `Rio_${new Date().toLocaleString()}.png`;
-        link.href = picture_url;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        Swal.fire("코디가 저장되었습니다!");
-      } else {
-        // ✅ 모바일: 새 창 or 터치 저장
-        const newWindow = window.open();
-        if (newWindow) {
-          newWindow.document.write(`<img src="${picture_url}" style="width:100%">`);
-          newWindow.document.close();
-          Swal.fire("길게 눌러 이미지를 저장해주세요!");
+        if (isMobile) {
+          Swal.fire({
+            title: "코디 저장 안내!",
+            text: "이미지가 새 창으로 열렷다리오!. 길게 눌러 이미지를 저장하리오!",
+            icon: "info",
+            confirmButtonText: "확인"
+          }).then(() => {
+            const newWindow = window.open(image, "_blank");
+            if (!newWindow || newWindow.closed || typeof newWindow.closed === "undefined") {
+              alert({
+                title: "팝업 차단 안내",
+                text: "팝업을 허용해줘야 코디를 저장할 수 있다리오ㅠㅠㅠ",
+                icon: "warning",
+                confirmButtonText: "확인"
+              });
+            }
+          });
         } else {
-          alert("팝업 차단이 되어 있어요. 브라우저 설정을 확인해주세요!");
-        }
-      }
+          const link = document.createElement("a");
+          link.href = image;
+          link.download = "my-outfit.png";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
     
-      if (shareButton) shareButton.style.visibility = "visible";
+          Swal.fire({
+            title: "저장 완료!",
+            text: "코디가 저장되었습니다.",
+            icon: "success",
+            timer: 1500,
+            showConfirmButton: false
+          });
+        }
+    
+        // 공유 버튼 다시 보이게
+        if (shareButton) shareButton.style.visibility = "visible";
+      });
     };
+    
     
     
     
