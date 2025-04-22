@@ -120,13 +120,13 @@ export default function Dressing() {
       const popup = isMobile ? window.open("", "_blank") : null;
     
       if (isMobile && !popup) {
-        alert("팝업을 허용해야 코디를 저장할 수 있으으리오ㅠㅠㅠ");
+        alert("팝업을 허용해야 코디를 저장할 수 있으리오ㅠㅠㅠ");
         return;
       }
     
       // 🪧 사용자 안내 (이건 사용자 입력이라 안전)
       await Swal.fire({
-        text: "이미지가 새창으로 열렷다다리오!\n길게 눌러서 저장하리오!",
+        html: `<div style="white-space: pre-line; text-align: center;">"이미지가 새창으로 열렷다리오!\n길게 눌러서 저장하리오!"</div>`,
         showConfirmButton: true,
         allowOutsideClick: false,
         allowEscapeKey: false,
