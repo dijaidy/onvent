@@ -119,7 +119,7 @@ export default function Dressing() {
           html2canvas(target, {
             useCORS: true,
             backgroundColor: null,
-            scale: 2,
+            scale: 1,
           }).then(canvas => {
             const imgUrl = canvas.toDataURL("image/png");
             setCapturedImage(imgUrl);
