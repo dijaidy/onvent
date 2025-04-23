@@ -296,7 +296,7 @@ export default function Dressing() {
                     
                     <div className="rio"></div>
                       {/**공유, 이름 저장, 이미지 저장 */}
-                    <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleShareClick();}} ></button>
+                    <button className="shareButton" /*onClick={() => {sendNameToFirebase(name); handleShareClick();}}*/ ></button>
                       {/**축제정보 */}
                     <div className="info"></div> 
 
