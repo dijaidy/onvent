@@ -312,9 +312,9 @@ export default function Dressing() {
                             )
                         )}
 
-                        <div className="rio"></div>
+                        <div className="rio" crossOrigin="anonymous"></div>
                             
-                        <div className="info"></div>
+                        <div className="info" crossOrigin="anonymous"></div>
                       </div>  
 
                     </div>
