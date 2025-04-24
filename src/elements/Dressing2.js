@@ -118,46 +118,41 @@ export default function Dressing() {
       const target = document.querySelector(".captureContents");
       if (!target) return;
     
-      const maxAttempts = 10;
-      let attempts = 0;
+      const observer = new MutationObserver((mutations, obs) => {
+        // 요소가 렌더링 완료됐는지 판단
+        const hasImg = target.querySelector("img");
+        const allLoaded = [...target.querySelectorAll("img")].every(img => img.complete);
     
-      const tryCapture = () => {
-        html2canvas(target, {
-          useCORS: true,
-          backgroundColor: null,
-          removeContainer: true,
-          allowTaint: false,
-          scale: 1,
-        }).then(canvas => {
-          const dataUrl = canvas.toDataURL("image/png");
+        if (hasImg && allLoaded) {
+          obs.disconnect(); // 관찰 중단
     
-          // 캡쳐 성공 판단 기준 (너무 작거나 비정상)
-          if (
-            !dataUrl.startsWith("data:image/png") ||
-            canvas.width < 100 || canvas.height < 100
-          ) {
-            if (attempts < maxAttempts) {
-              attempts++;
-              console.log(`⏳ 캡쳐 재시도 (${attempts})`);
-              setTimeout(tryCapture, 200); // 200ms 간격으로 다시 시도
-            } else {
-              console.error("❌ 최대 시도 초과. 캡처 실패");
-            }
-          } else {
-            setCapturedImage(dataUrl);
-            console.log("✅ 캡쳐 성공");
-          }
-        }).catch(err => {
-          console.error("❌ 캡쳐 중 오류:", err);
-          if (attempts < maxAttempts) {
-            attempts++;
-            setTimeout(tryCapture, 200);
-          }
-        });
-      };
+          // 다음 프레임에서 캡쳐
+          requestAnimationFrame(() => {
+            html2canvas(target, {
+              useCORS: true,
+              backgroundColor: null,
+              removeContainer: true,
+              scale: 1,
+            }).then(canvas => {
+              const imgUrl = canvas.toDataURL("image/png");
+              setCapturedImage(imgUrl);
+              console.log("✅ 완전 렌더링 후 캡쳐 성공");
+            }).catch(err => {
+              console.error("❌ MutationObserver 캡쳐 실패:", err);
+            });
+          });
+        }
+      });
     
-      tryCapture();
+      // DOM 변경 감지 시작
+      observer.observe(target, {
+        childList: true,
+        subtree: true,
+      });
+    
+      return () => observer.disconnect(); // clean-up
     }, [stage]);
+    
     
     
 
