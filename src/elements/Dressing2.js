@@ -116,42 +116,27 @@ export default function Dressing() {
       if (stage !== 5) return;
     
       const target = document.querySelector(".captureContents");
-      if (!target) return;
+      if (!target) {
+        console.error("⛔️ 캡쳐 타겟을 찾을 수 없습니다.");
+        return;
+      }
     
-      const observer = new MutationObserver((mutations, obs) => {
-        // 요소가 렌더링 완료됐는지 판단
-        const hasImg = target.querySelector("img");
-        const allLoaded = [...target.querySelectorAll("img")].every(img => img.complete);
-    
-        if (hasImg && allLoaded) {
-          obs.disconnect(); // 관찰 중단
-    
-          // 다음 프레임에서 캡쳐
-          requestAnimationFrame(() => {
-            html2canvas(target, {
-              useCORS: true,
-              backgroundColor: null,
-              removeContainer: true,
-              scale: 1,
-            }).then(canvas => {
-              const imgUrl = canvas.toDataURL("image/png");
-              setCapturedImage(imgUrl);
-              console.log("✅ 완전 렌더링 후 캡쳐 성공");
-            }).catch(err => {
-              console.error("❌ MutationObserver 캡쳐 실패:", err);
-            });
-          });
-        }
-      });
-    
-      // DOM 변경 감지 시작
-      observer.observe(target, {
-        childList: true,
-        subtree: true,
-      });
-    
-      return () => observer.disconnect(); // clean-up
+      html2canvas(target, {
+        useCORS: true,
+        backgroundColor: null,
+        scale: 1,
+        removeContainer: true,
+      })
+        .then((canvas) => {
+          const imgUrl = canvas.toDataURL("image/png");
+          setCapturedImage(imgUrl); // ✅ 여기서 저장됨
+          console.log("✅ 캡쳐 성공:", imgUrl.slice(0, 50) + "...");
+        })
+        .catch((err) => {
+          console.error("❌ 캡쳐 실패:", err);
+        });
     }, [stage]);
+    
     
     
     
