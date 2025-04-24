@@ -170,7 +170,7 @@ export default function Dressing() {
 
     const handleShareClick = () => {
       if (!capturedImage) {
-        alert("이미지를 아직 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+        alert("이미지를 아직 불러오는 중입니다. 잠시 후 다시 시도해주세요!");
         return;
       }
     
