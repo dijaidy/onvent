@@ -119,33 +119,41 @@ export default function Dressing() {
     
       const waitForImagesToLoad = async () => {
         const images = target.querySelectorAll("img");
+    
         const loadPromises = Array.from(images).map(
           (img) =>
             new Promise((resolve) => {
-              if (img.complete) resolve();
-              else img.onload = resolve;
+              if (img.complete && img.naturalHeight !== 0) resolve();
+              else {
+                img.onload = resolve;
+                img.onerror = resolve;
+              }
             })
         );
     
         await Promise.all(loadPromises);
     
-        // 이미지 로딩 완료 후 캡처
-        html2canvas(target, {
-          useCORS: true,
-          backgroundColor: null,
-        })
-          .then((canvas) => {
-            const imageUrl = canvas.toDataURL("image/png");
-            setCapturedImage(imageUrl);
-            console.log("✅ 이미지 캡처 완료");
+        // 조금의 지연을 줘서 렌더링 완료 보장 (모바일 대응)
+        setTimeout(() => {
+          html2canvas(target, {
+            useCORS: true,
+            backgroundColor: null,
           })
-          .catch((err) => {
-            console.error("❌ 캡처 실패:", err);
-          });
+            .then((canvas) => {
+              const imageUrl = canvas.toDataURL("image/png");
+              setCapturedImage(imageUrl);
+              console.log("✅ 이미지 캡처 완료");
+            })
+            .catch((err) => {
+              alert("캡쳐실패" + err.message);
+              console.error("❌ 캡처 실패:", err);
+            });
+        }, 500); // 0.5초 지연
       };
     
       waitForImagesToLoad();
     }, [stage]);
+    
     
     
     
