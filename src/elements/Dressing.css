@@ -450,6 +450,7 @@
     width: 100%;
     position: absolute;
     top: 0px;
+    will-change: tranform;
 }
 .userName{
     max-width: 100%;
