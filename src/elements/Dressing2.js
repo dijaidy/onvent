@@ -127,6 +127,7 @@ export default function Dressing() {
     const [name, setName] = useState('');
 
     const [capturedImage, setCapturedImage] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const handleCapture = async () => {
       setLoading(true);
@@ -362,7 +363,7 @@ export default function Dressing() {
                       <img src={rioImg} className="imgInserted"/>
                     </div>
                       {/**공유, 이름 저장, 이미지 저장 */}
-                    <button className="shareButton" onClick={() => {/*sendNameToFirebase(name);*/ handleCapture();}}>
+                    <button className="shareButton" onClick={() => {/*sendNameToFirebase(name);*/ handleCapture(); handleShareClick();}}>
                       <img src={shareButton} className="imgInserted"/>
                     </button>
                       {/**축제정보 */}
