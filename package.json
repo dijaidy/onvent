@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^13.5.0",
     "firebase": "^11.6.0",
     "firebase-admin": "^13.2.0",
+    "html-to-image": "^1.11.13",
     "html2canvas": "^1.4.1",
     "json2csv": "^6.0.0-alpha.2",
     "node-fetch": "^3.3.2",

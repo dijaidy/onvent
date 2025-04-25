@@ -44,6 +44,7 @@ import { sendNameToFirebase } from '../utils/sendNameToFirebase';
 import html2canvas from "html2canvas";
 import Swal from "sweetalert2";
 import { useEffect } from "react";
+import * as htmlToImage from 'html-to-image';
 
 function Call({ codi, setCodi, closet, stage, outfitPutOn }) {
     function selectOutfit(index, outfit) {
@@ -129,38 +130,32 @@ export default function Dressing() {
     const [capturedImage, setCapturedImage] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    
+
     const handleCapture = async () => {
-      const target = document.querySelector(".captureArea");
+      const node = document.querySelector('.captureArea');
     
-      const images = target.querySelectorAll("img");
-      await Promise.all(Array.from(images).map(img =>
-        new Promise((resolve) => {
-          if (img.complete && img.naturalHeight !== 0) resolve();
-          else {
-            img.onload = resolve;
-            img.onerror = resolve;
-          }
-        })
-      ));
-    
-      if (document.fonts && document.fonts.ready) {
-        await document.fonts.ready;
+      if (!node) {
+        alert("❌ 캡처 대상이 없습니다. captureArea가 존재하는지 확인해주세요!");
+        return;
       }
     
-      await new Promise(resolve => setTimeout(resolve, 300));
+      try {
+        const dataUrl = await htmlToImage.toPng(node, {
+          backgroundColor: '#ffffff', // 배경 투명 방지용
+          cacheBust: true,            // 캐시 이슈 방지
+        });
     
-      html2canvas(target, {
-        useCORS: true,
-        backgroundColor: null,
-        scale: 1,
-      }).then(canvas => {
-        const imageUrl = canvas.toDataURL("image/png");
-        setCapturedImage(imageUrl);
-        alert("이미지가 새창으로 열립니다.")
-      }).catch(err => {
-        alert("⚠️ 캡처 실패: " + err.message);
-      });
+        const link = document.createElement('a');
+        link.download = 'my-capture.png';
+        link.href = dataUrl;
+        link.click();
+      } catch (error) {
+        console.error('캡처 실패 😢', error);
+        alert("⚠️ 이미지 캡처에 실패했습니다. 다시 시도해주세요!");
+      }
     };
+    
     
     
     
@@ -181,7 +176,7 @@ export default function Dressing() {
 
     const handleShareClick = () => {
       if (!capturedImage) {
-        alert("이미지를 아직 불러오는 중입니다. 잠시 후 다시 시도해주세요!");
+        alert("ㄱㄷ");
         return;
       }
     
@@ -194,7 +189,7 @@ export default function Dressing() {
       popup.document.write(`
         <html><head><title></title></head>
         <body style="margin:0; display:flex; align-items:center; justify-content:center;">
-          <img src="${capturedImage}" style="width:100%; height:auto;" />
+          <img src="${capturedImage}" style="width:100%; height:auto; asepect-ratio: 440/956;" />
         </body></html>
       `);
     };
