@@ -130,11 +130,8 @@ export default function Dressing() {
     const [loading, setLoading] = useState(false);
 
     const handleCapture = async () => {
-      setLoading(true);
-    
       const target = document.querySelector(".captureArea");
     
-      // 모든 이미지 로딩 완료
       const images = target.querySelectorAll("img");
       await Promise.all(Array.from(images).map(img =>
         new Promise((resolve) => {
@@ -146,15 +143,12 @@ export default function Dressing() {
         })
       ));
     
-      // 모든 폰트 로딩 완료
       if (document.fonts && document.fonts.ready) {
         await document.fonts.ready;
       }
     
-      // 딜레이 살짝 추가해 렌더 완료 시간 확보
       await new Promise(resolve => setTimeout(resolve, 300));
     
-      // 캡처 실행
       html2canvas(target, {
         useCORS: true,
         backgroundColor: null,
@@ -162,12 +156,12 @@ export default function Dressing() {
       }).then(canvas => {
         const imageUrl = canvas.toDataURL("image/png");
         setCapturedImage(imageUrl);
-        setLoading(false);
+        alert("이미지가 새창으로 열립니다.")
       }).catch(err => {
-        setLoading(false);
         alert("⚠️ 캡처 실패: " + err.message);
       });
     };
+    
     
     
     
