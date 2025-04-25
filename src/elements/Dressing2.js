@@ -339,7 +339,7 @@ export default function Dressing() {
                       <img src={rioImg} className="imgInserted"/>
                     </div>
                       {/**공유, 이름 저장, 이미지 저장 */}
-                    <button className="shareButton" onClick={() => {/*sendNameToFirebase(name);*/ handleCapture(); Swal.fire("코디를 저장중이리오! 잠시만 기다려주리오!") }}>
+                    <button className="shareButton" onClick={() => {/*sendNameToFirebase(name);*/ handleCapture(); Swal.fire({html: '코디를 저장중이리오!<br> 잠시만 기다려주리오!'}) }}>
                       <img src={shareButton} className="imgInserted"/>
                     </button>
                       {/**축제정보 */}
