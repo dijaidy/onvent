@@ -136,18 +136,23 @@ export default function Dressing() {
       const node = document.querySelector('.captureArea');
     
       if (!node) {
-        alert("❌ 캡처 대상이 없습니다. captureArea가 존재하는지 확인해주세요!");
+        alert("❌ 캡처 대상이 없습니다!");
         return;
       }
     
       try {
+        // 폰트 로딩 완료 대기
+        if (document.fonts && document.fonts.ready) {
+          await document.fonts.ready;
+        }
+    
         const dataUrl = await htmlToImage.toPng(node, {
-          backgroundColor: '#ffffff', // 배경 투명 방지용
-          cacheBust: true,            // 캐시 이슈 방지
+          backgroundColor: '#ffffff',
+          cacheBust: true,
         });
     
         const link = document.createElement('a');
-        link.download = 'my-capture.png';
+        link.download = '리옷입히기.png';
         link.href = dataUrl;
         link.click();
       } catch (error) {
@@ -155,6 +160,7 @@ export default function Dressing() {
         alert("⚠️ 이미지 캡처에 실패했습니다. 다시 시도해주세요!");
       }
     };
+    
     
     
     
