@@ -41,9 +41,9 @@ import shareButton from "../asset/dressingImages/shareButton.svg";
 import info from "../asset/dressingImages/info.svg";
 
 import { sendNameToFirebase } from '../utils/sendNameToFirebase';
-import html2canvas from "html2canvas";
+
 import Swal from "sweetalert2";
-import { useEffect } from "react";
+import { useRef, useEffect, useLayoutEffect } from "react";
 import * as htmlToImage from 'html-to-image';
 
 function Call({ codi, setCodi, closet, stage, outfitPutOn }) {
@@ -126,9 +126,36 @@ export default function Dressing() {
       ]
     ];
     const [name, setName] = useState('');
+    const textRef = useRef();
+    const [fontSize, setFontSize] = useState(50);
+    
+    
 
-    const [capturedImage, setCapturedImage] = useState(null);
-    const [loading, setLoading] = useState(false);
+    useLayoutEffect(() => {
+      if (stage !== 5) return;
+    
+      const el = textRef.current;
+      if (!el || !el.parentElement) {
+        console.log('❌ useLayoutEffect에서도 ref 안 잡힘');
+        return;
+      }
+    
+      el.style.fontSize = '50px';
+      const parentWidth = el.parentElement.clientWidth;
+    
+      document.fonts.ready.then(() => {
+        const actualWidth = el.scrollWidth;
+        const ratio = parentWidth / actualWidth;
+        const newFontSize = ratio < 1 ? 50 * ratio : 50;
+    
+        setFontSize(newFontSize);
+        console.log(`✅ useLayoutEffect에서 폰트 크기 설정됨: ${newFontSize}px`);
+      });
+    }, [name, stage]);
+    
+    
+    
+    
 
     
 
@@ -147,7 +174,7 @@ export default function Dressing() {
         }
         // ✅ 렌더 타이밍 확보 (300~500ms 사이 안정적)
         await new Promise(resolve => setTimeout(resolve, 400));
-            
+
         const dataUrl = await htmlToImage.toPng(node, {
           backgroundColor: '#ffffff',
           cacheBust: true,
@@ -166,65 +193,17 @@ export default function Dressing() {
     
     
     
-    
-    
-    
-    
-    
-    
-    
-
-    
-
-    
-
-    
- 
-
-
-    const handleShareClick = () => {
-      if (!capturedImage) {
-        alert("ㄱㄷ");
-        return;
-      }
-    
-      const popup = window.open("", "_blank");
-      if (!popup || popup.closed || typeof popup.closed === "undefined") {
-        alert("팝업을 허용해야 이미지를 저장할 수 있습니다.");
-        return;
-      }
-    
-      popup.document.write(`
-        <html><head><title></title></head>
-        <body style="margin:0; display:flex; align-items:center; justify-content:center;">
-          <img src="${capturedImage}" style="width:100%; height:auto; asepect-ratio: 440/956;" />
-        </body></html>
-      `);
-    };
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
   
-    const getFontSizeByName = (name) => {
-      const length = name.length;
-      if (length <= 3) return 55;   // 아주 짧은 이름은 크게
-      if (length <= 5) return 45;
-      if (length <= 8) return 40;
-      return 24;                    // 긴 이름은 작게
-    };
-    
+
+
+
+
+
+
+
+
+
+
   
     return (
       <div className="mainContainer">
@@ -287,7 +266,7 @@ export default function Dressing() {
                       {/* ✅ Call 컴포넌트 한 번만 사용 */}
                     <Call codi={codi} setCodi={setCodi} closet={closet} stage={stage} outfitPutOn={outfitPutOn} />      
                       
-                    <div className="stageButtons"> {/* 스테이지버튼튼 */}
+                    <div className="stageButtons"> {/* 스테이지버튼 */}
                       <PrevP stage={stage} setStage={setStage} />
                       <NextP stage={stage} setStage={setStage} />
                     </div>
@@ -306,7 +285,7 @@ export default function Dressing() {
                     <div className="captureContents">
                       
                       <div className="userNameBox"> {/** 상단 메시지지 */}
-                        <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
+                        <div className="userName" ref={textRef} style={{ fontSize: `${fontSize}px` }}>
                           {name}의 코디!
                         </div>  
                       </div>
@@ -339,9 +318,9 @@ export default function Dressing() {
                   <div className="page5">
                   
                     <div className="userNameBox"> {/** 상단 메시지지 */}
-                      <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
+                      <span className="userName" ref={textRef} style={{ fontSize: `${fontSize}px` }}>
                         {name}의 코디!
-                      </div>  
+                      </span>  
                     </div>
 
                     {codi.map( //옷입은 리오모습
@@ -360,7 +339,7 @@ export default function Dressing() {
                       <img src={rioImg} className="imgInserted"/>
                     </div>
                       {/**공유, 이름 저장, 이미지 저장 */}
-                    <button className="shareButton" onClick={() => {/*sendNameToFirebase(name);*/ handleCapture(); handleShareClick();}}>
+                    <button className="shareButton" onClick={() => {/*sendNameToFirebase(name);*/ handleCapture(); Swal.fire("코디를 저장중이리오! 잠시만 기다려주리오!") }}>
                       <img src={shareButton} className="imgInserted"/>
                     </button>
                       {/**축제정보 */}

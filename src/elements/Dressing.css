@@ -451,13 +451,13 @@
     position: absolute;
     top: 0px;
     will-change: tranform;
+    object-fit: contain;
 }
 .userName{
-    max-width: 100%;
-    width: 100%;
+    display: inline-block;
     white-space: nowrap;   
     font-family: 'Romance';
     color: #d73e8a;
-    font-size: clamp(30px,2vw,40px);
+    max-width: 100%;
     -webkit-text-stroke: 1.3px white;
 }
