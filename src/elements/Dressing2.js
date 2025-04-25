@@ -131,7 +131,7 @@ export default function Dressing() {
     useEffect(() => {
       if (stage !== 5) return;
     
-      const target = document.querySelector(".captureContents");
+      const target = document.querySelector(".captureArea");
     
       const waitForImagesToLoad = async () => {
         const images = target.querySelectorAll("img");
@@ -303,7 +303,7 @@ export default function Dressing() {
               <div className="background05">
                 <img src={background05} className="backgroundImgs"/>
                 <div className="captureArea">
-                  <img src={background05} className />
+                  <img src={background05} className="backgroundImgs"/>
                   <div className="captureContainer">
                     <div className="captureContents">
                       
