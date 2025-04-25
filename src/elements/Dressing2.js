@@ -244,7 +244,7 @@ export default function Dressing() {
                       <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName"></input>
                     </div>
                     {/*시작버튼 */}
-                    <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주세요!'); return;}*/setStage(1)}}>
+                    <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주리오오!'); return;}*/setStage(1)}}>
                       <img src={startButton} className="imgInserted"/>
                     </button>
 
@@ -355,7 +355,7 @@ export default function Dressing() {
                       <img src={rioImg} className="imgInserted"/>
                     </div>
                       {/**공유, 이름 저장, 이미지 저장 */}
-                    <button className="shareButton" onClick={() => {handleShareName(); handleCapture(); Swal.fire({html: '코디를 저장중이리오!<br> 잠시만 기다려주리오!'}) }}>
+                    <button className="shareButton" onClick={() => {/*handleShareName()*/; handleCapture(); Swal.fire({html: '코디를 저장중이리오!<br> 잠시만 기다려주리오!'}) }}>
                       <img src={shareButton} className="imgInserted"/>
                     </button>
                       {/**축제정보 */}
