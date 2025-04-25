@@ -128,50 +128,46 @@ export default function Dressing() {
 
     const [capturedImage, setCapturedImage] = useState(null);
 
-    useEffect(() => {
-      if (stage !== 5) return;
+    const handleCapture = async () => {
+      setLoading(true);
     
       const target = document.querySelector(".captureArea");
     
-      const waitForImagesToLoad = async () => {
-        const images = target.querySelectorAll("img");
-    
-        const loadPromises = Array.from(images).map(
-          (img) =>
-            new Promise((resolve) => {
-              if (img.complete && img.naturalHeight !== 0) resolve();
-              else {
-                img.onload = resolve;
-                img.onerror = resolve;
-              }
-            })
-        );
-    
-        await Promise.all(loadPromises);
-    
-        // 🔥 여기에서 딜레이 추가!
-        setTimeout(() => {
-          try {
-            html2canvas(target, {
-              useCORS: true,
-              backgroundColor: null,
-            })
-              .then((canvas) => {
-                const imageUrl = canvas.toDataURL("image/png");
-                setCapturedImage(imageUrl);
-                console.log("✅ 이미지 캡처 완료");
-              })
-              .catch((err) => {
-                alert("⚠️ 캡처 실패: " + err.message);
-              });
-          } catch (err) {
-            alert("⚠️ 캡처 중 에러: " + err.message);
+      // 모든 이미지 로딩 완료
+      const images = target.querySelectorAll("img");
+      await Promise.all(Array.from(images).map(img =>
+        new Promise((resolve) => {
+          if (img.complete && img.naturalHeight !== 0) resolve();
+          else {
+            img.onload = resolve;
+            img.onerror = resolve;
           }
-        }, 1000); // 👉 1초 대기! 필요시 늘릴 수도 있음
-      };
+        })
+      ));
     
-      waitForImagesToLoad();
-    }, [stage]);
+      // 모든 폰트 로딩 완료
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
+    
+      // 딜레이 살짝 추가해 렌더 완료 시간 확보
+      await new Promise(resolve => setTimeout(resolve, 300));
+    
+      // 캡처 실행
+      html2canvas(target, {
+        useCORS: true,
+        backgroundColor: null,
+        scale: 2,
+      }).then(canvas => {
+        const imageUrl = canvas.toDataURL("image/png");
+        setCapturedImage(imageUrl);
+        setLoading(false);
+      }).catch(err => {
+        setLoading(false);
+        alert("⚠️ 캡처 실패: " + err.message);
+      });
+    };
+    
     
     
     
@@ -325,7 +321,7 @@ export default function Dressing() {
                               className={item.className}
                               key={i}
                               style={{ position: "absolute" }}
-                              crossOrigin="anonymous"
+                               crossOrigin="anonymous"
                             />
                           )
                       )}
@@ -366,7 +362,7 @@ export default function Dressing() {
                       <img src={rioImg} className="imgInserted"/>
                     </div>
                       {/**공유, 이름 저장, 이미지 저장 */}
-                    <button className="shareButton" onClick={() => {/*sendNameToFirebase(name);*/ handleShareClick();}}>
+                    <button className="shareButton" onClick={() => {/*sendNameToFirebase(name);*/ handleCapture();}}>
                       <img src={shareButton} className="imgInserted"/>
                     </button>
                       {/**축제정보 */}
