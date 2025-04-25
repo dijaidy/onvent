@@ -28,6 +28,18 @@ import eye1po from"../asset/dressingImages/eye1po.svg";
 import eye2po from"../asset/dressingImages/eye2po.svg";
 import eye3po from"../asset/dressingImages/eye3po.svg";
 import eye4po from"../asset/dressingImages/eye4po.svg";
+import rioImg from "../asset/dressingImages/rio.svg";
+import firstRio from "../asset/dressingImages/firstRio.svg";
+import background05 from "../asset/dressingImages/page5.svg";
+import backgound14 from "../asset/dressingImages/page1-4.svg";
+import title from "../asset/dressingImages/title.svg";
+import startButton from "../asset/dressingImages/startbutton.svg";
+import firstInfo from "../asset/dressingImages/firstInfo.svg";
+import prevButton from "../asset/dressingImages/prevButton.svg";
+import nextButton from "../asset/dressingImages/nextButton.svg";
+import shareButton from "../asset/dressingImages/shareButton.svg";
+import info from "../asset/dressingImages/info.svg";
+
 import { sendNameToFirebase } from '../utils/sendNameToFirebase';
 import html2canvas from "html2canvas";
 import Swal from "sweetalert2";
@@ -45,7 +57,7 @@ function Call({ codi, setCodi, closet, stage, outfitPutOn }) {
     return (
       <div className="dressButtons">
         {closet[stage - 1].map((outfit, idx) => ( //이미지 버튼 만들기
-          <button className="options" key={idx} onClick={() => {selectOutfit(stage - 1, outfitPutOn[stage-1][idx]);}}>
+          <button className={stage-1 ==0 ? "options optionsT" : "options"}key={idx} onClick={() => {selectOutfit(stage - 1, outfitPutOn[stage-1][idx]);}}>
             <img src={outfit} alt={`option ${idx}`}/> 
           </button>
         ))}
@@ -54,12 +66,16 @@ function Call({ codi, setCodi, closet, stage, outfitPutOn }) {
   }
 function PrevP({stage, setStage}){ //이전버튼 
     return(
-        <button className="prevButton" onClick={()=>setStage(stage-1)}></button>
+        <button className="prevButton" onClick={()=>setStage(stage-1)}>
+          <img src={prevButton} className="imgInserted"/>
+        </button>
     )
 }
 function NextP({stage, setStage}){ //다음버튼
     return(
-        <button className="nextButton" onClick={()=>setStage(stage+1)}></button>
+        <button className="nextButton" onClick={()=>setStage(stage+1)}>
+          <img src={nextButton} className="imgInserted"/>
+        </button>
     )
 }
 
@@ -218,27 +234,38 @@ export default function Dressing() {
           if (stage === 0) {
             return (
               <div className="background05">
+                <img src={background05} className="backgroundImgs"/>
+                
                 <div className="page">
                   <div className="page0">
 
-                    <div className="title"></div>
+                    <div className="title">
+                      <img src={title} className="imgInserted"/>
+                    </div>
 
-                    <div className="firstRio"></div>
+                    <div className="firstRio">
+                      <img src={firstRio} className="imgInserted"/>
+                    </div>
 
                     <div className='enterNameDiv'> {/*이름입력*/}                  
                       <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName"></input>
                     </div>
                     {/*시작버튼 */}
-                    <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주세요!'); return;}*/setStage(1)}}></button>
+                    <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주세요!'); return;}*/setStage(1)}}>
+                      <img src={startButton} className="imgInserted"/>
+                    </button>
 
-                    <div className="firstInfo"></div>
+                    <div className="firstInfo">
+                      <img src={firstInfo} className="imgInserted"/>
+                    </div>
                   </div>
                 </div>
               </div>
             );
           } else if (stage >= 1 && stage <= 4) {
             return ( 
-              <div className="background14">  
+              <div className="background14">
+                <img src={backgound14} className="backgroundImgs"/> 
                 <div className="page">
                   <div className="page1-4">
                     
@@ -255,7 +282,9 @@ export default function Dressing() {
                     )}
                       
                     
-                    <div className="rio"></div>
+                    <div className="rio">
+                      <img src={rioImg} className="imgInserted"/>
+                    </div>
                       
                       {/* ✅ Call 컴포넌트 한 번만 사용 */}
                     <Call codi={codi} setCodi={setCodi} closet={closet} stage={stage} outfitPutOn={outfitPutOn} />      
@@ -272,6 +301,42 @@ export default function Dressing() {
           } else if (stage === 5) {
             return (
               <div className="background05">
+                <img src={background05} className="backgroundImgs"/>
+                <div className="captureArea">
+                  <img src={background05} className />
+                  <div className="captureContainer">
+                    <div className="captureContents">
+                      
+                      <div className="userNameBox"> {/** 상단 메시지지 */}
+                        <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
+                          {name}의 코디!
+                        </div>  
+                      </div>
+
+                      {codi.map( //옷입은 리오모습
+                        (item, i) =>
+                          item && (
+                            <img
+                              src={item.src}
+                              className={item.className}
+                              key={i}
+                              style={{ position: "absolute" }}
+                              crossOrigin="anonymous"
+                            />
+                          )
+                      )}
+
+                      <div className="rio">
+                        <img src={rioImg} className="imgInserted" crossOrigin="anonymous"/>
+                      </div>
+                              
+                      <div className="info">
+                        <img src={info} className="imgInserted" crossOrigin="anonymous"/>
+                      </div>
+                    </div>  
+                  </div>
+                </div>
+
                 <div className="page">
                   <div className="page5">
                   
@@ -293,39 +358,17 @@ export default function Dressing() {
                         )
                     )}
                     
-                    <div className="rio"></div>
-                      {/**공유, 이름 저장, 이미지 저장 */}
-                    <button className="shareButton" onClick={() => {/*sendNameToFirebase(name);*/ handleShareClick();}}></button>
-                      {/**축제정보 */}
-                    <div className="info"></div> 
-
-                    <div className="captureArea">
-                      <div className="captureContents">
-                        <div className="userNameBox"> {/** 상단 메시지지 */}
-                          <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
-                            {name}의 코디!
-                          </div>  
-                        </div>
-
-                        {codi.map( //옷입은 리오모습
-                          (item, i) =>
-                            item && (
-                              <img
-                                src={item.src}
-                                className={item.className}
-                                key={i}
-                                style={{ position: "absolute" }}
-                                crossOrigin="anonymous"
-                              />
-                            )
-                        )}
-
-                        <div className="rio" crossOrigin="anonymous"></div>
-                            
-                        <div className="info" crossOrigin="anonymous"></div>
-                      </div>  
-
+                    <div className="rio">
+                      <img src={rioImg} className="imgInserted"/>
                     </div>
+                      {/**공유, 이름 저장, 이미지 저장 */}
+                    <button className="shareButton" onClick={() => {/*sendNameToFirebase(name);*/ handleShareClick();}}>
+                      <img src={shareButton} className="imgInserted"/>
+                    </button>
+                      {/**축제정보 */}
+                    <div className="info">
+                      <img src={info} className="imgInserted"/>
+                    </div> 
                   
                   </div>
                 </div>
