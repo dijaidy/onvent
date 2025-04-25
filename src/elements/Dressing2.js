@@ -145,7 +145,9 @@ export default function Dressing() {
         if (document.fonts && document.fonts.ready) {
           await document.fonts.ready;
         }
-    
+        // ✅ 렌더 타이밍 확보 (300~500ms 사이 안정적)
+        await new Promise(resolve => setTimeout(resolve, 400));
+            
         const dataUrl = await htmlToImage.toPng(node, {
           backgroundColor: '#ffffff',
           cacheBust: true,
