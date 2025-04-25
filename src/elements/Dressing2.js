@@ -143,32 +143,80 @@ export default function Dressing() {
               else {
                 img.onload = resolve;
                 img.onerror = resolve;
-              }
+              }useEffect(() => {
+  if (stage !== 5) return;
+
+  const target = document.querySelector(".captureContents");
+
+  const waitForImagesToLoad = async () => {
+    const images = target.querySelectorAll("img");
+
+    const loadPromises = Array.from(images).map(
+      (img) =>
+        new Promise((resolve) => {
+          if (img.complete && img.naturalHeight !== 0) resolve();
+          else {
+            img.onload = resolve;
+            img.onerror = resolve;
+          }
+        })
+    );
+
+    await Promise.all(loadPromises);
+
+    // 🔥 여기에서 딜레이 추가!
+    setTimeout(() => {
+      try {
+        html2canvas(target, {
+          useCORS: true,
+          backgroundColor: null,
+        })
+          .then((canvas) => {
+            const imageUrl = canvas.toDataURL("image/png");
+            setCapturedImage(imageUrl);
+            console.log("✅ 이미지 캡처 완료");
+          })
+          .catch((err) => {
+            alert("⚠️ 캡처 실패: " + err.message);
+          });
+      } catch (err) {
+        alert("⚠️ 캡처 중 에러: " + err.message);
+      }
+    }, 1000); // 👉 1초 대기! 필요시 늘릴 수도 있음
+  };
+
+  waitForImagesToLoad();
+}, [stage]);
+
             })
         );
     
         await Promise.all(loadPromises);
     
-        // 조금의 지연을 줘서 렌더링 완료 보장 (모바일 대응)
+        // 🔥 여기에서 딜레이 추가!
         setTimeout(() => {
-          html2canvas(target, {
-            useCORS: true,
-            backgroundColor: null,
-          })
-            .then((canvas) => {
-              const imageUrl = canvas.toDataURL("image/png");
-              setCapturedImage(imageUrl);
-              console.log("✅ 이미지 캡처 완료");
+          try {
+            html2canvas(target, {
+              useCORS: true,
+              backgroundColor: null,
             })
-            .catch((err) => {
-              alert("캡쳐실패" + err.message);
-              console.error("❌ 캡처 실패:", err);
-            });
-        }, 500); // 0.5초 지연
+              .then((canvas) => {
+                const imageUrl = canvas.toDataURL("image/png");
+                setCapturedImage(imageUrl);
+                console.log("✅ 이미지 캡처 완료");
+              })
+              .catch((err) => {
+                alert("⚠️ 캡처 실패: " + err.message);
+              });
+          } catch (err) {
+            alert("⚠️ 캡처 중 에러: " + err.message);
+          }
+        }, 1000); // 👉 1초 대기! 필요시 늘릴 수도 있음
       };
     
       waitForImagesToLoad();
     }, [stage]);
+    
     
     
     
