@@ -28,9 +28,23 @@ import eye1po from"../asset/dressingImages/eye1po.svg";
 import eye2po from"../asset/dressingImages/eye2po.svg";
 import eye3po from"../asset/dressingImages/eye3po.svg";
 import eye4po from"../asset/dressingImages/eye4po.svg";
+import rioImg from "../asset/dressingImages/rio.svg";
+import firstRio from "../asset/dressingImages/firstRio.svg";
+import background05 from "../asset/dressingImages/page5.svg";
+import backgound14 from "../asset/dressingImages/page1-4.svg";
+import title from "../asset/dressingImages/title.svg";
+import startButton from "../asset/dressingImages/startbutton.svg";
+import firstInfo from "../asset/dressingImages/firstInfo.svg";
+import prevButton from "../asset/dressingImages/prevButton.svg";
+import nextButton from "../asset/dressingImages/nextButton.svg";
+import shareButton from "../asset/dressingImages/shareButton.svg";
+import info from "../asset/dressingImages/info.svg";
+
 import { sendNameToFirebase } from '../utils/sendNameToFirebase';
-import html2canvas from "html2canvas";
+
 import Swal from "sweetalert2";
+import { useRef, useEffect, useLayoutEffect } from "react";
+import * as htmlToImage from 'html-to-image';
 
 function Call({ codi, setCodi, closet, stage, outfitPutOn }) {
     function selectOutfit(index, outfit) {
@@ -44,7 +58,7 @@ function Call({ codi, setCodi, closet, stage, outfitPutOn }) {
     return (
       <div className="dressButtons">
         {closet[stage - 1].map((outfit, idx) => ( //이미지 버튼 만들기
-          <button className="options" key={idx} onClick={() => {selectOutfit(stage - 1, outfitPutOn[stage-1][idx]);}}>
+          <button className={stage-1 ==0 ? "options optionsT" : "options"}key={idx} onClick={() => {selectOutfit(stage - 1, outfitPutOn[stage-1][idx]);}}>
             <img src={outfit} alt={`option ${idx}`}/> 
           </button>
         ))}
@@ -53,12 +67,16 @@ function Call({ codi, setCodi, closet, stage, outfitPutOn }) {
   }
 function PrevP({stage, setStage}){ //이전버튼 
     return(
-        <button className="prevButton" onClick={()=>setStage(stage-1)}></button>
+        <button className="prevButton" onClick={()=>setStage(stage-1)}>
+          <img src={prevButton} className="imgInserted"/>
+        </button>
     )
 }
 function NextP({stage, setStage}){ //다음버튼
     return(
-        <button className="nextButton" onClick={()=>setStage(stage+1)}></button>
+        <button className="nextButton" onClick={()=>setStage(stage+1)}>
+          <img src={nextButton} className="imgInserted"/>
+        </button>
     )
 }
 
@@ -108,84 +126,100 @@ export default function Dressing() {
       ]
     ];
     const [name, setName] = useState('');
-
-
+    const textRef = useRef();
+    const [fontSize, setFontSize] = useState(50);
+    const hasSubmitted = useRef(false);
     
-    const handleDownloadImg = async () => {
-      const isMobile = window.matchMedia("(pointer: coarse)").matches;
-      const target = document.querySelector(".captureArea");
-      if (!target) return;
-      
-      // 🔑 팝업 먼저 열어놓음 (모바일만)
-      const popup = isMobile ? window.open("", "_blank") : null;
 
-      const images = target.querySelectorAll("img");
-      await Promise.all(
-        Array.from(images).map(
-          (img) =>
-            new Promise((resolve) => {
-              if (img.complete) resolve();
-              else {
-                img.onload = resolve;
-                img.onerror = resolve;
-              }
-            })
-        )
-      );
-      
-      
-      if (isMobile && !popup) {
-        alert("팝업을 허용해야 코디를 저장할 수 있으리오ㅠㅠㅠ");
+    useLayoutEffect(() => {
+      if (stage !== 5) return;
+    
+      const el = textRef.current;
+      if (!el || !el.parentElement) {
+        console.log('❌ useLayoutEffect에서도 ref 안 잡힘');
         return;
       }
     
-      // 🪧 사용자 안내 (이건 사용자 입력이라 안전)
-      await Swal.fire({
-        html: `<div style="white-space: pre-line; text-align: center;">이미지가 새창으로 열렷다리오!\n길게 눌러서 저장하리오!</div>`,
-        showConfirmButton: true,
-        allowOutsideClick: false,
-        allowEscapeKey: false,
+      el.style.fontSize = '50px';
+      const parentWidth = el.parentElement.clientWidth;
+    
+      document.fonts.ready.then(() => {
+        const actualWidth = el.scrollWidth;
+        const ratio = parentWidth / actualWidth;
+        const newFontSize = ratio < 1 ? 50 * ratio : 50;
+    
+        setFontSize(newFontSize);
+        console.log(`✅ useLayoutEffect에서 폰트 크기 설정됨: ${newFontSize}px`);
       });
+    }, [name, stage]);
+    
+    
+    
     
 
     
-      // 🖼️ 캡처
-      html2canvas(target, {
-        useCORS: true,
-        backgroundColor: null,
-      }).then((canvas) => {
-        const image = canvas.toDataURL("image/png");
+
+    const handleCapture = async () => {
+      const node = document.querySelector('.captureArea');
     
-        if (isMobile) {
-          // 이미지 삽입 (팝업은 이미 열려 있음)
-          popup.document.write(`<img src="${image}" style="width:100%;" />`);
-          popup.document.close();
-        } else {
-          const link = document.createElement("a");
-          link.href = image;
-          link.download = `Rio_${new Date().toLocaleString()}.png`;
-          link.click();
+      if (!node) {
+        alert("❌ 캡처 대상이 없습니다!");
+        return;
+      }
+    
+      try {
+        // 폰트 로딩 완료 대기
+        if (document.fonts && document.fonts.ready) {
+          await document.fonts.ready;
         }
-      });
+        // ✅ 렌더 타이밍 확보 (300~500ms 사이 안정적)
+        await new Promise(resolve => setTimeout(resolve, 400));
+
+        const dataUrl = await htmlToImage.toPng(node, {
+          backgroundColor: '#ffffff',
+          cacheBust: true,
+        });
+    
+        const link = document.createElement('a');
+        link.download = '리옷입히기.png';
+        link.href = dataUrl;
+        link.click();
+      } catch (error) {
+        console.error('캡처 실패 😢', error);
+        alert("⚠️ 이미지 캡처에 실패했습니다. 다시 시도해주세요!");
+      }
     };
     
     
     
+    const handleShareName = async () => {
+      if (hasSubmitted.current) return;
+      
+      hasSubmitted.current = true;
     
-    
-    
-    
-    
+      try {
+        await sendNameToFirebase(name); // 🔥 전송!
+      } catch (err) {
+        hasSubmitted.current = false; // ❗ 실패 시 다시 시도 가능하도록
+        Swal.fire({
+          icon: 'error',
+          title: '이름 저장 실패',
+          html: '문제가 발생했다리오 <br> 다시 시도해 주리오ㅠㅠㅠ',
+        });
+      }
+    };
     
   
-    const getFontSizeByName = (name) => {
-      const length = name.length;
-      if (length <= 3) return 55;   // 아주 짧은 이름은 크게
-      if (length <= 5) return 45;
-      if (length <= 8) return 40;
-      return 24;                    // 긴 이름은 작게
-    };
-    
+
+
+
+
+
+
+
+
+
+
   
     return (
       <div className="mainContainer">
@@ -193,27 +227,38 @@ export default function Dressing() {
           if (stage === 0) {
             return (
               <div className="background05">
+                <img src={background05} className="backgroundImgs"/>
+                
                 <div className="page">
                   <div className="page0">
 
-                    <div className="title"></div>
+                    <div className="title">
+                      <img src={title} className="imgInserted"/>
+                    </div>
 
-                    <div className="firstRio"></div>
+                    <div className="firstRio">
+                      <img src={firstRio} className="imgInserted"/>
+                    </div>
 
                     <div className='enterNameDiv'> {/*이름입력*/}                  
                       <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName"></input>
                     </div>
                     {/*시작버튼 */}
-                    <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주세요!'); return;}*/setStage(1)}}></button>
+                    <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주리오오!'); return;}*/setStage(1)}}>
+                      <img src={startButton} className="imgInserted"/>
+                    </button>
 
-                    <div className="firstInfo"></div>
+                    <div className="firstInfo">
+                      <img src={firstInfo} className="imgInserted"/>
+                    </div>
                   </div>
                 </div>
               </div>
             );
           } else if (stage >= 1 && stage <= 4) {
             return ( 
-              <div className="background14">  
+              <div className="background14">
+                <img src={backgound14} className="backgroundImgs"/> 
                 <div className="page">
                   <div className="page1-4">
                     
@@ -230,12 +275,14 @@ export default function Dressing() {
                     )}
                       
                     
-                    <div className="rio"></div>
+                    <div className="rio">
+                      <img src={rioImg} className="imgInserted"/>
+                    </div>
                       
                       {/* ✅ Call 컴포넌트 한 번만 사용 */}
                     <Call codi={codi} setCodi={setCodi} closet={closet} stage={stage} outfitPutOn={outfitPutOn} />      
                       
-                    <div className="stageButtons"> {/* 스테이지버튼튼 */}
+                    <div className="stageButtons"> {/* 스테이지버튼 */}
                       <PrevP stage={stage} setStage={setStage} />
                       <NextP stage={stage} setStage={setStage} />
                     </div>
@@ -247,13 +294,49 @@ export default function Dressing() {
           } else if (stage === 5) {
             return (
               <div className="background05">
+                <img src={background05} className="backgroundImgs"/>
+                <div className="captureArea">
+                  <img src={background05} className="backgroundImgs"/>
+                  <div className="captureContainer">
+                    <div className="captureContents">
+                      
+                      <div className="userNameBox"> {/** 상단 메시지지 */}
+                        <div className="userName" ref={textRef} style={{ fontSize: `${fontSize}px` }}>
+                          {name}의 코디!
+                        </div>  
+                      </div>
+
+                      {codi.map( //옷입은 리오모습
+                        (item, i) =>
+                          item && (
+                            <img
+                              src={item.src}
+                              className={item.className}
+                              key={i}
+                              style={{ position: "absolute" }}
+                               crossOrigin="anonymous"
+                            />
+                          )
+                      )}
+
+                      <div className="rio">
+                        <img src={rioImg} className="imgInserted" crossOrigin="anonymous"/>
+                      </div>
+                              
+                      <div className="info">
+                        <img src={info} className="imgInserted" crossOrigin="anonymous"/>
+                      </div>
+                    </div>  
+                  </div>
+                </div>
+
                 <div className="page">
                   <div className="page5">
                   
                     <div className="userNameBox"> {/** 상단 메시지지 */}
-                      <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
+                      <span className="userName" ref={textRef} style={{ fontSize: `${fontSize}px` }}>
                         {name}의 코디!
-                      </div>  
+                      </span>  
                     </div>
 
                     {codi.map( //옷입은 리오모습
@@ -268,36 +351,17 @@ export default function Dressing() {
                         )
                     )}
                     
-                    <div className="rio"></div>
-                      {/**공유, 이름 저장, 이미지 저장 */}
-                    <button className="shareButton" onClick={() => {sendNameToFirebase(name); handleDownloadImg();}} ></button>
-                      {/**축제정보 */}
-                    <div className="info"></div> 
-
-                    <div className="captureArea">
-                      <div className="userNameBox"> {/** 상단 메시지지 */}
-                        <div className="userName" style={{ fontSize: `${getFontSizeByName(name)}px` }}>
-                          {name}의 코디!
-                        </div>  
-                      </div>
-
-                      {codi.map( //옷입은 리오모습
-                        (item, i) =>
-                          item && (
-                            <img
-                              src={item.src}
-                              className={item.className}
-                              key={i}
-                              style={{ position: "absolute" }}
-                            />
-                          )
-                      )}
-
-                      <div className="rio"></div>
-                          
-                      <div className="info"></div>
-
+                    <div className="rio">
+                      <img src={rioImg} className="imgInserted"/>
                     </div>
+                      {/**공유, 이름 저장, 이미지 저장 */}
+                    <button className="shareButton" onClick={() => {/*handleShareName()*/; handleCapture(); Swal.fire({html: '코디를 저장중이리오!<br> 잠시만 기다려주리오!'}) }}>
+                      <img src={shareButton} className="imgInserted"/>
+                    </button>
+                      {/**축제정보 */}
+                    <div className="info">
+                      <img src={info} className="imgInserted"/>
+                    </div> 
                   
                   </div>
                 </div>

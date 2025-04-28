@@ -23,10 +23,11 @@ input::placeholder {
   font-display: swap;
 }
 @font-face {
-  font-family: 'Romance'; /* 사용할 폰트의 이름을 정의 */
-  src: url('./asset/fonts/GumiRomance.otf'); /* 폰트 파일의 위치 */
+  font-family: 'Romance';
+  src: url('./asset/fonts/GumiRomance.otf');
   font-display: swap;
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
