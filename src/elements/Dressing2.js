@@ -190,8 +190,11 @@ export default function Dressing() {
         
         // ✅ 저장 대신 바로 미리보기 띄우기
         Swal.fire({
-          title: '이미지를 꾹 눌러 저장하리오!',
-          html: `<img src="${dataUrl}" style="width:100%; height:auto;"/>`,
+          title: '길게 눌러 저장하리오!',
+          html: `
+          <div style="max-height: 70vh; overflow: auto;">
+            <img src="${dataUrl}" style="width:100%; height: auto;"/>
+          </div>`,
           confirmButtonText: '확인',
         });
 

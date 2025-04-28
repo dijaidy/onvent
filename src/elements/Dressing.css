@@ -291,7 +291,7 @@
     flex-direction: row;
     justify-content: space-between;
     width: calc(350/440 * 100%);
-    height: calc(30/956 * 100%);
+    height: calc(50/956 * 100%);
     position: absolute;
     top: calc(900/956 *100%);
 }
