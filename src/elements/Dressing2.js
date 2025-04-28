@@ -159,36 +159,47 @@ export default function Dressing() {
 
     
 
-    const handleCapture = async () => {
-      const node = document.querySelector('.captureArea');
     
+    const handleCapture = async () => {
+      const node = document.querySelector('.captureArea'); // 캡쳐할 대상 선택
+      
       if (!node) {
-        alert("❌ 캡처 대상이 없습니다!");
+        alert("❌ 캡쳐 대상이 없습니다!");
         return;
       }
     
       try {
-        // 폰트 로딩 완료 대기
+        // ✅ 폰트 로딩 완료 대기
         if (document.fonts && document.fonts.ready) {
           await document.fonts.ready;
         }
-        // ✅ 렌더 타이밍 확보 (300~500ms 사이 안정적)
+    
+        // ✅ 폰트 적용 렌더링 2프레임 기다림
+        await new Promise(resolve => requestAnimationFrame(() => {
+          requestAnimationFrame(resolve);
+        }));
+    
+        // ✅ 추가 안정성 확보 (옵션이지만 추천) - 300~400ms 정도
         await new Promise(resolve => setTimeout(resolve, 400));
-
+    
+        // ✅ 캡처 진행
         const dataUrl = await htmlToImage.toPng(node, {
-          backgroundColor: '#ffffff',
-          cacheBust: true,
+          backgroundColor: '#ffffff', // 배경 흰색
+          cacheBust: true,             // 캐시깨기
         });
     
+        // ✅ 다운로드 트리거
         const link = document.createElement('a');
-        link.download = '리옷입히기.png';
+        link.download = '리웃입히기.png'; // 저장될 파일명
         link.href = dataUrl;
         link.click();
+        
       } catch (error) {
-        console.error('캡처 실패 😢', error);
-        alert("⚠️ 이미지 캡처에 실패했습니다. 다시 시도해주세요!");
+        console.error('캡쳐 실패 😱', error);
+        alert("⚠️ 이미지 캡쳐에 실패했습니다. 다시 시도해주세요!");
       }
     };
+    
     
     
     
