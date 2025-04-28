@@ -93,7 +93,7 @@ export default function Escaping() {
       bgd: [bgd1, bgd2, bgd3, bgd4, bgd5],
       starting: [[rw(170), rh(284)], [rw(26), rh(442)], [rw(256), rh(278)], [rw(31), rh(23)], [rw(8), rh(251), rw(88), rh(88)]],
       barrier: [
-        [[rw(201), rh(68), rw(106), rh(140), teacher, null], [rw(14), rh(184), rw(230), rh(79)], [rw(14), rh(374), rw(230), rh(79)],[rw(102), rh(275), rw(64), rh(98), 리아_stage1],], 
+        [[rw(201), rh(68), rw(106), rh(140), teacher, null], [rw(14), rh(184), rw(220), rh(69)], [rw(14), rh(374), rw(220), rh(69)],[rw(102), rh(275), rw(64), rh(98), 리아_stage1],], 
         [],
         [[0, 0, rw(350), rh(135)], [0, rh(459), rw(350), rh(111)]],
         [],
@@ -195,7 +195,7 @@ export default function Escaping() {
     
         walkFrame.current = (walkFrame.current + 1) % 2;
         rio.current?.setAttribute('src', walkFrame.current === 0 ? walking1 : walking2);
-      }, 500); // 150ms마다 교체 (애니메이션 속도)
+      }, 300); // 150ms마다 교체 (애니메이션 속도)
     };
     
     const stopWalkingAnimation = () => {
@@ -211,7 +211,13 @@ export default function Escaping() {
     
         teacherFrame.current = (teacherFrame.current + 1) % 2;
         teacher.current?.setAttribute('src', teacherFrame.current === 0 ? 교수앞 : 교수뒤);
-        teacherWatch.current = (teacherFrame.current === 0 ? true: false);
+        if (teacherFrame.current == 0) {
+          setTimeout(()=>{
+          teacherWatch.current = true;
+        }, 300)
+        } else {
+            teacherWatch.current = false;
+        }
       }, 2000); // 150ms마다 교체 (애니메이션 속도)
     };
 
@@ -253,10 +259,10 @@ export default function Escaping() {
         taPos[i].y.set(newY);
 
       //ta collision
-        let boxLeft = taPos[i].x.get();
-        let boxRight = taPos[i].x.get()+taSize[0];
-        let boxTop = taPos[i].y.get();
-        let boxBottom = taPos[i].y.get()+taSize[1];
+        let boxLeft = taPos[i].x.get()+10;
+        let boxRight = taPos[i].x.get()+taSize[0]-10;
+        let boxTop = taPos[i].y.get()+20;
+        let boxBottom = taPos[i].y.get()+taSize[1]-20;
 
         taAnimationIdArr[i].current = requestAnimationFrame(updateTA1Position);
 
@@ -285,11 +291,11 @@ export default function Escaping() {
       taPos[i].y.set(newY);
 
       //ta collision
-      let boxLeft = taPos[i].x.get();
-      let boxRight = taPos[i].x.get()+taSize[0];
-      let boxTop = taPos[i].y.get();
-      let boxBottom = taPos[i].y.get()+taSize[1];
-
+      let boxLeft = taPos[i].x.get()+10;
+      let boxRight = taPos[i].x.get()+taSize[0]-10;
+      let boxTop = taPos[i].y.get()+20;
+      let boxBottom = taPos[i].y.get()+taSize[1]-20;
+      
       taAnimationIdArr[i].current = requestAnimationFrame(updateTA2Position);
 
       if ( boxTop < rioPos.y.get() + rioHeight &&  boxBottom > rioPos.y.get() && rioPos.x.get() + rioWidth > boxLeft && rioPos.x.get() < boxRight){
@@ -543,7 +549,7 @@ export default function Escaping() {
                 장애물을 들파하고 리딸라를 사서 무사히 잔광까지 가자`}
               </div>
             </div>
-            <button style={{width: '100%', height: '100%', opacity: 0.7, backgroundColor: '#f4b9d2'}} onClick={()=>{setManual(false)}}></button>
+            <button style={{ width: '1000%', height: '1000%', opacity: 0.7, backgroundColor: '#f4b9d2', borderWidth: 0}} onClick={()=>{setManual(false)}}></button>
           </div>}
         </div>
         :
@@ -564,11 +570,15 @@ export default function Escaping() {
             <text style={{marginTop: rh(36), fontSize: rw(40), fontFamily: 'Fighting', }}>{`스테이지 ${stage+1}`}</text>
             <div style={{position: 'relative', backgroundImage: `url(${stageSetting.bgd[stage]})`, backgroundSize: '100% 100%', width: gameScreenWidth, height: gameScreenHeight, touchAction: 'none', borderWidth: 1, borderStyle: 'solid', marginTop: rh(27)}}>
               {stageSetting.barrier[stage].map((pos, i)=>(pos[4] && <img src={pos.length == 6 ? pos[4].current :pos[4] } key={'barrier'+i.toString()} ref={(pos.length == 6) ? pos[4]: null} style={{ position: 'absolute', left: pos[0], top: pos[1], width: pos[2], height: pos[3],  zIndex: pos[4] === 리아_stage1 ? 2 : 'auto'}}></img>))}
-              {stageSetting.object[stage].map((pos, i)=>(pos[4] && <img src={pos.length == 6 ? pos[4].current :pos[4]} key={'barrier'+i.toString()} ref={(pos.length == 6) ? pos[4]: null} style={{ position: 'absolute', left: pos[0], top: pos[1], width: pos[2], height: pos[3],}}></img>))}
+              {stageSetting.object[stage].map((pos, i)=>(pos[4] && <img src={pos.length == 6 ? pos[4].current :pos[4]} key={'barrier'+i.toString()} ref={(pos.length == 6) ? pos[4]: null} style={{ position: 'absolute', left: pos[0], top: pos[1], width: pos[2], height: pos[3], zIndex: (pos[4] == 나무1 || pos[4] == 장애물사람)  ? 2 : 'auto'}}></img>))}
               {stageSetting.goal[stage][4] ? 
               <img src={stageSetting.goal[stage][4]} style={{ position: 'absolute', left: stageSetting.goal[stage][0], top: stageSetting.goal[stage][1], width: stageSetting.goal[stage][2], height: stageSetting.goal[stage][3]}}></img>
               : 
               <div style={{ position: 'absolute', left: stageSetting.goal[stage][0], top: stageSetting.goal[stage][1], width: stageSetting.goal[stage][2], height: stageSetting.goal[stage][3], borderColor: '#000000', backgroundColor: 'transparent', }}></div>}
+
+              <animated.div style={{ position: 'absolute', x:rioPos.x, y:rioPos.y, width: rioWidth, height: rioHeight, overflow: 'hidden'}}>
+                  <animated.img ref={rio} src={rio.current} onDragStart={handleDragStart} alt={'rio'} style={{width: rioWidth, height: rioHeight, objectFit: 'cover',}}></animated.img>
+              </animated.div>
               {stage == 1 &&             
               <animated.div style={{ position: 'absolute', x:taPos[0].x, y:taPos[0].y, width: taSize[0], height: taSize[1], }}>
                   <animated.img ref={ta[0]} src={ta[0].current} alt={'ta1'} style={{width: '100%', height: '100%'}}></animated.img>
@@ -577,10 +587,6 @@ export default function Escaping() {
               <animated.div style={{ position: 'absolute', x:taPos[1].x, y:taPos[1].y, width: taSize[0], height: taSize[1], }}>
                   <animated.img ref={ta[1]} src={ta[1].current}  alt={'ta2'} style={{width: '100%', height: '100%'}}></animated.img>
               </animated.div>}
-
-              <animated.div style={{ position: 'absolute', x:rioPos.x, y:rioPos.y, width: rioWidth, height: rioHeight, overflow: 'hidden'}}>
-                  <animated.img ref={rio} src={rio.current} onDragStart={handleDragStart} alt={'rio'} style={{width: rioWidth, height: rioHeight, objectFit: 'cover',}}></animated.img>
-              </animated.div>
             </div>
             <div style={{display: 'flex', justifyContent: 'center', width: rw(203), height: rw(203), borderRadius: rw(203), borderColor: '#ec7fbc', backgroundColor: '#ffd3ea', borderWidth: 2, borderStyle: 'solid', marginTop: rh(35)}}>
                 <animated.div {...bindLogoPos()} ref={joystickRef} style={{width: rw(76.99), height: rw(76.99), x:joystickPos.x, y:joystickPos.y, borderRadius: rw(77), background: 'transparent', alignSelf: 'center', pointerEvents: isBlocked ? 'none' : 'auto'}}>
