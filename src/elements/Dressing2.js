@@ -187,12 +187,19 @@ export default function Dressing() {
           backgroundColor: '#ffffff', // 배경 흰색
           cacheBust: true,             // 캐시깨기
         });
-    
-        // ✅ 다운로드 트리거
+        
+        // ✅ 저장 대신 바로 미리보기 띄우기
+        Swal.fire({
+          title: '이미지를 꾹 눌러 저장하리오!',
+          html: `<img src="${dataUrl}" style="width:100%; height:auto;"/>`,
+          confirmButtonText: '확인',
+        });
+
+        /*// ✅ 다운로드 트리거
         const link = document.createElement('a');
         link.download = '리웃입히기.png'; // 저장될 파일명
         link.href = dataUrl;
-        link.click();
+        link.click();*/
         
       } catch (error) {
         console.error('캡쳐 실패 😱', error);
