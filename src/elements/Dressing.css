@@ -5,7 +5,7 @@
 }
 .mainContainer{
     width: 100vw;
-    height: 100vh;
+    height: calc(var(--nvh)*100);
     overflow: hidden;
     display: flex;
     align-items: center;
