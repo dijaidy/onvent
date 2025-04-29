@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Navigation from './Navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 
 
@@ -128,21 +128,37 @@ export const imagePaths = [
   빗썸화면, 스프링클제목
 ];
 
-const preloadImages = (paths) => {
-  return paths.map((filename) => (<img style={{ display: 'none' }} src={filename}></img>));
-};
+function preloadImages(paths) {
+  return Promise.all(
+    paths.map(
+      (src) =>
+        new Promise((resolve) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = () => resolve(img);
+        })
+    )
+  );
+}
 
-const imgArr = preloadImages(imagePaths)
 
 function App() {
+
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    preloadImages(imagePaths).then(() => {
+      setLoaded(true);
+    });
+  }, []);
 
   return (
     <div className="App">
       <text style={{position: 'absolute', color: 'transparent', fontFamily: 'Fighting'}}>a</text> 
       <text style={{position: 'absolute', color: 'transparent', fontFamily: 'Yangjin'}}>a</text> 
       <text style={{position: 'absolute', color: 'transparent', fontFamily: 'Romance'}}>a</text> 
-      {imgArr}
-      <Navigation/>
+      
+      {loaded && <Navigation/>}
     </div>
   );
 }
