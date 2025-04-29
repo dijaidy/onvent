@@ -153,85 +153,103 @@ export default function Dressing() {
         console.log(`✅ useLayoutEffect에서 폰트 크기 설정됨: ${newFontSize}px`);
       });
     }, [name, stage]);
-    
-    
-    
-    
+  
 
-    
-
-    
     const handleCapture = async () => {
-      const node = document.querySelector('.captureArea'); // 캡쳐할 대상 선택
+      const node = document.querySelector('.captureArea');
       
       if (!node) {
         alert("❌ 캡쳐 대상이 없습니다!");
-        return;
+        return null;
       }
-    
+
       try {
-        // ✅ 폰트 로딩 완료 대기
         if (document.fonts && document.fonts.ready) {
           await document.fonts.ready;
         }
-    
-        // ✅ 폰트 적용 렌더링 2프레임 기다림
-        await new Promise(resolve => requestAnimationFrame(() => {
-          requestAnimationFrame(resolve);
-        }));
-    
-        // ✅ 추가 안정성 확보 (옵션이지만 추천) - 300~400ms 정도
+
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
         await new Promise(resolve => setTimeout(resolve, 400));
-    
-        // ✅ 캡처 진행
+
         const dataUrl = await htmlToImage.toPng(node, {
-          backgroundColor: '#ffffff', // 배경 흰색
-          cacheBust: true,             // 캐시깨기
-        });
-        
-        // ✅ 저장 대신 바로 미리보기 띄우기
-        Swal.fire({
-          title: '길게 눌러 저장하리오!',
-          html: `
-          <div style="max-height: 60vh; overflow: auto;">
-            <img src="${dataUrl}" style="width:100%; height: auto;"/>
-          </div>`,
-          confirmButtonText: '확인',
+          backgroundColor: '#ffffff',
+          cacheBust: true,
         });
 
-        /*// ✅ 다운로드 트리거
-        const link = document.createElement('a');
-        link.download = '리웃입히기.png'; // 저장될 파일명
-        link.href = dataUrl;
-        link.click();*/
-        
+        return dataUrl; // ✅ 캡처된 이미지 URL 반환
+
       } catch (error) {
         console.error('캡쳐 실패 😱', error);
-        alert({
-          html: "캡쳐에 실패햇다리오... <br>다시 시도해주리오!"});
+        alert("⚠️ 캡쳐에 실패했습니다. 다시 시도해 주세요!");
+        return null;
       }
     };
-    
-    
-    
-    
-    const handleShareName = async () => {
+
+    /*const handleShareName = async () => {
       if (hasSubmitted.current) return;
-      
+
       hasSubmitted.current = true;
-    
+
       try {
-        await sendNameToFirebase(name); // 🔥 전송!
+        await sendNameToFirebase(name);
       } catch (err) {
-        hasSubmitted.current = false; // ❗ 실패 시 다시 시도 가능하도록
+        hasSubmitted.current = false;
         Swal.fire({
           icon: 'error',
           title: '이름 저장 실패',
           html: '문제가 발생했다리오 <br> 다시 시도해 주리오ㅠㅠㅠ',
         });
       }
+    };*/
+
+    const handleShareAndCapture = async () => {
+      if (hasSubmitted.current) return;
+      hasSubmitted.current = true;
+
+      try {
+        // 1. 이름 저장
+        await handleShareName();
+
+        // 2. 대기용 Swal 띄우기
+        Swal.fire({
+          html: '코디를 저장중이리오!<br> 잠시만 기다려주리오!',
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+
+        // 3. 잠시 대기 (폰트 렌더링 시간 확보)
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        // 4. 화면 캡처
+        const dataUrl = await handleCapture();
+
+        if (dataUrl) {
+          // 5. 캡처 성공하면 이미지 미리보기 Swal 띄우기
+          Swal.fire({
+            title: '길게 눌러 저장하리오!',
+            html: `
+              <div style="max-height:60vh; overflow:auto;">
+                <img src="${dataUrl}" style="width:100%; height:auto;"/>
+              </div>
+            `,
+            confirmButtonText: '확인',
+          });
+        }
+
+      } catch (error) {
+        console.error('전체 실패 😭', error);
+        hasSubmitted.current = false;
+        Swal.fire({
+          icon: 'error',
+          title: '알 수 없는 오류 발생',
+          html: '문제가 발생했다리오ㅠㅠ 다시 시도해주리오!',
+        });
+      }
     };
-    
+
   
 
 
@@ -391,7 +409,7 @@ export default function Dressing() {
                       <img src={rioImg} className="imgInserted"/>
                     </div>
                       {/**공유, 이름 저장, 이미지 저장 */}
-                    <button className="shareButton" onClick={() => {/*handleShareName()*/; handleCapture(); Swal.fire({html: '코디를 저장중이리오!<br> 잠시만 기다려주리오!'}) }}>
+                    <button className="shareButton" onClick={() => {handleShareAndCapture}}>
                       <img src={shareButton} className="imgInserted"/>
                     </button>
                       {/**축제정보 */}
