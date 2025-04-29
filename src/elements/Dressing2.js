@@ -207,7 +207,7 @@ export default function Dressing() {
       } catch (error) {
         console.error('캡쳐 실패 😱', error);
         alert({
-          html: "캡쳐에 실패햇다리오... <br>다시 시도해주세요!"});
+          html: "캡쳐에 실패햇다리오... <br>다시 시도해주리오!"});
       }
     };
     
