@@ -224,13 +224,19 @@ export default function Dressing() {
           const dataUrl = await handleCapture();
     
           if (dataUrl) {
-            Swal.fire({
-              title: '길게 눌러 저장하리오!',
-              html: `<div style="max-height:60vh; overflow:auto;">
-                       <img src="${dataUrl}" style="width:100%; height:auto;"/>
-                     </div>`,
-              confirmButtonText: '확인',
-            });
+
+            const img = new Image();
+            img.src = dataUrl;
+
+            img.onload = () => {
+              Swal.fire({
+                title: '길게 눌러 저장하리오!',
+                html: `<div style="max-height:60vh; overflow:auto;">
+                        <img src="${dataUrl}" style="width:100%; height:auto;"/>
+                      </div>`,
+                confirmButtonText: '확인',
+              });
+            }
           }
     
         } catch (err) {
