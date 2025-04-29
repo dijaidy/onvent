@@ -259,7 +259,7 @@ export default function Dressing() {
               Swal.fire({
                 title: '길게 눌러 저장하리오!',
                 html: `<div style="max-height:60vh; overflow:auto;">
-                        <img src="${dataUrl}" style="width:100%; height:auto;"/>
+                        <img src="${dataUrl}" className="capture" style="width:100%; height:auto;"/>
                       </div>`,
                 confirmButtonText: '확인',
               });
@@ -305,7 +305,7 @@ export default function Dressing() {
             title: '길게 눌러 저장하리오!',
             html: `
               <div style="max-height:60vh; overflow:auto;">
-                <img src="${dataUrl}" style="width:100%; height:auto;"/>
+                <img src="${dataUrl}" className="capture" style="width:100%; height:auto;"/>
               </div>
             `,
             confirmButtonText: '확인',
