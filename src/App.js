@@ -93,6 +93,17 @@ import 조교뒤1 from "./asset/dressingImages/조교 뒤1.svg";
 import 조교뒤2 from "./asset/dressingImages/조교 뒤2.svg"; 
 import empty from "./asset/dressingImages/empty.svg";
 import startButton from "./asset/dressingImages/startbutton.svg";
+import 출튀배경 from "./asset/dressingImages/출튀배경.svg";
+import 다시하기 from "./asset/dressingImages/다시하기.svg";
+import 출튀배경실패 from "./asset/dressingImages/출튀 배경 실패.svg"
+import 실패문구1 from "./asset/dressingImages/실패문구1.svg"
+import 실패문구2 from "./asset/dressingImages/실패문구2.svg"
+import 실패문구3 from "./asset/dressingImages/실패문구3.svg"
+import 실패문구4 from "./asset/dressingImages/실패문구4.svg"
+import 공유하기 from "./asset/dressingImages/공유하기.svg"
+
+import 빗썸화면 from "./asset/dressingImages/빗썸화면.svg"
+import 스프링클제목 from "./asset/dressingImages/스프링클제목.svg"
 
 
 export const imagePaths = [
@@ -102,7 +113,8 @@ export const imagePaths = [
   goal1, goal2, fail_teacher, fail_TA, 조교1앞1, 조교1앞2, 조교2앞1, 조교2앞2, 조교뒤1, 조교뒤2,
   start2, coffee_table, 리딸라, 리딸라2, 컵홀더, 장애물사람,
   fail_새치기, fail_ridala, 나무1, 나무2, 현장이벤트, 사람2, 사람1, 부스,
-  success, 화살표우, 화살표좌, empty,
+  success, 화살표우, 화살표좌, empty, 출튀배경, 다시하기, 출튀배경실패, 실패문구1, 실패문구2, 실패문구3,
+  실패문구4, 공유하기,
 
   frame11, frame10, frame12, frame13, frame14, frame15,
   head1, head2, head3, head4,
@@ -111,7 +123,9 @@ export const imagePaths = [
   head1po, head2po, head3po, head4po,
   eye1po, eye2po, eye3po, eye4po,
   background05, background14, rio, enterName, prevButton, nextButton, shareButton, info,
-  firstInfo, firstRio, title, startButton
+  firstInfo, firstRio, title, startButton,
+
+  빗썸화면, 스프링클제목
 ];
 
 const preloadImages = (paths) => {
