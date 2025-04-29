@@ -159,36 +159,57 @@ export default function Dressing() {
 
     
 
-    const handleCapture = async () => {
-      const node = document.querySelector('.captureArea');
     
+    const handleCapture = async () => {
+      const node = document.querySelector('.captureArea'); // 캡쳐할 대상 선택
+      
       if (!node) {
-        alert("❌ 캡처 대상이 없습니다!");
+        alert("❌ 캡쳐 대상이 없습니다!");
         return;
       }
     
       try {
-        // 폰트 로딩 완료 대기
+        // ✅ 폰트 로딩 완료 대기
         if (document.fonts && document.fonts.ready) {
           await document.fonts.ready;
         }
-        // ✅ 렌더 타이밍 확보 (300~500ms 사이 안정적)
-        await new Promise(resolve => setTimeout(resolve, 400));
-
-        const dataUrl = await htmlToImage.toPng(node, {
-          backgroundColor: '#ffffff',
-          cacheBust: true,
-        });
     
+        // ✅ 폰트 적용 렌더링 2프레임 기다림
+        await new Promise(resolve => requestAnimationFrame(() => {
+          requestAnimationFrame(resolve);
+        }));
+    
+        // ✅ 추가 안정성 확보 (옵션이지만 추천) - 300~400ms 정도
+        await new Promise(resolve => setTimeout(resolve, 400));
+    
+        // ✅ 캡처 진행
+        const dataUrl = await htmlToImage.toPng(node, {
+          backgroundColor: '#ffffff', // 배경 흰색
+          cacheBust: true,             // 캐시깨기
+        });
+        
+        // ✅ 저장 대신 바로 미리보기 띄우기
+        Swal.fire({
+          title: '길게 눌러 저장하리오!',
+          html: `
+          <div style="max-height: 60vh; overflow: auto;">
+            <img src="${dataUrl}" style="width:100%; height: auto;"/>
+          </div>`,
+          confirmButtonText: '확인',
+        });
+
+        /*// ✅ 다운로드 트리거
         const link = document.createElement('a');
-        link.download = '리옷입히기.png';
+        link.download = '리웃입히기.png'; // 저장될 파일명
         link.href = dataUrl;
-        link.click();
+        link.click();*/
+        
       } catch (error) {
-        console.error('캡처 실패 😢', error);
-        alert("⚠️ 이미지 캡처에 실패했습니다. 다시 시도해주세요!");
+        console.error('캡쳐 실패 😱', error);
+        alert("⚠️ 이미지 캡쳐에 실패했습니다. 다시 시도해주세요!");
       }
     };
+    
     
     
     
@@ -301,7 +322,13 @@ export default function Dressing() {
                     <div className="captureContents">
                       
                       <div className="userNameBox"> {/** 상단 메시지지 */}
-                        <div className="userName" ref={textRef} style={{ fontSize: `${fontSize}px` }}>
+                        <div className="userName" ref={textRef} 
+                        style={{
+                          fontFamily: "'Romance', saneserif", 
+                          fontSize: `${fontSize}px`,
+                          WebkitTextStroke: '1.3px white',
+                          color: '#d73e8a',
+                          whiteSpace: 'nowrap' }}>
                           {name}의 코디!
                         </div>  
                       </div>
@@ -334,9 +361,15 @@ export default function Dressing() {
                   <div className="page5">
                   
                     <div className="userNameBox"> {/** 상단 메시지지 */}
-                      <span className="userName" ref={textRef} style={{ fontSize: `${fontSize}px` }}>
+                      <div className="userName" ref={textRef} 
+                      style={{ 
+                        fontFamily: "'Romance', sans-serif", 
+                        fontSize: `${fontSize}px`, 
+                        WebkitTextStroke: '1.3px white', 
+                        color: '#d73e8a', 
+                        whiteSpace: 'nowrap' }}>
                         {name}의 코디!
-                      </span>  
+                      </div>  
                     </div>
 
                     {codi.map( //옷입은 리오모습
