@@ -25,7 +25,7 @@ input::placeholder {
 @font-face {
   font-family: 'Romance';
   src: url('./asset/fonts/GumiRomance.otf');
-  font-display: block;
+  font-display: swap;
 }
 
 
