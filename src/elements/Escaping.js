@@ -260,7 +260,7 @@ export default function Escaping() {
 
         if (newY + taSize[1] >= gameScreenHeight) {
           taFrame[i].current = false;
-          
+          console.log('weoifjwioefjwio')
           ta[i].current?.setAttribute('src', 조교뒤1);
 
           newY = taPos[i].y.get();
@@ -300,6 +300,7 @@ export default function Escaping() {
     const updateTA1Walking = ()=>{
       const i = 0;
       taWalkingIdArr[i].current = setInterval(()=>{
+        console.log('안녕', ta[i].current)
         ta[i].current?.setAttribute('src', taFrame[i].current? (tawalkFrame[i].current ? 조교1앞2: 조교1앞1) : (tawalkFrame[i].current ? 조교뒤2 : 조교뒤1));
         tawalkFrame[i].current = !tawalkFrame[i].current;
       }, 600)
@@ -347,7 +348,6 @@ export default function Escaping() {
   const updateTA2Walking = ()=>{
     const i = 1;
     taWalkingIdArr[i].current = setInterval(()=>{
-      console.log(ta[i].current)
       ta[i].current?.setAttribute('src', taFrame[i].current? (tawalkFrame[i].current ? 조교2앞2: 조교2앞1) : (tawalkFrame[i].current ? 조교뒤2 : 조교뒤1));
       tawalkFrame[i].current = !tawalkFrame[i].current;
     }, 600)
@@ -451,10 +451,14 @@ export default function Escaping() {
                 cancelAnimationFrame(taAnimationIdArr[i].current);
                 taAnimationIdArr[i].current = null;
               }
+              if (taWalkingIdArr[i].current !== null) {
+                clearInterval(taWalkingIdArr[i].current);
+              }
             }
             startRidalaAnimation();
           }
           stopWalkingAnimation();
+
           setStage(stageRef.current+1);
           startWalkingAnimation();
         } else {
@@ -578,17 +582,17 @@ export default function Escaping() {
             <text style={{fontFamily: 'Yangjin', fontSize: rw(24), color: '#ffffff', marginTop: rh(-50), height: rh(27), marginBottom: rh(23)}}>게임방법</text>
           </button>
           {(manual) && <div style={{position: 'absolute', display: 'flex', flexDirection: 'column',alignItems: 'center', width: screenWidth, height: screenHeight, opacity: 1, left: 0, top: 0, backgroundColor: 'transparent', zIndex: 2}}>
-            <div style={{position: 'absolute', top: rh(279), display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#ec7fbc', width: rw(350), opacity: 1, zIndex: 3, borderRadius: rw(24)}}>
+            <div style={{position: 'absolute', top: rh(279), display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#ec7fbc', width: screenWidth-rw(20), opacity: 1, zIndex: 3, borderRadius: rw(24)}}>
               <text style={{fontFamily: 'Fighting', fontSize: rw(64),textAlign: 'center', color: '#ffffff', marginTop: rh(58), textAlign: 'center'}}>게임설명</text>
-              <div style={{ whiteSpace: 'pre-line', position: 'relative', lineHeight: '1.5', fontFamily: 'Yangjin', fontSize: rw(14), textAlign: 'center', color: '#ffffff', marginTop: rh(51)}}>
+              <div style={{ whiteSpace: 'pre-line', position: 'relative', lineHeight: '1.5', fontFamily: 'Yangjin', fontSize: rw(21), textAlign: 'center', color: '#ffffff', marginTop: rh(51)}}>
                 {`축제날 휴강을 안 하시는 교수님이 원망스러운`}
               </div>
               <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                 <img style={{marginTop: rh(-2)}} src={리오} width={rw(19.48)} height={rh(19.48)}></img>
-                <text style={{fontFamily: 'Yangjin', fontSize: rw(14), color: '#ffffff', marginLeft: rw(5), marginRight: rw(5)}}>리오와 리아</text>
+                <text style={{fontFamily: 'Yangjin', fontSize: rw(21), color: '#ffffff', marginLeft: rw(5), marginRight: rw(5)}}>리오와 리아</text>
                 <img style={{marginTop: rh(-5), marginLeft: rw(-1)}} src={리아} width={rw(19.58)} height={rh(23.84)}></img>
               </div>
-              <div style={{ whiteSpace: 'pre-line', position: 'relative', lineHeight: '1.5', fontFamily: 'Yangjin', fontSize: rw(14), textAlign: 'center', color: '#ffffff', marginBottom: rh(48) }}>
+              <div style={{ whiteSpace: 'pre-line', position: 'relative', lineHeight: '1.5', fontFamily: 'Yangjin', fontSize: rw(21), textAlign: 'center', color: '#ffffff', marginBottom: rh(48) }}>
                 {`축제가 너무 가고싶은 나머지 출튀를 결심하는데?
                 이들을 덮치는 온갖 억까를 극복하고
                 리딸라를 사서 축제에 가자!
