@@ -12,7 +12,7 @@ export default function Navigation() {
         <Routes>
             <Route path='/' element={<MainPage/>}/>
             <Route path='/escaping' element={<Escaping/>}/>
-            <Route path='/ranking' element={<Ranking/>}/>
+            <Route path='/bithumb' element={<Ranking/>}/>
             <Route path='/dressing' element={<Dressing/>}/>
         </Routes>
     )

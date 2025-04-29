@@ -5,6 +5,7 @@ import { deviceHeight, deviceWidth, rh, rw } from "../managements/Dimensions";
 import { data, useNavigate } from "react-router-dom";
 import '../index.css';
 import Swal from 'sweetalert2';
+import * as htmlToImage from 'html-to-image';
 
 import chultui_intro from "../asset/dressingImages/chultui_intro.svg";
 import chultui_button from "../asset/dressingImages/chultui_button.svg";
@@ -51,9 +52,21 @@ import success from "../asset/dressingImages/success.svg";
 import 화살표우 from "../asset/dressingImages/화살표 우.svg";
 import 화살표좌 from "../asset/dressingImages/화살표 좌.svg";
 import empty from "../asset/dressingImages/empty.svg";
+import 출튀배경 from "../asset/dressingImages/출튀배경.svg";
+import 다시하기 from "../asset/dressingImages/다시하기.svg";
+import 출튀배경실패 from "../asset/dressingImages/출튀 배경 실패.svg"
+import 실패문구1 from "../asset/dressingImages/실패문구1.svg"
+import 실패문구2 from "../asset/dressingImages/실패문구2.svg"
+import 실패문구3 from "../asset/dressingImages/실패문구3.svg"
+import 실패문구4 from "../asset/dressingImages/실패문구4.svg"
+import 공유하기 from "../asset/dressingImages/공유하기.svg"
+
+const failArr = [실패문구1, 실패문구2, 실패문구3, 실패문구4]
+
 
 const screenWidth = rw(440);
 const screenHeight = rh(956);
+const deviceRatio = window.innerHeight/window.innerWidth;
 const gameScreenWidth = rw(350);
 const gameScreenHeight = rh(570);
 const rioWidth = rw(85);
@@ -86,11 +99,12 @@ export default function Escaping() {
     const ridala = useRef(리딸라);
     const joystickRef = useRef(null);
     const [p, setP] = useState(true);
+    const hasSubmitted = useRef(false);
 
     const taPos = [useSpring({x: rw(118), y: rh(46)}), useSpring({x: rw(250), y: rh(308)})];
     const taSize = [rw(72), rh(204)];
     const ta = [useRef(조교1앞1), useRef(조교뒤1)];
-    const taVel = [1.3, 2];
+    const taVel = [1.3, -2];
     const taAnimationIdArr = [useRef(null), useRef(null)];
     const taFrame = [useRef(true), useRef(false)];
     const tawalkFrame = [useRef(true), useRef(false)]
@@ -299,12 +313,13 @@ export default function Escaping() {
 
     const updateTA1Walking = ()=>{
       const i = 0;
+      if (taWalkingIdArr[i].current == null) {
       taWalkingIdArr[i].current = setInterval(()=>{
         console.log('안녕', ta[i].current)
         ta[i].current?.setAttribute('src', taFrame[i].current? (tawalkFrame[i].current ? 조교1앞2: 조교1앞1) : (tawalkFrame[i].current ? 조교뒤2 : 조교뒤1));
         tawalkFrame[i].current = !tawalkFrame[i].current;
       }, 600)
-      
+    }
     }
 
     const updateTA2Position = () => {
@@ -347,10 +362,12 @@ export default function Escaping() {
 
   const updateTA2Walking = ()=>{
     const i = 1;
+    if (taWalkingIdArr[i].current == null) {
     taWalkingIdArr[i].current = setInterval(()=>{
       ta[i].current?.setAttribute('src', taFrame[i].current? (tawalkFrame[i].current ? 조교2앞2: 조교2앞1) : (tawalkFrame[i].current ? 조교뒤2 : 조교뒤1));
       tawalkFrame[i].current = !tawalkFrame[i].current;
     }, 600)
+  }
   }
 
     const updatePosition = () => {
@@ -542,8 +559,112 @@ export default function Escaping() {
     };
     //390 663
 
+
+    const handleCapture = async () => {
+          const node = document.querySelector('.captureArea');
+          
+          if (!node) {
+            alert("❌ 캡쳐 대상이 없습니다!");
+            return null;
+          }
+    
+          try {
+            if (document.fonts && document.fonts.ready) { 
+              await document.fonts.ready;
+            }
+    
+            await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+            await new Promise(resolve => setTimeout(resolve, 400));
+    
+            const dataUrl = await htmlToImage.toPng(node, {
+              backgroundColor: '#ffffff',
+              cacheBust: true,
+            });
+    
+            return dataUrl; // ✅ 캡처된 이미지 URL 반환
+    
+          } catch (error) {
+            console.error('캡쳐 실패 😱', error);
+            alert("⚠️ 캡쳐에 실패했습니다. 다시 시도해 주세요!");
+            return null;
+          }
+        };
+
+        const handleShareAndCapture = async () => {
+          // 🔥 이름 저장은 첫 클릭만
+          if (!hasSubmitted.current) {
+            hasSubmitted.current = true;
+        
+            try {
+              //await handleShareName(); // ✅ 이름 저장
+        
+              Swal.fire({
+                html: '이미지를 불러오는 중이리오..<br> 잠시만 기다려주리오!<br>저장된 코디를 인스타에 공유하리오~',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                  Swal.showLoading();
+                }
+              });
+        
+              await new Promise(resolve => setTimeout(resolve, 800));
+        
+              const dataUrl = await handleCapture();
+        
+              if (dataUrl) {
+                Swal.fire({
+                  title: '길게 눌러 저장하리오!',
+                  html: `
+                    <div style="max-height:60vh; overflow:auto;">
+                      <img src="${dataUrl}" className="capture" style="width:100%; height:auto;"/>
+                    </div>
+                  `,
+                  confirmButtonText: '확인',
+                });
+              }
+        
+            } catch (err) {
+              hasSubmitted.current = false;
+              Swal.fire({
+                icon: 'error',
+                title: '이름 저장 실패',
+                html: '문제가 발생했다리오ㅠㅠ <br> 다시 시도해주리오!',
+              });
+            }
+        
+          } else {
+            // ✅ 두 번째 클릭부터는 이름 저장 없이 바로 캡처만
+            Swal.fire({
+              html: '이미지를 다시 불러오는 중이리오!',
+              allowOutsideClick: false,
+              showConfirmButton: false,
+              didOpen: () => {
+                Swal.showLoading();
+              }
+            });
+        
+            await new Promise(resolve => setTimeout(resolve, 800));
+        
+            const dataUrl = await handleCapture();
+        
+            if (dataUrl) {
+              Swal.fire({
+                title: '길게 눌러 저장하리오!',
+                html: `
+                  <div style="max-height:60vh; overflow:auto;">
+                    <img src="${dataUrl}" style="width:100%; height:auto;"/>
+                  </div>
+                `,
+                confirmButtonText: '확인',
+              });
+            }
+          }
+        };
+        
+
     return (
       <div style={{display: 'flex', justifyContent: 'center', touchAction: 'none',}}>
+        {(stage != -1) &&<img style={{position: 'absolute'}}src={출튀배경} width={deviceRatio>=2 ? 'auto' : window.innerWidth} height={deviceRatio>=2 ? window.innerHeight: 'auto'}></img>}
         {
           (stage==-1)?
         <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', width: screenWidth, height: screenHeight,}}>
@@ -606,15 +727,16 @@ export default function Escaping() {
         </div>
         :
         (isClear) ?
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', height: 500, width: 500}}>
-          <text style={{fontFamily: 'fighting', fontSize: rw(90.74), color: '#000000', marginTop: rh(133), zIndex: 3}} >축제도착~!!</text>
-          <img style={{marginTop: rh(-42)}} src={success} width={rw(350)} height={rh(438)}></img> 
-          <text>{name}</text>
-          <text>{time/1000}초</text>
-          <button onClick={()=>{navigate('/ranking')}}>순위 보러가기</button>
-          <button onClick={()=>{
-            //공유기능
-          }}>공유하기</button>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', height: 500, width: 500, zIndex:2}}>
+          <text style={{fontFamily: 'fighting', fontSize: rw(90.74), color: '#000000', marginTop: rh(103), zIndex: 3}} >축제도착~!!</text>
+          <img style={{marginTop: rh(0)}} src={success} width={rw(350)} height={rh(438)}></img> 
+          <text style={{fontFamily: 'fighting', fontSize: rw(52), marginTop: rh(26)}}>{name}의 출튀 기록은??</text>
+          <text style={{fontFamily: 'Yangjin', fontSize: rw(48), marginTop: rh(0)}}>{time/1000}초</text>
+          <button style={{borderWidth: 0, backgroundColor: 'transparent', display: 'flex', marginTop: rh(10)}} onClick={()=>{
+            handleShareAndCapture();
+          }}>
+            <img src={공유하기} width={rw(270.96)} height={rw(64)}></img>
+          </button>
         </div>
         :
         <div>
@@ -652,16 +774,21 @@ export default function Escaping() {
             </div>}
           </div>
           {(fail) &&
-          <div style={{position: 'absolute', top: 0, zIndex: 2, width: screenWidth, height: '100%', display: 'flex', backgroundColor: '#ffffff', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-            <img src={fail} style={{objectFit: 'cover', alignSelf: 'center'}} width={rw(350)} height={rh(438)}></img>
-            <button onClick={()=>{
+          <div style={{position: 'absolute', top: 0, zIndex: 2, width: screenWidth, height: '100%', display: 'flex', backgroundColor: '#ffffff', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', }}>
+            <img style={{position: 'absolute'}}src={출튀배경실패} width={deviceRatio>=2 ? 'auto' : window.innerWidth} height={deviceRatio>=2 ? window.innerHeight: 'auto'}></img>
+            
+            <img src={fail} style={{objectFit: 'cover', alignSelf: 'center', zIndex:2, marginTop: rh(270)}} width={rw(350)} height={rh(438)}></img>
+            <img style={{position: 'absolute', zIndex: 2, top: rh(-220)}} src={failArr[stage]}></img>
+            <button style={{zIndex:2, backgroundColor: 'transparent', display: 'flex', borderWidth: 0, marginTop:rh(40)}} onClick={()=>{
               setFail(false);
               setIsBlocked(false);
               startTeacherAnimation();
               setStage(0);
               setTime(Date.now());
               startWalkingAnimation();
-              }}>다시 시작하기</button>
+              }}>
+                <img src={다시하기} width={rw(270.98)} height={rw(64)}></img>
+              </button>
           </div>}
         </div>
       }
