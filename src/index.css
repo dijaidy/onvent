@@ -28,11 +28,6 @@ input::placeholder {
   font-display: swap;
 }
 
-img {
-  user-select: none;
-  -webkit-user-drag: none;
-  -webkit-touch-callout: none;
-}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
