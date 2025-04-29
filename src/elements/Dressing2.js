@@ -185,7 +185,7 @@ export default function Dressing() {
       }
     };
 
-    /*const handleShareName = async () => {
+    const handleShareName = async () => {
       if (hasSubmitted.current) return;
 
       hasSubmitted.current = true;
@@ -200,7 +200,7 @@ export default function Dressing() {
           html: '문제가 발생했다리오 <br> 다시 시도해 주리오ㅠㅠㅠ',
         });
       }
-    };*/
+    };
 
     const handleShareAndCapture = async () => {
       if (hasSubmitted.current) return;
@@ -208,7 +208,7 @@ export default function Dressing() {
 
       try {
         // 1. 이름 저장
-        await handleShareName();
+        //await handleShareName();
 
         // 2. 대기용 Swal 띄우기
         Swal.fire({
