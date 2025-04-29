@@ -39,6 +39,7 @@ import prevButton from "../asset/dressingImages/prevButton.svg";
 import nextButton from "../asset/dressingImages/nextButton.svg";
 import shareButton from "../asset/dressingImages/shareButton.svg";
 import info from "../asset/dressingImages/info.svg";
+import enterName from '../asset/dressingImages/enterName.svg';
 
 import { sendNameToFirebase } from '../utils/sendNameToFirebase';
 
@@ -263,7 +264,8 @@ export default function Dressing() {
                     </div>
 
                     <div className='enterNameDiv'> {/*이름입력*/}                  
-                      <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName"></input>
+                      <img src={enterName} width={`100%`} height={`100%`}></img>            
+                      <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName" style={{zIndex: 2}}></input>
                     </div>
                     {/*시작버튼 */}
                     <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주리오!'); return;}*/setStage(1)}}>
