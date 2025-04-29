@@ -27,8 +27,6 @@ import goal1 from "./asset/dressingImages/goal1.svg";
 import goal2 from "./asset/dressingImages/스테이지 2 출구.svg";
 import fail_teacher from "./asset/dressingImages/fail_teacher.svg";
 import fail_TA from "./asset/dressingImages/fail_TA.svg";
-import 조교앞 from "./asset/dressingImages/조교앞.svg";
-import 조교뒤 from "./asset/dressingImages/조교뒤.svg";
 import start2 from "./asset/dressingImages/스테이지 2 입구.svg";
 import coffee_table from "./asset/dressingImages/coffee_table.svg";
 import 리딸라 from "./asset/dressingImages/리딸라.svg";
@@ -94,6 +92,8 @@ import 조교2앞2 from "./asset/dressingImages/조교2 앞2.svg";
 import 조교뒤1 from "./asset/dressingImages/조교 뒤1.svg"; 
 import 조교뒤2 from "./asset/dressingImages/조교 뒤2.svg"; 
 import empty from "./asset/dressingImages/empty.svg";
+import startButton from "./asset/dressingImages/startbutton.svg";
+
 
 export const imagePaths = [
   chultui_intro, chultui_button, 리오, 리아, joystick, walking1, walking2,
@@ -111,7 +111,7 @@ export const imagePaths = [
   head1po, head2po, head3po, head4po,
   eye1po, eye2po, eye3po, eye4po,
   background05, background14, rio, enterName, prevButton, nextButton, shareButton, info,
-  firstInfo, firstRio, title
+  firstInfo, firstRio, title, startButton
 ];
 
 const preloadImages = (paths) => {
