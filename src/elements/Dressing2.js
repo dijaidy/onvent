@@ -153,7 +153,27 @@ export default function Dressing() {
         console.log(`✅ useLayoutEffect에서 폰트 크기 설정됨: ${newFontSize}px`);
       });
     }, [name, stage]);
-  
+
+    // ✅ 폰트 적용 기다리는 함수
+    async function waitForFontApplied(selector, targetFont, timeout = 3000) {
+      const start = Date.now();
+
+      while (Date.now() - start < timeout) {
+        const el = document.querySelector(selector);
+        if (el) {
+          const computedFont = window.getComputedStyle(el).fontFamily;
+          if (computedFont.includes(targetFont)) {
+            console.log('✅ 폰트 적용 완료:', computedFont);
+            return true;
+          }
+        }
+        await new Promise(r => setTimeout(r, 100)); // 100ms 간격으로 재확인
+      }
+
+      console.warn('⚠️ 폰트 적용 타임아웃!');
+      return false;
+    }
+    
 
     const handleCapture = async () => {
       const node = document.querySelector('.captureArea');
@@ -203,13 +223,10 @@ export default function Dressing() {
     };
 
     const handleShareAndCapture = async () => {
-      // 🔥 이름 저장은 첫 클릭만
       if (!hasSubmitted.current) {
         hasSubmitted.current = true;
     
         try {
-          //await handleShareName(); // ✅ 이름 저장
-    
           Swal.fire({
             html: '이미지를 불러오는 중이리오..<br> 잠시만 기다려주리오!<br>저장된 코디를 인스타에 공유하리오~',
             allowOutsideClick: false,
@@ -221,13 +238,23 @@ export default function Dressing() {
     
           await new Promise(resolve => setTimeout(resolve, 800));
     
+          // ✨ 폰트 적용 확인 추가
+          const fontReady = await waitForFontApplied('.userName', 'Romance');
+          if (!fontReady) {
+            Swal.fire({
+              icon: 'error',
+              title: '폰트 적용 실패',
+              html: '폰트가 적용되지 않아 캡처를 중단하리오!<br>잠시 후 다시 시도해주리오ㅠㅠ',
+            });
+            return;
+          }
+    
           const dataUrl = await handleCapture();
     
           if (dataUrl) {
-
             const img = new Image();
             img.src = dataUrl;
-
+    
             img.onload = () => {
               Swal.fire({
                 title: '길게 눌러 저장하리오!',
@@ -249,7 +276,6 @@ export default function Dressing() {
         }
     
       } else {
-        // ✅ 두 번째 클릭부터는 이름 저장 없이 바로 캡처만
         Swal.fire({
           html: '이미지를 다시 불러오는 중이리오!',
           allowOutsideClick: false,
@@ -260,6 +286,17 @@ export default function Dressing() {
         });
     
         await new Promise(resolve => setTimeout(resolve, 800));
+    
+        // ✨ 두 번째 클릭에도 폰트 적용 확인 추가
+        const fontReady = await waitForFontApplied('.userName', 'Romance');
+        if (!fontReady) {
+          Swal.fire({
+            icon: 'error',
+            title: '폰트 적용 실패',
+            html: '폰트가 적용되지 않아 캡처를 중단하리오!<br>잠시 후 다시 시도해주리오 ㅠㅠ',
+          });
+          return;
+        }
     
         const dataUrl = await handleCapture();
     
@@ -276,6 +313,7 @@ export default function Dressing() {
         }
       }
     };
+    
     
 
   
