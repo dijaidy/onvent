@@ -164,7 +164,7 @@ export default function Dressing() {
       }
 
       try {
-        if (document.fonts && document.fonts.ready) {
+        if (document.fonts && document.fonts.ready) { 
           await document.fonts.ready;
         }
 
