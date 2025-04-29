@@ -154,6 +154,11 @@ export default function Dressing() {
       });
     }, [name, stage]);
 
+
+
+
+
+    
     // ✅ 폰트 적용 기다리는 함수
     async function waitForFontApplied(selector, targetFont, timeout = 3000) {
       const start = Date.now();
@@ -174,6 +179,10 @@ export default function Dressing() {
       return false;
     }
     
+
+
+
+
 
     const handleCapture = async () => {
       const node = document.querySelector('.captureArea');
@@ -205,6 +214,10 @@ export default function Dressing() {
       }
     };
 
+
+
+
+
     const handleShareName = async () => {
       if (hasSubmitted.current) return;
 
@@ -222,50 +235,37 @@ export default function Dressing() {
       }
     };
 
+
+
+
     const handleShareAndCapture = async () => {
+      Swal.fire({
+        html: '이미지를 불러오는 중이리오..<br> 잠시만 기다려주리오!<br>저장된 코디를 인스타에 공유하리오~',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+    
+      await new Promise(resolve => setTimeout(resolve, 800));
+    
+      // 🔥 1. 폰트 적용 완료 검사 (형이 만든 waitForFontApplied 사용)
+      const fontReady = await waitForFontApplied('.userName', 'Romance');
+      if (!fontReady) {
+        Swal.fire({
+          icon: 'error',
+          title: '폰트 적용 실패',
+          html: '폰트가 적용되지 않아 캡처를 중단하리오!<br>잠시 후 다시 시도해주리오 🙏',
+        });
+        return;
+      }
+    
+      // 🔥 2. 이름 보내기 (처음 1회만)
       if (!hasSubmitted.current) {
         hasSubmitted.current = true;
-    
         try {
-          Swal.fire({
-            html: '이미지를 불러오는 중이리오..<br> 잠시만 기다려주리오!<br>저장된 코디를 인스타에 공유하리오~',
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            didOpen: () => {
-              Swal.showLoading();
-            }
-          });
-    
-          await new Promise(resolve => setTimeout(resolve, 800));
-    
-          // ✨ 폰트 적용 확인 추가
-          const fontReady = await waitForFontApplied('.userName', 'Romance');
-          if (!fontReady) {
-            Swal.fire({
-              icon: 'error',
-              title: '폰트 적용 실패',
-              html: '폰트가 적용되지 않아 캡처를 중단하리오!<br>잠시 후 다시 시도해주리오ㅠㅠ',
-            });
-            return;
-          }
-    
-          const dataUrl = await handleCapture();
-    
-          if (dataUrl) {
-            const img = new Image();
-            img.src = dataUrl;
-    
-            img.onload = () => {
-              Swal.fire({
-                title: '길게 눌러 저장하리오!',
-                html: `<div style="max-height:60vh; overflow:auto;">
-                        <img src="${dataUrl}" className="capture" style="width:100%; height:auto;"/>
-                      </div>`,
-                confirmButtonText: '확인',
-              });
-            }
-          }
-    
+          await handleShareName(); // 🔥 형이 요청한 이름 전송 함수
         } catch (err) {
           hasSubmitted.current = false;
           Swal.fire({
@@ -273,46 +273,29 @@ export default function Dressing() {
             title: '이름 저장 실패',
             html: '문제가 발생했다리오ㅠㅠ <br> 다시 시도해주리오!',
           });
-        }
-    
-      } else {
-        Swal.fire({
-          html: '이미지를 다시 불러오는 중이리오!',
-          allowOutsideClick: false,
-          showConfirmButton: false,
-          didOpen: () => {
-            Swal.showLoading();
-          }
-        });
-    
-        await new Promise(resolve => setTimeout(resolve, 800));
-    
-        // ✨ 두 번째 클릭에도 폰트 적용 확인 추가
-        const fontReady = await waitForFontApplied('.userName', 'Romance');
-        if (!fontReady) {
-          Swal.fire({
-            icon: 'error',
-            title: '폰트 적용 실패',
-            html: '폰트가 적용되지 않아 캡처를 중단하리오!<br>잠시 후 다시 시도해주리오 ㅠㅠ',
-          });
           return;
         }
+      }
     
-        const dataUrl = await handleCapture();
+      // 🔥 3. 캡처 진행 (형이 만든 handleCapture 사용)
+      const dataUrl = await handleCapture(); 
     
-        if (dataUrl) {
+      if (dataUrl) {
+        const img = new Image();
+        img.src = dataUrl;
+    
+        img.onload = () => {
           Swal.fire({
             title: '길게 눌러 저장하리오!',
-            html: `
-              <div style="max-height:60vh; overflow:auto;">
-                <img src="${dataUrl}" className="capture" style="width:100%; height:auto;"/>
-              </div>
-            `,
+            html: `<div style="max-height:60vh; overflow:auto;">
+                    <img src="${dataUrl}" className="capture" style="width:100%; height:auto;"/>
+                  </div>`,
             confirmButtonText: '확인',
           });
-        }
+        };
       }
     };
+    
     
     
 
