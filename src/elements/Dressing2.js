@@ -203,31 +203,63 @@ export default function Dressing() {
     };
 
     const handleShareAndCapture = async () => {
-      if (hasSubmitted.current) return;
-      hasSubmitted.current = true;
-
-      try {
-        // 1. 이름 저장
-        //await handleShareName();
-
-        // 2. 대기용 Swal 띄우기
+      // 🔥 이름 저장은 첫 클릭만
+      if (!hasSubmitted.current) {
+        hasSubmitted.current = true;
+    
+        try {
+          //await handleShareName(); // ✅ 이름 저장
+    
+          Swal.fire({
+            html: '이미지를 불러오는 중이리오..<br> 잠시만 기다려주리오!<br>저장된 코디를 인스타에 공유하리오~',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => {
+              Swal.showLoading();
+            }
+          });
+    
+          await new Promise(resolve => setTimeout(resolve, 800));
+    
+          const dataUrl = await handleCapture();
+    
+          if (dataUrl) {
+            Swal.fire({
+              title: '길게 눌러 저장하리오!',
+              html: `
+                <div style="max-height:60vh; overflow:auto;">
+                  <img src="${dataUrl}" style="width:100%; height:auto;"/>
+                </div>
+              `,
+              confirmButtonText: '확인',
+            });
+          }
+    
+        } catch (err) {
+          hasSubmitted.current = false;
+          Swal.fire({
+            icon: 'error',
+            title: '이름 저장 실패',
+            html: '문제가 발생했다리오ㅠㅠ <br> 다시 시도해주리오!',
+          });
+        }
+    
+      } else {
+        // ✅ 두 번째 클릭부터는 이름 저장 없이 바로 캡처만
         Swal.fire({
-          html: '코디를 저장중이리오!<br> 잠시만 기다려주리오!',
+          html: '이미지를 다시 불러오는 중이리오!',
           allowOutsideClick: false,
           showConfirmButton: false,
           didOpen: () => {
             Swal.showLoading();
           }
         });
-
-        // 3. 잠시 대기 (폰트 렌더링 시간 확보)
+    
         await new Promise(resolve => setTimeout(resolve, 800));
-
-        // 4. 화면 캡처
+    
         const dataUrl = await handleCapture();
-
+    
         if (dataUrl) {
-          // 5. 캡처 성공하면 이미지 미리보기 Swal 띄우기
           Swal.fire({
             title: '길게 눌러 저장하리오!',
             html: `
@@ -238,17 +270,9 @@ export default function Dressing() {
             confirmButtonText: '확인',
           });
         }
-
-      } catch (error) {
-        console.error('전체 실패 😭', error);
-        hasSubmitted.current = false;
-        Swal.fire({
-          icon: 'error',
-          title: '알 수 없는 오류 발생',
-          html: '문제가 발생했다리오ㅠㅠ 다시 시도해주리오!',
-        });
       }
     };
+    
 
   
 
