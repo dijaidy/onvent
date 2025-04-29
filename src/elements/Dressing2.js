@@ -41,7 +41,6 @@ import shareButton from "../asset/dressingImages/shareButton.svg";
 import info from "../asset/dressingImages/info.svg";
 import enterName from '../asset/dressingImages/enterName.svg';
 
-
 import { sendNameToFirebase } from '../utils/sendNameToFirebase';
 
 import Swal from "sweetalert2";
@@ -154,76 +153,47 @@ export default function Dressing() {
         console.log(`✅ useLayoutEffect에서 폰트 크기 설정됨: ${newFontSize}px`);
       });
     }, [name, stage]);
-    
-    
-    
-    
+  
 
-    
-
-    
     const handleCapture = async () => {
-      const node = document.querySelector('.captureArea'); // 캡쳐할 대상 선택
+      const node = document.querySelector('.captureArea');
       
       if (!node) {
         alert("❌ 캡쳐 대상이 없습니다!");
-        return;
+        return null;
       }
-    
+
       try {
-        // ✅ 폰트 로딩 완료 대기
         if (document.fonts && document.fonts.ready) {
           await document.fonts.ready;
         }
-    
-        // ✅ 폰트 적용 렌더링 2프레임 기다림
-        await new Promise(resolve => requestAnimationFrame(() => {
-          requestAnimationFrame(resolve);
-        }));
-    
-        // ✅ 추가 안정성 확보 (옵션이지만 추천) - 300~400ms 정도
+
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
         await new Promise(resolve => setTimeout(resolve, 400));
-    
-        // ✅ 캡처 진행
+
         const dataUrl = await htmlToImage.toPng(node, {
-          backgroundColor: '#ffffff', // 배경 흰색
-          cacheBust: true,             // 캐시깨기
-        });
-        
-        // ✅ 저장 대신 바로 미리보기 띄우기
-        Swal.fire({
-          title: '길게 눌러 저장하리오!',
-          html: `
-          <div style="max-height: 60vh; overflow: auto;">
-            <img src="${dataUrl}" style="width:100%; height: auto;"/>
-          </div>`,
-          confirmButtonText: '확인',
+          backgroundColor: '#ffffff',
+          cacheBust: true,
         });
 
-        /*// ✅ 다운로드 트리거
-        const link = document.createElement('a');
-        link.download = '리웃입히기.png'; // 저장될 파일명
-        link.href = dataUrl;
-        link.click();*/
-        
+        return dataUrl; // ✅ 캡처된 이미지 URL 반환
+
       } catch (error) {
         console.error('캡쳐 실패 😱', error);
-        alert("⚠️ 이미지 캡쳐에 실패했습니다. 다시 시도해주세요!");
+        alert("⚠️ 캡쳐에 실패했습니다. 다시 시도해 주세요!");
+        return null;
       }
     };
-    
-    
-    
-    
+
     const handleShareName = async () => {
       if (hasSubmitted.current) return;
-      
+
       hasSubmitted.current = true;
-    
+
       try {
-        await sendNameToFirebase(name); // 🔥 전송!
+        await sendNameToFirebase(name);
       } catch (err) {
-        hasSubmitted.current = false; // ❗ 실패 시 다시 시도 가능하도록
+        hasSubmitted.current = false;
         Swal.fire({
           icon: 'error',
           title: '이름 저장 실패',
@@ -231,7 +201,79 @@ export default function Dressing() {
         });
       }
     };
+
+    const handleShareAndCapture = async () => {
+      // 🔥 이름 저장은 첫 클릭만
+      if (!hasSubmitted.current) {
+        hasSubmitted.current = true;
     
+        try {
+          //await handleShareName(); // ✅ 이름 저장
+    
+          Swal.fire({
+            html: '이미지를 불러오는 중이리오..<br> 잠시만 기다려주리오!<br>저장된 코디를 인스타에 공유하리오~',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => {
+              Swal.showLoading();
+            }
+          });
+    
+          await new Promise(resolve => setTimeout(resolve, 800));
+    
+          const dataUrl = await handleCapture();
+    
+          if (dataUrl) {
+            Swal.fire({
+              title: '길게 눌러 저장하리오!',
+              html: `
+                <div style="max-height:60vh; overflow:auto;">
+                  <img src="${dataUrl}" style="width:100%; height:auto;"/>
+                </div>
+              `,
+              confirmButtonText: '확인',
+            });
+          }
+    
+        } catch (err) {
+          hasSubmitted.current = false;
+          Swal.fire({
+            icon: 'error',
+            title: '이름 저장 실패',
+            html: '문제가 발생했다리오ㅠㅠ <br> 다시 시도해주리오!',
+          });
+        }
+    
+      } else {
+        // ✅ 두 번째 클릭부터는 이름 저장 없이 바로 캡처만
+        Swal.fire({
+          html: '이미지를 다시 불러오는 중이리오!',
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+    
+        await new Promise(resolve => setTimeout(resolve, 800));
+    
+        const dataUrl = await handleCapture();
+    
+        if (dataUrl) {
+          Swal.fire({
+            title: '길게 눌러 저장하리오!',
+            html: `
+              <div style="max-height:60vh; overflow:auto;">
+                <img src="${dataUrl}" style="width:100%; height:auto;"/>
+              </div>
+            `,
+            confirmButtonText: '확인',
+          });
+        }
+      }
+    };
+    
+
   
 
 
@@ -263,12 +305,12 @@ export default function Dressing() {
                       <img src={firstRio} className="imgInserted"/>
                     </div>
 
-                    <div className='enterNameDiv'> {/*이름입력*/}      
+                    <div className='enterNameDiv'> {/*이름입력*/}                  
                       <img src={enterName} width={`100%`} height={`100%`}></img>            
                       <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName" style={{zIndex: 2}}></input>
                     </div>
                     {/*시작버튼 */}
-                    <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주리오오!'); return;}*/setStage(1)}}>
+                    <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주리오!'); return;}*/setStage(1)}}>
                       <img src={startButton} className="imgInserted"/>
                     </button>
 
@@ -391,7 +433,7 @@ export default function Dressing() {
                       <img src={rioImg} className="imgInserted"/>
                     </div>
                       {/**공유, 이름 저장, 이미지 저장 */}
-                    <button className="shareButton" onClick={() => {/*handleShareName()*/; handleCapture(); Swal.fire({html: '코디를 저장중이리오!<br> 잠시만 기다려주리오!'}) }}>
+                    <button className="shareButton" onClick={() => {handleShareAndCapture()}}>
                       <img src={shareButton} className="imgInserted"/>
                     </button>
                       {/**축제정보 */}
