@@ -87,15 +87,22 @@ import background14 from './asset/dressingImages/page1-4.svg';
 import title from './asset/dressingImages/title.svg';
 import firstRio from './asset/dressingImages/firstRio.svg';
 import firstInfo from './asset/dressingImages/firstInfo.svg';
+import 조교1앞1 from "../asset/dressingImages/조교1 앞1.svg";  
+import 조교1앞2 from "../asset/dressingImages/조교1 앞2.svg";  
+import 조교2앞1 from "../asset/dressingImages/조교2 앞1.svg"; 
+import 조교2앞2 from "../asset/dressingImages/조교2 앞2.svg"; 
+import 조교뒤1 from "../asset/dressingImages/조교 뒤1.svg"; 
+import 조교뒤2 from "../asset/dressingImages/조교 뒤2.svg"; 
+import empty from "../asset/dressingImages/empty.svg";
 
 export const imagePaths = [
   chultui_intro, chultui_button, 리오, 리아, joystick, walking1, walking2,
   bgd1, bgd2, bgd3, bgd4, bgd5,
   교수앞, 교수뒤, 학생들, 리아_stage1, 학생들2,
-  goal1, goal2, fail_teacher, fail_TA, 조교앞, 조교뒤,
+  goal1, goal2, fail_teacher, fail_TA, 조교1앞1, 조교1앞2, 조교2앞1, 조교2앞2, 조교뒤1, 조교뒤2,
   start2, coffee_table, 리딸라, 리딸라2, 컵홀더, 장애물사람,
   fail_새치기, fail_ridala, 나무1, 나무2, 현장이벤트, 사람2, 사람1, 부스,
-  success, 화살표우, 화살표좌,
+  success, 화살표우, 화살표좌, empty,
 
   frame11, frame10, frame12, frame13, frame14, frame15,
   head1, head2, head3, head4,
