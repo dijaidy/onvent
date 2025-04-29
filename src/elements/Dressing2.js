@@ -322,7 +322,13 @@ export default function Dressing() {
                     <div className="captureContents">
                       
                       <div className="userNameBox"> {/** 상단 메시지지 */}
-                        <div className="userName" ref={textRef} style={{ fontSize: `${fontSize}px` }}>
+                        <div className="userName" ref={textRef} 
+                        style={{
+                          fontFamily: "'Romance', saneserif", 
+                          fontSize: `${fontSize}px`,
+                          WebkitTextStroke: '1.3px white',
+                          color: '#d73e8a',
+                          whiteSpace: 'nowrap' }}>
                           {name}의 코디!
                         </div>  
                       </div>
@@ -355,9 +361,15 @@ export default function Dressing() {
                   <div className="page5">
                   
                     <div className="userNameBox"> {/** 상단 메시지지 */}
-                      <span className="userName" ref={textRef} style={{ fontSize: `${fontSize}px` }}>
+                      <div className="userName" ref={textRef} 
+                      style={{ 
+                        fontFamily: "'Romance', sans-serif", 
+                        fontSize: `${fontSize}px`, 
+                        WebkitTextStroke: '1.3px white', 
+                        color: '#d73e8a', 
+                        whiteSpace: 'nowrap' }}>
                         {name}의 코디!
-                      </span>  
+                      </div>  
                     </div>
 
                     {codi.map( //옷입은 리오모습

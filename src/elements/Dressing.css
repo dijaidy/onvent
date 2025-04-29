@@ -454,10 +454,8 @@
     object-fit: contain;
 }
 .userName{
-    display: inline-block;
-    white-space: nowrap;   
-    font-family: 'Romance';
-    color: #d73e8a;
+   
+
     max-width: 100%;
-    -webkit-text-stroke: 1.3px white;
+
 }
