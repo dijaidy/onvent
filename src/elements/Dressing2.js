@@ -164,7 +164,7 @@ export default function Dressing() {
       }
 
       try {
-        if (document.fonts && document.fonts.ready) {
+        if (document.fonts && document.fonts.ready) { 
           await document.fonts.ready;
         }
 
@@ -226,11 +226,9 @@ export default function Dressing() {
           if (dataUrl) {
             Swal.fire({
               title: '길게 눌러 저장하리오!',
-              html: `
-                <div style="max-height:60vh; overflow:auto;">
-                  <img src="${dataUrl}" style="width:100%; height:auto;"/>
-                </div>
-              `,
+              html: `<div style="max-height:60vh; overflow:auto;">
+                       <img src="${dataUrl}" style="width:100%; height:auto;"/>
+                     </div>`,
               confirmButtonText: '확인',
             });
           }
