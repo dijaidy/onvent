@@ -636,8 +636,8 @@ export default function Escaping() {
                   <animated.img ref={ta[1]} src={ta[1].current}  alt={'ta2'} style={{width: '100%', height: '100%'}}></animated.img>
               </animated.div>}
             </div>
-            <animated.div {...bindLogoPos()} style={{display: 'flex', justifyContent: 'center', width: rw(203), height: rw(203), borderRadius: rw(203), borderColor: '#ec7fbc', backgroundColor: '#ffd3ea', borderWidth: 2, borderStyle: 'solid', marginTop: rh(35)}}>
-                <animated.div ref={joystickRef} style={{width: rw(76.99), height: rw(76.99), x:joystickPos.x, y:joystickPos.y, borderRadius: rw(77), background: 'transparent', alignSelf: 'center', pointerEvents: isBlocked ? 'none' : 'auto'}}>
+            <animated.div {...bindLogoPos()} onDragStart={(e) => e.preventDefault()} draggable={false} style={{display: 'flex', justifyContent: 'center', width: rw(203), height: rw(203), borderRadius: rw(203), borderColor: '#ec7fbc', backgroundColor: '#ffd3ea', borderWidth: 2, borderStyle: 'solid', marginTop: rh(35)}}>
+                <animated.div ref={joystickRef} onDragStart={(e) => e.preventDefault()} draggable={false} style={{width: rw(76.99), height: rw(76.99), x:joystickPos.x, y:joystickPos.y, borderRadius: rw(77), background: 'transparent', alignSelf: 'center', pointerEvents: isBlocked ? 'none' : 'auto'}}>
                   <img src={joystickImg} style={{width: rw(76.99), height: rw(76.99)}} draggable={false} ></img>
                 </animated.div>
             </animated.div>

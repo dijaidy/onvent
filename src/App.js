@@ -87,13 +87,13 @@ import background14 from './asset/dressingImages/page1-4.svg';
 import title from './asset/dressingImages/title.svg';
 import firstRio from './asset/dressingImages/firstRio.svg';
 import firstInfo from './asset/dressingImages/firstInfo.svg';
-import 조교1앞1 from "../asset/dressingImages/조교1 앞1.svg";  
-import 조교1앞2 from "../asset/dressingImages/조교1 앞2.svg";  
-import 조교2앞1 from "../asset/dressingImages/조교2 앞1.svg"; 
-import 조교2앞2 from "../asset/dressingImages/조교2 앞2.svg"; 
-import 조교뒤1 from "../asset/dressingImages/조교 뒤1.svg"; 
-import 조교뒤2 from "../asset/dressingImages/조교 뒤2.svg"; 
-import empty from "../asset/dressingImages/empty.svg";
+import 조교1앞1 from "./asset/dressingImages/조교1 앞1.svg";  
+import 조교1앞2 from "./asset/dressingImages/조교1 앞2.svg";  
+import 조교2앞1 from "./asset/dressingImages/조교2 앞1.svg"; 
+import 조교2앞2 from "./asset/dressingImages/조교2 앞2.svg"; 
+import 조교뒤1 from "./asset/dressingImages/조교 뒤1.svg"; 
+import 조교뒤2 from "./asset/dressingImages/조교 뒤2.svg"; 
+import empty from "./asset/dressingImages/empty.svg";
 
 export const imagePaths = [
   chultui_intro, chultui_button, 리오, 리아, joystick, walking1, walking2,
