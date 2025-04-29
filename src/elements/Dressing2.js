@@ -409,7 +409,7 @@ export default function Dressing() {
                       <img src={rioImg} className="imgInserted"/>
                     </div>
                       {/**공유, 이름 저장, 이미지 저장 */}
-                    <button className="shareButton" onClick={() => {handleShareAndCapture}}>
+                    <button className="shareButton" onClick={() => {handleShareAndCapture()}}>
                       <img src={shareButton} className="imgInserted"/>
                     </button>
                       {/**축제정보 */}
