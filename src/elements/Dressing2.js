@@ -39,8 +39,6 @@ import prevButton from "../asset/dressingImages/prevButton.svg";
 import nextButton from "../asset/dressingImages/nextButton.svg";
 import shareButton from "../asset/dressingImages/shareButton.svg";
 import info from "../asset/dressingImages/info.svg";
-import enterName from '../asset/dressingImages/enterName.svg';
-
 
 import { sendNameToFirebase } from '../utils/sendNameToFirebase';
 
@@ -208,7 +206,8 @@ export default function Dressing() {
         
       } catch (error) {
         console.error('캡쳐 실패 😱', error);
-        alert("⚠️ 이미지 캡쳐에 실패했습니다. 다시 시도해주세요!");
+        alert({
+          html: "캡쳐에 실패햇다리오... <br>다시 시도해주세요!"});
       }
     };
     
@@ -263,12 +262,11 @@ export default function Dressing() {
                       <img src={firstRio} className="imgInserted"/>
                     </div>
 
-                    <div className='enterNameDiv'> {/*이름입력*/}      
-                      <img src={enterName} width={`100%`} height={`100%`}></img>            
-                      <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName" style={{zIndex: 2}}></input>
+                    <div className='enterNameDiv'> {/*이름입력*/}                  
+                      <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName"></input>
                     </div>
                     {/*시작버튼 */}
-                    <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주리오오!'); return;}*/setStage(1)}}>
+                    <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주리오!'); return;}*/setStage(1)}}>
                       <img src={startButton} className="imgInserted"/>
                     </button>
 
