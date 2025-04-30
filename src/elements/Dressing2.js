@@ -270,12 +270,13 @@ export default function Dressing() {
 
 
 
-    
+
 
 
     const handleShareAndCapture = async () => {
       Swal.fire({
-        html: '이미지를 불러오는 중이리오..<br> 잠시만 기다려주리오!<br>저장된 코디를 인스타에 공유하리오~',
+        title: '이미지 불러오는 중',
+        html: '잠시만 기다려주리오!<br>저장된 코디를 인스타에 공유하리오~',
         allowOutsideClick: false,
         showConfirmButton: false,
         didOpen: () => {
@@ -308,7 +309,7 @@ export default function Dressing() {
       }
     
       // 🔥 2. 이름 보내기 (처음 1회만)
-      if (!hasSubmitted.current) {
+      /*if (!hasSubmitted.current) {
         try {
           await handleShareName(); // 내부에서만 성공 후 hasSubmitted = true
           hasSubmitted.current = true;
@@ -320,7 +321,7 @@ export default function Dressing() {
           });
           return;
         }
-      }
+      }*/
     
       // 🔥 3. 캡처 진행
       const dataUrl = await handleCapture();
@@ -333,7 +334,7 @@ export default function Dressing() {
           Swal.fire({
             title: '길게 눌러 저장하리오!',
             html: `<div style="max-height:60vh; overflow:auto;">
-                    <img src="${dataUrl}" className="capture" style="width:100%; height:auto;"/>
+                    <img src="${dataUrl}" class="capture" style="width:100%; height:auto;"/>
                   </div>`,
             confirmButtonText: '확인',
           });
