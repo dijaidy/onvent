@@ -192,8 +192,8 @@ export default function Dressing() {
     
         Swal.fire({
           icon: 'info',
-          title: '페이지 준비 중이리오!',
-          html: '공유하기 버튼이 활성화 될 때까지 기다려주리오!',
+          title: '이미지 준비 중이리오!',
+          html: '공유하기 버튼이 활성화 될 때까지 기다려주리오!<br>이미지에 문제가 있다면 다시 시도해주리오..<br>(폰트, 이미지 깨짐 등등)',
           timer: 3000, // ⏱️ 3초 후 자동 종료
           showConfirmButton: true,
           confirmButtonText: '확인',
@@ -202,10 +202,14 @@ export default function Dressing() {
           // 팝업 닫히고 나면 비동기 폰트 감시 시작
           const watchFont = async () => {
             const ready = await waitForFontFullyRendered('.userName', 'Romance');
-            setIsFontReady(ready);
-            console.log('폰트 로디 완료됨!')
+            if (ready) {
+              console.log('✅ 폰트 적용 확인됨 → 안정화 대기 중...');
+              await new Promise(r => setTimeout(r, 3000)); // 🔥 렌더링 안정 대기 시간
+              console.log('✅ 안정화 완료 → 버튼 활성화');
+              setIsFontReady(true);
+            }
           };
-    
+          
           watchFont();
         });
       }
@@ -314,7 +318,7 @@ export default function Dressing() {
         const dataUrl = await htmlToImage.toPng(node, {
           backgroundColor: '#ffffff',
           cacheBust: true,
-          pixelRatio: 2,
+          pixelRatio: 3,
         });
 
         return dataUrl; // ✅ 캡처된 이미지 URL 반환
