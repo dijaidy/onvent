@@ -44,7 +44,8 @@ import { ReactComponent as Info } from "../asset/dressingImages/info.svg";
 import { ReactComponent as EnterName } from "../asset/dressingImages/enterName.svg";
 
 import { sendNameToFirebase } from '../utils/sendNameToFirebase';
-import withReactContent from 'sweetalert2-react-content';
+import { checkNameDuplicate } from '../utils/checkNameDuplicate';
+
 
 
 import Swal from "sweetalert2";
@@ -212,7 +213,29 @@ export default function Dressing() {
 
 
 
+    
 
+    const handleStartClick = async () => {
+      if (!name.trim()) {
+        Swal.fire({
+          icon: 'warning',
+          html: '이름을 입력해주리오!'
+        });
+        return;
+      }
+    
+      const isDuplicate = await checkNameDuplicate(name);
+      if (isDuplicate) {
+        Swal.fire({
+          icon: 'warning',
+          html: '중복된 이름이리오! <br> 다른 이름을 입력하리오!'
+        });
+        return;
+      }
+    
+      setStage(1);
+    };
+    
 
 
 
@@ -440,7 +463,7 @@ export default function Dressing() {
                       <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName" style={{zIndex: 2}}></input>
                     </div>
                     {/*시작버튼 */}
-                    <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주리오!'); return;}*/setStage(1);window.scrollTo(0, 0);}}>
+                    <button className="startbutton" onClick={handleStartClick}>
                       <StartButton className="imgInserted" />
                     </button>
 

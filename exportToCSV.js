@@ -32,7 +32,7 @@ async function exportToCSV() {
     csv += `"${formatted}","${data.name}"\n`; // ✅ 시간 왼쪽, 이름 오른쪽
   });
 
-  fs.writeFileSync("names.csv", "\uFEFF" + csv, "utf8");
+  fs.writeFileSync("온라인이벤트공유명단.csv", "\uFEFF" + csv, "utf8");
   console.log("✅ CSV 저장 완료 (timestamp → name 순): names.csv");
 }
 
