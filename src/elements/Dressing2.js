@@ -405,16 +405,14 @@ export default function Dressing() {
       const dataUrl = await handleCapture();
     
       if (dataUrl) {
-        const decoded = atob(dataUrl.replace(/^data:image\/svg\+xml;base64,/, ''));
-        const parser = new DOMParser();
-        const svgDoc = parser.parseFromString(decoded, "image/svg+xml");
-        const svgElement = new XMLSerializer().serializeToString(svgDoc.documentElement);
+        const img = new Image();
+        img.src = dataUrl;
     
         img.onload = () => {
           Swal.fire({
             title: '길게 눌러 저장하리오!',
             html: `<div style="max-height:60vh; overflow:auto; touch-action:none;">
-                    ${svgElement}
+                    <img src="${dataUrl}" className="capture" style="width:100%; height:auto; "/>
                   </div>`,
             confirmButtonText: '확인',
           });
