@@ -20,6 +20,12 @@
     height: 100%;
     display: block; 
 }
+.imgInserted2{
+    width: 115%;
+    height: 115%;
+    display: block; 
+    align-self: center;
+}
 .backgroundImgs{
     width: 100%;
     height: 100%;
@@ -336,6 +342,19 @@
     border: none;
     position: absolute;
     top: calc(835/956 * 100%);
+}
+.info2{
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    justify-content: center;
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: calc(755/956 * 100%);
 }
 .infoCap{
     background-size: contain;

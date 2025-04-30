@@ -6,6 +6,7 @@ import { data, useNavigate } from "react-router-dom";
 import '../index.css';
 import Swal from 'sweetalert2';
 import * as htmlToImage from 'html-to-image';
+import { ReactComponent as Info } from "../asset/dressingImages/info.svg";
 
 import chultui_intro from "../asset/dressingImages/chultui_intro.svg";
 import chultui_button from "../asset/dressingImages/chultui_button.svg";
@@ -60,6 +61,7 @@ import 실패문구2 from "../asset/dressingImages/실패문구2.svg"
 import 실패문구3 from "../asset/dressingImages/실패문구3.svg"
 import 실패문구4 from "../asset/dressingImages/실패문구4.svg"
 import 공유하기 from "../asset/dressingImages/공유하기.svg"
+import { sendNameToFirebase } from "../utils/sendNameToFirebase";
 
 const failArr = [실패문구1, 실패문구2, 실패문구3, 실패문구4];
 
@@ -101,6 +103,7 @@ export default function Escaping() {
     const [p, setP] = useState(true);
     const hasSubmitted = useRef(false);
     const inputRef = useRef(null);
+    const [isShared, setIsShared] = useState(false);
 
     const taPos = [useSpring({x: rw(118), y: rh(46)}), useSpring({x: rw(250), y: rh(308)})];
     const taSize = [rw(72), rh(204)];
@@ -494,7 +497,6 @@ export default function Escaping() {
       
     };
 
-
     const bindLogoPos = useDrag((e)=>{
       console.log(e.last)
       if (e.first){
@@ -561,106 +563,24 @@ export default function Escaping() {
     //390 663
 
 
-    const handleCapture = async () => {
-          const node = document.querySelector('.captureArea');
-          
-          if (!node) {
-            alert("❌ 캡쳐 대상이 없습니다!");
-            return null;
-          }
-    
-          try {
-            if (document.fonts && document.fonts.ready) { 
-              await document.fonts.ready;
-            }
-    
-            await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-            await new Promise(resolve => setTimeout(resolve, 400));
-    
-            const dataUrl = await htmlToImage.toPng(node, {
-              backgroundColor: '#ffffff',
-              cacheBust: true,
-            });
-    
-            return dataUrl; // ✅ 캡처된 이미지 URL 반환
-    
-          } catch (error) {
-            console.error('캡쳐 실패 😱', error);
-            alert("⚠️ 캡쳐에 실패했습니다. 다시 시도해 주세요!");
-            return null;
-          }
-        };
+    const handleShareName = async () => {
+      if (hasSubmitted.current) return;
 
-        const handleShareAndCapture = async () => {
-          // 🔥 이름 저장은 첫 클릭만
-          if (!hasSubmitted.current) {
-            hasSubmitted.current = true;
+      hasSubmitted.current = true;
+
+      try {
+        await sendNameToFirebase(name);
+      } catch (err) {
+        hasSubmitted.current = false;
+        Swal.fire({
+          icon: 'error',
+          title: '이름 저장 실패',
+          html: '문제가 발생했다리오 <br> 다시 시도해 주리오ㅠㅠㅠ',
+        });
+      }
+    };
+
         
-            try {
-              //await handleShareName(); // ✅ 이름 저장
-        
-              Swal.fire({
-                html: '이미지를 불러오는 중이리오..<br> 잠시만 기다려주리오!<br>저장된 코디를 인스타에 공유하리오~',
-                allowOutsideClick: false,
-                showConfirmButton: false,
-                didOpen: () => {
-                  Swal.showLoading();
-                }
-              });
-        
-              await new Promise(resolve => setTimeout(resolve, 800));
-        
-              const dataUrl = await handleCapture();
-        
-              if (dataUrl) {
-                Swal.fire({
-                  title: '길게 눌러 저장하리오!',
-                  html: `
-                    <div style="max-height:60vh; overflow:auto;">
-                      <img src="${dataUrl}" className="capture" style="width:100%; height:auto;"/>
-                    </div>
-                  `,
-                  confirmButtonText: '확인',
-                });
-              }
-        
-            } catch (err) {
-              hasSubmitted.current = false;
-              Swal.fire({
-                icon: 'error',
-                title: '이름 저장 실패',
-                html: '문제가 발생했다리오ㅠㅠ <br> 다시 시도해주리오!',
-              });
-            }
-        
-          } else {
-            // ✅ 두 번째 클릭부터는 이름 저장 없이 바로 캡처만
-            Swal.fire({
-              html: '이미지를 다시 불러오는 중이리오!',
-              allowOutsideClick: false,
-              showConfirmButton: false,
-              didOpen: () => {
-                Swal.showLoading();
-              }
-            });
-        
-            await new Promise(resolve => setTimeout(resolve, 800));
-        
-            const dataUrl = await handleCapture();
-        
-            if (dataUrl) {
-              Swal.fire({
-                title: '길게 눌러 저장하리오!',
-                html: `
-                  <div style="max-height:60vh; overflow:auto;">
-                    <img src="${dataUrl}" style="width:100%; height:auto;"/>
-                  </div>
-                `,
-                confirmButtonText: '확인',
-              });
-            }
-          }
-        };
         
 
     return (
@@ -730,16 +650,18 @@ export default function Escaping() {
         </div>
         :
         (isClear) ?
-        <div className='captureArea' style={{display: 'flex', flexDirection: 'column', alignItems: 'center', height: 500, width: 500, zIndex:2}}>
-          <text style={{fontFamily: 'fighting', fontSize: rw(90.74), color: '#000000', marginTop: rh(103), zIndex: 3}} >축제도착~!!</text>
-          <img style={{marginTop: rh(0)}} src={success} width={rw(350)} height={rh(438)}></img> 
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center',zIndex:2, justifyContent: 'flex-start'}}>
+          <text style={{fontFamily: 'fighting', fontSize: rw(90.74), color: '#000000', marginTop: rh(73), zIndex: 3}} >축제도착~!!</text>
+          <img style={{marginTop: rh(40)}} src={success} width={rw(350)} height={rh(438)}></img> 
           <text style={{fontFamily: 'fighting', fontSize: rw(52), marginTop: rh(26)}}>{name}의 출튀 기록은??</text>
-          <text style={{fontFamily: 'Yangjin', fontSize: rw(48), marginTop: rh(0)}}>{time/1000}초</text>
+          <text style={{fontFamily: 'Yangjin', fontSize: rw(48), marginTop: (isShared) ?  rh(30): rh(0)}}>{time/1000}초</text>
+          { (!isShared) && 
           <button style={{borderWidth: 0, backgroundColor: 'transparent', display: 'flex', marginTop: rh(10)}} onClick={()=>{
-            handleShareAndCapture();
+            setIsShared(true);
+            handleShareName();
           }}>
             <img src={공유하기} width={rw(270.96)} height={rw(64)}></img>
-          </button>
+          </button>}
         </div>
         :
         <div>

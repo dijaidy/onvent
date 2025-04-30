@@ -186,44 +186,6 @@ export default function Dressing() {
     const [fontSize, setFontSize] = useState(50);
     const hasSubmitted = useRef(false);
     const [canShare, setCanShare] = useState(false); // 상단에 추가
-    const [isFontReady, setIsFontReady] = useState(false);
-
-
-
-    useEffect(() => {
-      if (stage === 5) {
-        setIsFontReady(false); // 초기화
-    
-        Swal.fire({
-          icon: 'info',
-          title: '이미지 준비 중이리오!',
-          html: '공유하기 버튼이 활성화 될 때까지 기다려주리오!<br>문제가 생기면 다시 시도해주리오..<br>(폰트, 이미지 깨짐 등)',
-          timer: 3000, // ⏱️ 3초 후 자동 종료
-          showConfirmButton: true,
-          confirmButtonText: '확인',
-          allowOutsideClick: false,
-        }).then(() => {
-          // 팝업 닫히고 나면 비동기 폰트 감시 시작
-          const watchFont = async () => {
-            const ready = await waitForFontFullyRendered('.userName', 'Romance');
-            if (ready) {
-              console.log('✅ 폰트 적용 확인됨 → 안정화 대기 중...');
-              await new Promise(r => setTimeout(r, 3000)); // 🔥 렌더링 안정 대기 시간
-              console.log('✅ 안정화 완료 → 버튼 활성화');
-              setIsFontReady(true);
-            }
-          };
-          
-          watchFont();
-        });
-      }
-    }, [stage]);
-    
-    
-    
-
-
-
 
 
     useLayoutEffect(() => {
@@ -383,112 +345,7 @@ export default function Dressing() {
       return false;
     }
 
-    const CaptureImg = ()=>(
-    <div className="captureBox" style={{width: window.innerWidth, height: window.innerHeight-rh(100), display:'flex',  transform: 'scale(0.8)', transformOrigin: 'top left', marginRight: '-30%', marginBottom: '-75%',}}>
-      <div style={{width: '100%', height: '100%', position: 'absolute', top: 0, overflow: 'hidden'}}>
-      <Background05 className="backgroundImgs" style={{}} />
-      </div>
-      <div className="captureArea">
-        <Background05 className="backgroundImgs"/>
-        <div className="captureContainer">
-          <div className="captureContents">
-            
-            <div className="userNameBox"> {/** 상단 메시지지 */}
-              <div className="userName" ref={textRef} 
-              style={{
-                fontFamily: "'Romance', saneserif", 
-                fontSize: `${fontSize}px`,
-                WebkitTextStroke: '1.3px white',
-                color: '#d73e8a',
-                whiteSpace: 'nowrap' }}>
-                {name}의 코디!
-              </div>  
-            </div>
-
-            {codi.map( //옷입은 리오모습
-              (item, i) =>{
-                let Image;
-                if (item){
-                  Image = item.src;
-                }
-                return (item && (
-                  <Image
-                    className={item.className}
-                    key={i}
-                    style={{ position: "absolute" }}
-                      crossOrigin="anonymous"
-                  />
-                ))
-              }
-            )}
-
-            <div className="rio">
-              <RioImg className="imgInserted" crossOrigin="anonymous"/>
-            </div>
-                    
-            <div className="info">
-              <Info className="imgInserted" crossOrigin="anonymous"/>
-            </div>
-          </div>  
-        </div>
-      </div>
-
-      <div className="page">
-        <div className="page5">
-        
-          <div className="userNameBox"> {/** 상단 메시지지 */}
-            <div className="userName" ref={textRef} 
-            style={{ 
-              fontFamily: "'Romance', sans-serif", 
-              fontSize: `${fontSize}px`, 
-              WebkitTextStroke: '1.3px white', 
-              color: '#d73e8a', 
-              whiteSpace: 'nowrap' }}>
-              {name}의 코디!
-            </div>  
-          </div>
-
-          {codi.map( //옷입은 리오모습
-            (item, i) =>{
-              let Image;
-
-              if (item) {
-                Image = item.src;
-              }
-              return(
-              item && (
-                <Image
-                  className={item.className}
-                  key={i}
-                  style={{ position: "absolute" }}
-                />
-              ))}
-          )}
-          
-          <div className="rio">
-            <RioImg className="imgInserted"/>
-          </div>
-            {/**공유, 이름 저장, 이미지 저장 */}
-
-            {/**축제정보 */}
-          <div className="infoCap">
-            <Info className="imgInserted"/>
-          </div> 
-        
-        </div>
-      </div>
-    </div>
-    )
-
     const handleShareAndCapture = async () => {
-      if (!isFontReady) {
-        Swal.fire({
-          icon: 'warning',
-          title: '오류가 발생했다리오!',
-          html: '잠시 뒤에 다시 시도해주리오!',
-        });
-        return;
-      }
     
       // 🔄 공유 이름 최초 1회만 전송
       /*if (!hasSubmitted.current) {
@@ -526,7 +383,10 @@ export default function Dressing() {
         img.onload = () => {
           Swal.fire({
             title: '길게 눌러 저장하리오!',
-            html: <CaptureImg/>,
+            html: `<div style="max-height:60vh; overflow:auto;">
+                     <img src="${dataUrl}" class="capture" 
+                          style="width:100%; height:auto;" />
+                   </div>`,
             confirmButtonText: '확인',
           });
         };
@@ -636,7 +496,7 @@ export default function Dressing() {
                 </div>
               </div>
             );
-          } else if (stage === 5) {
+          } else if (stage === 5 || stage === 6) {
             return (
               <div className="background05">
                 
@@ -723,17 +583,20 @@ export default function Dressing() {
                       <RioImg className="imgInserted"/>
                     </div>
                       {/**공유, 이름 저장, 이미지 저장 */}
-                    <button
+                    
+                    {stage===5 && <button
                       className="shareButton"
-                      onClick={handleShareAndCapture}
-                      disabled={!isFontReady}
+                      onClick={()=>{
+                        handleShareName();
+                        setStage(6);
+                      }}
                     >
                       <ShareButton className="imgInserted"/>
-                    </button>
+                    </button>}
 
                       {/**축제정보 */}
-                    <div className="info">
-                      <Info className="imgInserted"/>
+                    <div className={stage==5 ? "info": "info2"}>
+                      <Info className={stage==5 ? "imgInserted" : "imgInserted2"}/>
                     </div> 
                   
                   </div>
