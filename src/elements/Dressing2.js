@@ -130,7 +130,7 @@ export default function Dressing() {
     const textRef = useRef();
     const [fontSize, setFontSize] = useState(50);
     const hasSubmitted = useRef(false);
-    
+    const [canShare, setCanShare] = useState(false); // 상단에 추가
 
     useLayoutEffect(() => {
       if (stage !== 5) return;
@@ -165,10 +165,9 @@ export default function Dressing() {
 
 
 
-    const [canShare, setCanShare] = useState(false); // 상단에 추가
-
     useEffect(() => {
       if (stage === 5) {
+        window.alert("코드반영테스트트")
         console.log("⏱️ Stage 5 진입 - 버튼 3초 잠금 시작");
         setCanShare(false);
         const timer = setTimeout(() => {
