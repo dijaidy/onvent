@@ -373,7 +373,7 @@ export default function Dressing() {
                     </div>
 
                     <div className="firstRio">
-                      <img src={firstRio} className="imgInserted"/>
+                      <img src={firstRio} className="imgInserted" />
                     </div>
 
                     <div className='enterNameDiv'> {/*이름입력*/}                  

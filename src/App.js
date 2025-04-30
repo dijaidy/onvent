@@ -104,7 +104,10 @@ import 공유하기 from "./asset/dressingImages/공유하기.svg"
 
 import 빗썸화면 from "./asset/dressingImages/빗썸화면.svg"
 import 스프링클제목 from "./asset/dressingImages/스프링클제목.svg"
-
+import 기본배경 from "./asset/dressingImages/기본배경.svg";
+import 출튀버튼 from "./asset/dressingImages/출튀버튼.svg"
+import 리옷버튼 from "./asset/dressingImages/리옷버튼.svg"
+import 빗썸버튼 from "./asset/dressingImages/빗썸버튼.svg"
 
 export const imagePaths = [
   chultui_intro, chultui_button, 리오, 리아, joystick, walking1, walking2,
@@ -125,40 +128,25 @@ export const imagePaths = [
   background05, background14, rio, enterName, prevButton, nextButton, shareButton, info,
   firstInfo, firstRio, title, startButton,
 
-  빗썸화면, 스프링클제목
+  빗썸화면, 스프링클제목, 기본배경, 출튀버튼, 리옷버튼, 빗썸버튼
 ];
 
-function preloadImages(paths) {
-  return Promise.all(
-    paths.map(
-      (src) =>
-        new Promise((resolve) => {
-          const img = new Image();
-          img.src = src;
-          img.onload = () => resolve(img);
-        })
-    )
-  );
-}
+const preloadImages = (paths) => {
+  return paths.map((filename) => (<img style={{ display: 'none' }} src={filename}></img>));
+};
+
+const imgArr = preloadImages(imagePaths)
 
 
 function App() {
-
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    preloadImages(imagePaths).then(() => {
-      setLoaded(true);
-    });
-  }, []);
 
   return (
     <div className="App">
       <text style={{position: 'absolute', color: 'transparent', fontFamily: 'Fighting'}}>a</text> 
       <text style={{position: 'absolute', color: 'transparent', fontFamily: 'Yangjin'}}>a</text> 
       <text style={{position: 'absolute', color: 'transparent', fontFamily: 'Romance'}}>a</text> 
-      
-      {loaded && <Navigation/>}
+      {imgArr}
+      <Navigation/>
     </div>
   );
 }
