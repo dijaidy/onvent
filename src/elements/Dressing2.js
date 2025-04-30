@@ -185,6 +185,39 @@ export default function Dressing() {
     const [isFontReady, setIsFontReady] = useState(false);
 
 
+
+    useEffect(() => {
+      if (stage === 5) {
+        setIsFontReady(false); // 초기화
+    
+        Swal.fire({
+          icon: 'info',
+          title: '페이지 준비 중이리오!',
+          html: '공유하기 버튼이 활성화 될 때까지 기다려주리오!',
+          timer: 3000, // ⏱️ 3초 후 자동 종료
+          showConfirmButton: true,
+          confirmButtonText: '확인',
+          allowOutsideClick: false,
+        }).then(() => {
+          // 팝업 닫히고 나면 비동기 폰트 감시 시작
+          const watchFont = async () => {
+            const ready = await waitForFontFullyRendered('.userName', 'Romance');
+            setIsFontReady(ready);
+            console.log('폰트 로디 완료됨!')
+          };
+    
+          watchFont();
+        });
+      }
+    }, [stage]);
+    
+    
+    
+
+
+
+
+
     useLayoutEffect(() => {
       if (stage !== 5) return;
     
@@ -218,18 +251,7 @@ export default function Dressing() {
 
 
 
-    useEffect(() => {
-      if (stage === 5) {
-        
-        console.log("⏱️ Stage 5 진입 - 버튼 3초 잠금 시작");
-        setCanShare(false);
-        const timer = setTimeout(() => {
-          console.log("✅ 3초 지남 - 버튼 활성화");
-          setCanShare(true);
-        }, 3000);
-        return () => clearTimeout(timer);
-      }
-    }, [stage]);
+
     
 
 
@@ -239,53 +261,32 @@ export default function Dressing() {
 
 
 
-    useEffect(() => {
-      if (stage === 5) {
-        setIsFontReady(false);
-    
-        const watchFont = async () => {
-          const ready = await waitForFontFullyRendered('.userName', 'Romance', 6000);
-          setIsFontReady(ready);
-        };
-    
-        watchFont();
-      }
-    }, [stage]);
-    
 
 
 
     
-    async function waitForFontFullyRendered(selector, targetFont, timeout = 3000) {
-      const start = Date.now();
-    
-      while (Date.now() - start < timeout) {
+    async function waitForFontFullyRendered(selector, targetFont) {
+      while (true) {
         const el = document.querySelector(selector);
-        if (!el) {
-          await new Promise(r => setTimeout(r, 100));
-          continue;
-        }
+        if (el) {
+          const computed = window.getComputedStyle(el);
+          const fontStack = computed.fontFamily.split(',').map(f => f.trim().replace(/['"]/g, ''));
+          const activeFont = fontStack[0];
     
-        const computed = window.getComputedStyle(el);
-        const fontStack = computed.fontFamily.split(',').map(f => f.trim().replace(/['"]/g, ''));
-        const activeFont = fontStack[0]; // 실제로 적용된 첫 번째 폰트
+          const width = el.scrollWidth;
+          const height = el.offsetHeight;
     
-        const width = el.scrollWidth;
-        const height = el.offsetHeight;
-    
-        console.log(`🧐 폰트 상태 체크: ${activeFont}, 사이즈: ${width}x${height}`);
-    
-        if (activeFont === targetFont && width > 0 && height > 0) {
-          console.log('✅ 실제 폰트 렌더 완료됨');
-          return true;
+          if (activeFont === targetFont && width > 0 && height > 0) {
+            await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+            await new Promise(r => setTimeout(r, 100));
+            return true;
+          }
         }
     
         await new Promise(r => setTimeout(r, 100));
       }
-    
-      console.warn('⚠️ 폰트 렌더 타임아웃');
-      return false;
     }
+    
     
     
     
@@ -631,14 +632,8 @@ export default function Dressing() {
                       {/**공유, 이름 저장, 이미지 저장 */}
                     <button
                       className="shareButton"
-                      onClick={(e) => {
-                        if (!canShare) {
-                          e.preventDefault();
-                          return;
-                        }
-                        handleShareAndCapture();
-                      }}
-                      disabled={!canShare}
+                      onClick={handleShareAndCapture}
+                      disabled={!isFontReady}
                     >
                       <ShareButton className="imgInserted"/>
                     </button>
