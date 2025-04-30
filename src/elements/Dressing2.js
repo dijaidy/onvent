@@ -181,7 +181,7 @@ export default function Dressing() {
     const textRef = useRef();
     const [fontSize, setFontSize] = useState(50);
     const hasSubmitted = useRef(false);
-    
+    const [canShare, setCanShare] = useState(false); // 상단에 추가
 
     useLayoutEffect(() => {
       if (stage !== 5) return;
@@ -209,26 +209,53 @@ export default function Dressing() {
 
 
 
-    
-    // ✅ 폰트 적용 기다리는 함수
-    async function waitForFontApplied(selector, targetFont, timeout = 3000) {
-      const start = Date.now();
 
+
+
+
+
+
+
+    useEffect(() => {
+      if (stage === 5) {
+        window.alert("코드반영테스트트")
+        console.log("⏱️ Stage 5 진입 - 버튼 3초 잠금 시작");
+        setCanShare(false);
+        const timer = setTimeout(() => {
+          console.log("✅ 3초 지남 - 버튼 활성화");
+          setCanShare(true);
+        }, 3000);
+        return () => clearTimeout(timer);
+      }
+    }, [stage]);
+    
+
+
+
+    
+    async function waitForFontFullyRendered(selector, targetFont, timeout = 3000) {
+      const start = Date.now();
       while (Date.now() - start < timeout) {
         const el = document.querySelector(selector);
         if (el) {
-          const computedFont = window.getComputedStyle(el).fontFamily;
-          if (computedFont.includes(targetFont)) {
-            console.log('✅ 폰트 적용 완료:', computedFont);
+          const computed = window.getComputedStyle(el);
+          const font = computed.fontFamily;
+          const width = el.scrollWidth;
+          const height = el.offsetHeight;
+    
+          console.log(`⏱️ 폰트 상태 체크: ${font}, size: ${width}x${height}`);
+    
+          if (font.includes(targetFont) && width > 0 && height > 0) {
+            console.log('✅ 폰트 완전 적용 + 렌더 완료');
             return true;
           }
         }
-        await new Promise(r => setTimeout(r, 100)); // 100ms 간격으로 재확인
+        await new Promise(r => setTimeout(r, 100));
       }
-
-      console.warn('⚠️ 폰트 적용 타임아웃!');
+      console.warn('⚠️ 폰트 렌더 타임아웃');
       return false;
     }
+    
     
 
 
@@ -338,7 +365,7 @@ export default function Dressing() {
       await new Promise(resolve => setTimeout(resolve, 800));
     
       // 🔥 1. 폰트 적용 완료 검사
-      const fontReady = await waitForFontApplied('.userName', 'Romance');
+      const fontReady = await waitForFontFullyRendered('.userName', 'Romance');
       if (!fontReady) {
         Swal.fire({
           icon: 'error',
@@ -385,7 +412,7 @@ export default function Dressing() {
           Swal.fire({
             title: '길게 눌러 저장하리오!',
             html: `<div style="max-height:60vh; overflow:auto;">
-                    <img src="${dataUrl}" class="capture" style="width:100%; height:auto;"/>
+                    <img src="${dataUrl}" className="capture" style="width:100%; height:auto;"/>
                   </div>`,
             confirmButtonText: '확인',
           });
@@ -561,9 +588,20 @@ export default function Dressing() {
                       <RioImg className="imgInserted"/>
                     </div>
                       {/**공유, 이름 저장, 이미지 저장 */}
-                    <button className="shareButton" onClick={() => {handleShareAndCapture()}}>
+                    <button
+                      className="shareButton"
+                      onClick={(e) => {
+                        if (!canShare) {
+                          e.preventDefault();
+                          return;
+                        }
+                        handleShareAndCapture();
+                      }}
+                      disabled={!canShare}
+                    >
                       <ShareButton className="imgInserted"/>
                     </button>
+
                       {/**축제정보 */}
                     <div className="info">
                       <Info className="imgInserted"/>

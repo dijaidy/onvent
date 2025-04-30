@@ -459,8 +459,13 @@
     object-fit: contain;
 }
 .userName{
-   
-
+    font-family: 'Romance';
+    color: '#d73e8a';
     max-width: 100%;
 
 }
+.shareButton:disabled .imgInserted {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  
