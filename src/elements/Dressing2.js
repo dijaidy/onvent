@@ -430,10 +430,9 @@ export default function Dressing() {
         img.onload = () => {
           Swal.fire({
             title: '길게 눌러 저장하리오!',
-            html: `<div style="max-height:60vh; overflow:auto;">
-                     <img src="${dataUrl}" class="capture" 
-                          style="width:100%; height:auto;" />
-                   </div>`,
+            html: `<div style="max-height:60vh; overflow:auto; user-select: auto; -webkit-touch-callout: default;">
+                    <img src="${dataUrl}" className="capture" style="width:100%; height:auto; "/>
+                  </div>`,
             confirmButtonText: '확인',
           });
         };
