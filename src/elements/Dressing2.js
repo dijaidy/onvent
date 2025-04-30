@@ -281,6 +281,7 @@ export default function Dressing() {
         const dataUrl = await htmlToImage.toPng(node, {
           backgroundColor: '#ffffff',
           cacheBust: true,
+          pixelRatio: 2,
         });
 
         return dataUrl; // ✅ 캡처된 이미지 URL 반환
@@ -436,7 +437,7 @@ export default function Dressing() {
 
   
     return (
-      <div className="mainContainer" style={{}}>
+      <div className="mainContainer" style={{touchAction: 'none'}}>
         {(() => {
           if (stage === 0) {
             return (
