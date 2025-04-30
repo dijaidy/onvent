@@ -11,7 +11,6 @@
 .mainContainer{
     width: 100vw;
     height: calc(var(--nvh)*100);
-    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -23,7 +22,7 @@
 }
 .backgroundImgs{
     width: 100%;
-    height: 110%;
+    height: 100%;
     overflow: hidden;
 
 }
@@ -39,6 +38,19 @@
     overflow: hidden;
     
 }
+.captureBox{
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+.captureBox * {
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
 .background14{
     width: 100%;
     height: 100%;
@@ -314,7 +326,6 @@
     top: calc(723/956 * 100%);
 }
 .info{
-   
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -324,6 +335,17 @@
     border: none;
     position: absolute;
     top: calc(835/956 * 100%);
+}
+.infoCap{
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: calc(360/440 *100%);
+    height: calc(77/956 *100%);
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: calc(725/956 * 100%);
 }
 .outfitBox{
     width: 100%;
@@ -470,3 +492,8 @@
     opacity: 0.5;
   }
   
+
+  .groupContainer * {
+    user-select: none;
+    -webkit-touch-callout: none;
+  }

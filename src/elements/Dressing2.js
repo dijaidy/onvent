@@ -44,10 +44,14 @@ import { ReactComponent as Info } from "../asset/dressingImages/info.svg";
 import { ReactComponent as EnterName } from "../asset/dressingImages/enterName.svg";
 
 import { sendNameToFirebase } from '../utils/sendNameToFirebase';
+import withReactContent from 'sweetalert2-react-content';
+
 
 import Swal from "sweetalert2";
 import { useRef, useEffect, useLayoutEffect } from "react";
 import * as htmlToImage from 'html-to-image';
+
+import { rh, rw } from "../managements/Dimensions";
 
 const svgMap = {
   soccer: Soccer,
@@ -145,7 +149,7 @@ function NextP({stage, setStage}){ //다음버튼
 export default function Dressing() {
     const [stage, setStage] = useState(0);
     const [codi, setCodi] = useState([null, null, null, null]);
-  
+
     const closet = [ // 버튼용 이미지 저장
       [svgMap.soccer, svgMap.hockey],
       [svgMap.shoes1, svgMap.shoes2, svgMap.shoes3, svgMap.shoes4],
@@ -311,9 +315,9 @@ export default function Dressing() {
         await new Promise(resolve => setTimeout(resolve, 400));
 
         const dataUrl = await htmlToImage.toPng(node, {
-          backgroundColor: '#ffffff',
+          backgroundColor: '#ffffff', 
           cacheBust: true,
-          pixelRatio: 2,
+          pixelRatio: 5,
         });
 
         return dataUrl; // ✅ 캡처된 이미지 URL 반환
@@ -374,15 +378,102 @@ export default function Dressing() {
       return false;
     }
 
-    
+    const CaptureImg = ()=>(
+    <div className="captureBox" style={{width: window.innerWidth, height: window.innerHeight-rh(100), display:'flex',  transform: 'scale(0.8)', transformOrigin: 'top left', marginRight: '-30%', marginBottom: '-75%',}}>
+      <div style={{width: '100%', height: '100%', position: 'absolute', top: 0, overflow: 'hidden'}}>
+      <Background05 className="backgroundImgs" style={{}} />
+      </div>
+      <div className="captureArea">
+        <Background05 className="backgroundImgs"/>
+        <div className="captureContainer">
+          <div className="captureContents">
+            
+            <div className="userNameBox"> {/** 상단 메시지지 */}
+              <div className="userName" ref={textRef} 
+              style={{
+                fontFamily: "'Romance', saneserif", 
+                fontSize: `${fontSize}px`,
+                WebkitTextStroke: '1.3px white',
+                color: '#d73e8a',
+                whiteSpace: 'nowrap' }}>
+                {name}의 코디!
+              </div>  
+            </div>
 
+            {codi.map( //옷입은 리오모습
+              (item, i) =>{
+                let Image;
+                if (item){
+                  Image = item.src;
+                }
+                return (item && (
+                  <Image
+                    className={item.className}
+                    key={i}
+                    style={{ position: "absolute" }}
+                      crossOrigin="anonymous"
+                  />
+                ))
+              }
+            )}
 
+            <div className="rio">
+              <RioImg className="imgInserted" crossOrigin="anonymous"/>
+            </div>
+                    
+            <div className="info">
+              <Info className="imgInserted" crossOrigin="anonymous"/>
+            </div>
+          </div>  
+        </div>
+      </div>
 
+      <div className="page">
+        <div className="page5">
+        
+          <div className="userNameBox"> {/** 상단 메시지지 */}
+            <div className="userName" ref={textRef} 
+            style={{ 
+              fontFamily: "'Romance', sans-serif", 
+              fontSize: `${fontSize}px`, 
+              WebkitTextStroke: '1.3px white', 
+              color: '#d73e8a', 
+              whiteSpace: 'nowrap' }}>
+              {name}의 코디!
+            </div>  
+          </div>
 
+          {codi.map( //옷입은 리오모습
+            (item, i) =>{
+              let Image;
 
+              if (item) {
+                Image = item.src;
+              }
+              return(
+              item && (
+                <Image
+                  className={item.className}
+                  key={i}
+                  style={{ position: "absolute" }}
+                />
+              ))}
+          )}
+          
+          <div className="rio">
+            <RioImg className="imgInserted"/>
+          </div>
+            {/**공유, 이름 저장, 이미지 저장 */}
 
-
-
+            {/**축제정보 */}
+          <div className="infoCap">
+            <Info className="imgInserted"/>
+          </div> 
+        
+        </div>
+      </div>
+    </div>
+    )
 
     const handleShareAndCapture = async () => {
       if (!isFontReady) {
@@ -430,9 +521,7 @@ export default function Dressing() {
         img.onload = () => {
           Swal.fire({
             title: '길게 눌러 저장하리오!',
-            html: `<div style="max-height:60vh; overflow:auto; user-select: auto; -webkit-touch-callout: default;">
-                    <img src="${dataUrl}" className="capture" style="width:100%; height:auto; "/>
-                  </div>`,
+            html: <CaptureImg/>,
             confirmButtonText: '확인',
           });
         };
@@ -466,7 +555,7 @@ export default function Dressing() {
         {(() => {
           if (stage === 0) {
             return (
-              <div className="background05">
+              <div className="background05" style={{touchAction: 'none'}}>
                 <div style={{width: window.innerWidth, position: 'absolute', top: 0}}>
                   <Background05 className="backgroundImgs"/>
                 </div>

@@ -100,6 +100,7 @@ export default function Escaping() {
     const joystickRef = useRef(null);
     const [p, setP] = useState(true);
     const hasSubmitted = useRef(false);
+    const inputRef = useRef(null);
 
     const taPos = [useSpring({x: rw(118), y: rh(46)}), useSpring({x: rw(250), y: rh(308)})];
     const taSize = [rw(72), rh(204)];
@@ -675,7 +676,7 @@ export default function Escaping() {
             <img src={chultui_button} style={{objectFit: 'cover'}} width={rw(254.63)} height={rh(63.63)} ></img>
             <input
             placeholder="별명을 입력하세요"
-            value={name}
+            value={name} 
             onChange={(e)=>{setName(e.target.value)}}
             style={{borderWidth: 0, marginTop: rh(-47), marginBottom: rh(20),  backgroundColor: 'transparent', 
               width: rw(230), height: rh(27), color: '#ffffff', textAlign: 'center',
@@ -691,6 +692,7 @@ export default function Escaping() {
               setStage(0);
               setTime(Date.now());
               startWalkingAnimation();
+              window.scrollTo(0, 0);
             }}}>
             <img style={{opacity: 1, objectFit: 'cover'}} src={chultui_button} width={rw(254.63)} height={rh(63.63)}></img>
             <text style={{fontFamily: 'Yangjin', fontSize: rw(24), color: '#ffffff', marginTop: rh(-50), height: rh(27), marginBottom: rh(23)}}>게임시작</text>
@@ -728,7 +730,7 @@ export default function Escaping() {
         </div>
         :
         (isClear) ?
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', height: 500, width: 500, zIndex:2}}>
+        <div className='captureArea' style={{display: 'flex', flexDirection: 'column', alignItems: 'center', height: 500, width: 500, zIndex:2}}>
           <text style={{fontFamily: 'fighting', fontSize: rw(90.74), color: '#000000', marginTop: rh(103), zIndex: 3}} >축제도착~!!</text>
           <img style={{marginTop: rh(0)}} src={success} width={rw(350)} height={rh(438)}></img> 
           <text style={{fontFamily: 'fighting', fontSize: rw(52), marginTop: rh(26)}}>{name}의 출튀 기록은??</text>
