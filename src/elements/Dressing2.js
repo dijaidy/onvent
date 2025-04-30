@@ -182,6 +182,8 @@ export default function Dressing() {
     const [fontSize, setFontSize] = useState(50);
     const hasSubmitted = useRef(false);
     const [canShare, setCanShare] = useState(false); // 상단에 추가
+    const [isFontReady, setIsFontReady] = useState(false);
+
 
     useLayoutEffect(() => {
       if (stage !== 5) return;
@@ -218,7 +220,7 @@ export default function Dressing() {
 
     useEffect(() => {
       if (stage === 5) {
-        window.alert("코드반영테스트트")
+        
         console.log("⏱️ Stage 5 진입 - 버튼 3초 잠금 시작");
         setCanShare(false);
         const timer = setTimeout(() => {
@@ -232,29 +234,59 @@ export default function Dressing() {
 
 
 
+
+
+
+
+
+    useEffect(() => {
+      if (stage === 5) {
+        setIsFontReady(false);
+    
+        const watchFont = async () => {
+          const ready = await waitForFontFullyRendered('.userName', 'Romance', 6000);
+          setIsFontReady(ready);
+        };
+    
+        watchFont();
+      }
+    }, [stage]);
+    
+
+
+
     
     async function waitForFontFullyRendered(selector, targetFont, timeout = 3000) {
       const start = Date.now();
+    
       while (Date.now() - start < timeout) {
         const el = document.querySelector(selector);
-        if (el) {
-          const computed = window.getComputedStyle(el);
-          const font = computed.fontFamily;
-          const width = el.scrollWidth;
-          const height = el.offsetHeight;
-    
-          console.log(`⏱️ 폰트 상태 체크: ${font}, size: ${width}x${height}`);
-    
-          if (font.includes(targetFont) && width > 0 && height > 0) {
-            console.log('✅ 폰트 완전 적용 + 렌더 완료');
-            return true;
-          }
+        if (!el) {
+          await new Promise(r => setTimeout(r, 100));
+          continue;
         }
+    
+        const computed = window.getComputedStyle(el);
+        const fontStack = computed.fontFamily.split(',').map(f => f.trim().replace(/['"]/g, ''));
+        const activeFont = fontStack[0]; // 실제로 적용된 첫 번째 폰트
+    
+        const width = el.scrollWidth;
+        const height = el.offsetHeight;
+    
+        console.log(`🧐 폰트 상태 체크: ${activeFont}, 사이즈: ${width}x${height}`);
+    
+        if (activeFont === targetFont && width > 0 && height > 0) {
+          console.log('✅ 실제 폰트 렌더 완료됨');
+          return true;
+        }
+    
         await new Promise(r => setTimeout(r, 100));
       }
+    
       console.warn('⚠️ 폰트 렌더 타임아웃');
       return false;
     }
+    
     
     
 
@@ -353,73 +385,67 @@ export default function Dressing() {
 
 
     const handleShareAndCapture = async () => {
-      Swal.fire({
-        title: '이미지 불러오는 중',
-        html: '잠시만 기다려주리오!<br>저장된 코디를 인스타에 공유하리오~',
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        didOpen: () => {
-          Swal.showLoading();
-        }
-      });
-    
-      await new Promise(resolve => setTimeout(resolve, 800));
-    
-      // 🔥 1. 폰트 적용 완료 검사
-      const fontReady = await waitForFontFullyRendered('.userName', 'Romance');
-      if (!fontReady) {
+      if (!isFontReady) {
         Swal.fire({
-          icon: 'error',
-          title: '폰트 적용 실패',
-          html: '폰트가 적용되지 않아 캡처를 중단하리오!<br>잠시 후 다시 시도해주리오 🙏',
+          icon: 'warning',
+          title: '오류가 발생했다리오!',
+          html: '잠시 뒤에 다시 시도해주리오!',
         });
         return;
       }
     
-      // 🔥 1.5 실제 렌더 상태 확인
-      const rendered = await ensureElementRendered('.userName');
-      if (!rendered) {
-        Swal.fire({
-          icon: 'error',
-          title: '렌더 지연 발생',
-          html: '텍스트가 완전히 표시되지 않아 캡처를 중단하리오!',
-        });
-        return;
-      }
-    
-      // 🔥 2. 이름 보내기 (처음 1회만)
+      // 🔄 공유 이름 최초 1회만 전송
       /*if (!hasSubmitted.current) {
         try {
-          await handleShareName(); // 내부에서만 성공 후 hasSubmitted = true
+          await handleShareName();
           hasSubmitted.current = true;
         } catch (err) {
           Swal.fire({
             icon: 'error',
             title: '이름 저장 실패',
-            html: '문제가 발생했다리오ㅠㅠ <br> 다시 시도해주리오!',
+            html: '문제가 발생했다리오ㅠㅠ<br>다시 시도해주리오!',
           });
           return;
         }
       }*/
     
-      // 🔥 3. 캡처 진행
-      const dataUrl = await handleCapture();
+      // ⏳ 캡처 대기 표시
+      Swal.fire({
+        title: '이미지를 생성 중이리오...',
+        html: '잠시만 기다려주리오!<br>저장된 코디를 인스타에 공유하리오~',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading(),
+      });
     
-      if (dataUrl) {
+      try {
+        const dataUrl = await handleCapture();
+    
+        Swal.close(); // 로딩 종료
+    
+        // 📸 이미지 미리보기 표시
         const img = new Image();
+        img.crossOrigin = 'anonymous';
         img.src = dataUrl;
     
         img.onload = () => {
           Swal.fire({
             title: '길게 눌러 저장하리오!',
-            html: `<div style="max-height:60vh; overflow:auto; touch-action:none;">
-                    <img src="${dataUrl}" className="capture" style="width:100%; height:auto; "/>
-                  </div>`,
+            html: `<div style="max-height:60vh; overflow:auto;">
+                     <img src="${dataUrl}" class="capture" 
+                          style="width:100%; height:auto;" />
+                   </div>`,
             confirmButtonText: '확인',
           });
         };
+      } catch (err) {
+        Swal.fire({
+          icon: 'error',
+          title: '이미지 생성 실패',
+          html: '이미지를 캡처하는 중 문제가 발생했다리오..<br> 다시 시도해보리오!',
+        });
       }
     };
+    
     
     
     
