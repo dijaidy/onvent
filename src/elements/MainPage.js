@@ -20,6 +20,7 @@ export default function MainPage() {
             <button onClick={(e)=>{e.preventDefault();setBithumb(false);}} style={{position: 'absolute', backgroundColor: '#ee8aa8', borderWidth: 0, display: 'flex', width: window.innerWidth, height: window.innerHeight, justifyContent: 'flex-end', flexDirection: 'column', alignItems: 'center', touchAction: 'none', zIndex: 2}}>
             <img src={스프링클제목} style={{position: 'absolute', top: 0, zIndex: 2}} width={(window.innerWidth > 1.35* rw(440) ? 1.35* rw(440) : (window.innerWidth))}></img>
             <img src={빗썸화면} height={Math.min(window.innerHeight - (window.innerWidth > 1.35* rw(440) ? 1.35* rw(440) : (window.innerWidth))*(342.02/489.84)+rh(20), (window.innerWidth-rw(40))*(665.7/450.04))} style={{marginBottom: rh(30), zIndex: 3}}></img>
+            <text style={{position: 'absolute', color: '#ffffff', bottom: rh(5)}}>여백을 눌러서 뒤로가기</text>
         </button>
 }
         <div style={{ backgroundColor: '#ee8aa8', display: bithumb ? 'none'    : 'flex', flexDirection: 'column', alignItems: 'center', touchAction: 'none',}}>
