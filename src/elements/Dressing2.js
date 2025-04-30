@@ -158,6 +158,27 @@ export default function Dressing() {
 
 
 
+
+
+
+
+
+
+
+    const [canShare, setCanShare] = useState(false); // 상단에 추가
+
+    useEffect(() => {
+      if (stage === 5) {
+        setCanShare(false); // 버튼 잠금
+        const timer = setTimeout(() => {
+          setCanShare(true); // 3초 후 버튼 활성화
+        }, 3000);
+        return () => clearTimeout(timer); // stage 바뀌면 타이머 제거
+      }
+    }, [stage]);
+
+
+
     
     async function waitForFontFullyRendered(selector, targetFont, timeout = 3000) {
       const start = Date.now();
@@ -508,7 +529,13 @@ export default function Dressing() {
                       <img src={rioImg} className="imgInserted"/>
                     </div>
                       {/**공유, 이름 저장, 이미지 저장 */}
-                    <button className="shareButton" onClick={() => {handleShareAndCapture()}}>
+                      <button
+                        className="shareButton"
+                        onClick={() => {
+                          if (canShare) handleShareAndCapture(); // 3초 안 됐으면 무시
+                        }}
+                        disabled={!canShare} // 버튼 자체도 비활성화
+                      >
                       <img src={shareButton} className="imgInserted"/>
                     </button>
                       {/**축제정보 */}
