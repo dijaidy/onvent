@@ -1,51 +1,98 @@
 import { useState } from "react";
 import  "./Dressing.css";
-import soccer from "../asset/dressingImages/Frame 11.svg";
-import hockey from "../asset/dressingImages/Frame 10.svg";
-import shoes1 from "../asset/dressingImages/Frame 12.svg";
-import shoes2 from "../asset/dressingImages/Frame 13.svg";
-import shoes3 from "../asset/dressingImages/Frame 14.svg";
-import shoes4 from "../asset/dressingImages/Frame 15.svg";
-import head1 from "../asset/dressingImages/Frame 8.svg";
-import head2 from "../asset/dressingImages/Frame 9.svg";
-import head3 from "../asset/dressingImages/Frame 16.svg";
-import head4 from "../asset/dressingImages/Frame 17.svg";  
-import eye1 from "../asset/dressingImages/Frame 4.svg";
-import eye2 from "../asset/dressingImages/Frame 5.svg";
-import eye3 from "../asset/dressingImages/Frame 6.svg";
-import eye4 from "../asset/dressingImages/Frame 7.svg";
-import soccerpo from"../asset/dressingImages/soccerpo.svg";
-import hockeypo from"../asset/dressingImages/hockeypo.svg";
-import shoes1po from"../asset/dressingImages/shoes1po.svg";
-import shoes2po from"../asset/dressingImages/shoes2po.svg";
-import shoes3po from"../asset/dressingImages/shoes3po.svg";
-import shoes4po from"../asset/dressingImages/shoes4po.svg";
-import head1po from"../asset/dressingImages/head1po.svg";
-import head2po from"../asset/dressingImages/head2po.svg";
-import head3po from"../asset/dressingImages/head3po.svg";
-import head4po from"../asset/dressingImages/head4po.svg";
-import eye1po from"../asset/dressingImages/eye1po.svg";
-import eye2po from"../asset/dressingImages/eye2po.svg";
-import eye3po from"../asset/dressingImages/eye3po.svg";
-import eye4po from"../asset/dressingImages/eye4po.svg";
-import rioImg from "../asset/dressingImages/rio.svg";
-import firstRio from "../asset/dressingImages/firstRio.svg";
-import background05 from "../asset/dressingImages/page5.svg";
-import backgound14 from "../asset/dressingImages/page1-4.svg";
-import title from "../asset/dressingImages/title.svg";
-import startButton from "../asset/dressingImages/startbutton.svg";
-import firstInfo from "../asset/dressingImages/firstInfo.svg";
-import prevButton from "../asset/dressingImages/prevButton.svg";
-import nextButton from "../asset/dressingImages/nextButton.svg";
-import shareButton from "../asset/dressingImages/shareButton.svg";
-import info from "../asset/dressingImages/info.svg";
-import enterName from '../asset/dressingImages/enterName.svg';
+import { ReactComponent as Soccer } from "../asset/dressingImages/Frame 11.svg";
+import { ReactComponent as Hockey } from "../asset/dressingImages/Frame 10.svg";
+import { ReactComponent as Shoes1 } from "../asset/dressingImages/Frame 12.svg";
+import { ReactComponent as Shoes2 } from "../asset/dressingImages/Frame 13.svg";
+import { ReactComponent as Shoes3 } from "../asset/dressingImages/Frame 14.svg";
+import { ReactComponent as Shoes4 } from "../asset/dressingImages/Frame 15.svg";
+import { ReactComponent as Head1 } from "../asset/dressingImages/Frame 8.svg";
+import { ReactComponent as Head2 } from "../asset/dressingImages/Frame 9.svg";
+import { ReactComponent as Head3 } from "../asset/dressingImages/Frame 16.svg";
+import { ReactComponent as Head4 } from "../asset/dressingImages/Frame 17.svg";
+import { ReactComponent as Eye1 } from "../asset/dressingImages/Frame 4.svg";
+import { ReactComponent as Eye2 } from "../asset/dressingImages/Frame 5.svg";
+import { ReactComponent as Eye3 } from "../asset/dressingImages/Frame 6.svg";
+import { ReactComponent as Eye4 } from "../asset/dressingImages/Frame 7.svg";
+
+import { ReactComponent as SoccerPo } from "../asset/dressingImages/soccerpo.svg";
+import { ReactComponent as HockeyPo } from "../asset/dressingImages/hockeypo.svg";
+import { ReactComponent as Shoes1Po } from "../asset/dressingImages/shoes1po.svg";
+import { ReactComponent as Shoes2Po } from "../asset/dressingImages/shoes2po.svg";
+import { ReactComponent as Shoes3Po } from "../asset/dressingImages/shoes3po.svg";
+import { ReactComponent as Shoes4Po } from "../asset/dressingImages/shoes4po.svg";
+import { ReactComponent as Head1Po } from "../asset/dressingImages/head1po.svg";
+import { ReactComponent as Head2Po } from "../asset/dressingImages/head2po.svg";
+import { ReactComponent as Head3Po } from "../asset/dressingImages/head3po.svg";
+import { ReactComponent as Head4Po } from "../asset/dressingImages/head4po.svg";
+import { ReactComponent as Eye1Po } from "../asset/dressingImages/eye1po.svg";
+import { ReactComponent as Eye2Po } from "../asset/dressingImages/eye2po.svg";
+import { ReactComponent as Eye3Po } from "../asset/dressingImages/eye3po.svg";
+import { ReactComponent as Eye4Po } from "../asset/dressingImages/eye4po.svg";
+
+import { ReactComponent as RioImg } from "../asset/dressingImages/rio.svg";
+import { ReactComponent as FirstRio } from "../asset/dressingImages/firstRio.svg";
+import { ReactComponent as Background05 } from "../asset/dressingImages/page5.svg";
+import { ReactComponent as Backgound14 } from "../asset/dressingImages/page1-4.svg";
+import { ReactComponent as Title } from "../asset/dressingImages/title.svg";
+import { ReactComponent as StartButton } from "../asset/dressingImages/startbutton.svg";
+import { ReactComponent as FirstInfo } from "../asset/dressingImages/firstInfo.svg";
+import { ReactComponent as PrevButton } from "../asset/dressingImages/prevButton.svg";
+import { ReactComponent as NextButton } from "../asset/dressingImages/nextButton.svg";
+import { ReactComponent as ShareButton } from "../asset/dressingImages/shareButton.svg";
+import { ReactComponent as Info } from "../asset/dressingImages/info.svg";
+import { ReactComponent as EnterName } from "../asset/dressingImages/enterName.svg";
 
 import { sendNameToFirebase } from '../utils/sendNameToFirebase';
 
 import Swal from "sweetalert2";
 import { useRef, useEffect, useLayoutEffect } from "react";
 import * as htmlToImage from 'html-to-image';
+
+const svgMap = {
+  soccer: Soccer,
+  hockey: Hockey,
+  shoes1: Shoes1,
+  shoes2: Shoes2,
+  shoes3: Shoes3,
+  shoes4: Shoes4,
+  head1: Head1,
+  head2: Head2,
+  head3: Head3,
+  head4: Head4,
+  eye1: Eye1,
+  eye2: Eye2,
+  eye3: Eye3,
+  eye4: Eye4,
+
+  soccerpo: SoccerPo,
+  hockeypo: HockeyPo,
+  shoes1po: Shoes1Po,
+  shoes2po: Shoes2Po,
+  shoes3po: Shoes3Po,
+  shoes4po: Shoes4Po,
+  head1po: Head1Po,
+  head2po: Head2Po,
+  head3po: Head3Po,
+  head4po: Head4Po,
+  eye1po: Eye1Po,
+  eye2po: Eye2Po,
+  eye3po: Eye3Po,
+  eye4po: Eye4Po,
+
+  rioImg: RioImg,
+  firstRio: FirstRio,
+  background05: Background05,
+  backgound14: Backgound14,
+  title: Title,
+  startButton: StartButton,
+  firstInfo: FirstInfo,
+  prevButton: PrevButton,
+  nextButton: NextButton,
+  shareButton: ShareButton,
+  info: Info,
+  enterName: EnterName
+};
 
 function Call({ codi, setCodi, closet, stage, outfitPutOn }) {
     function selectOutfit(index, outfit) {
@@ -55,28 +102,32 @@ function Call({ codi, setCodi, closet, stage, outfitPutOn }) {
         return newCodi;
       });
     }
+
   
     return (
       <div className="dressButtons">
-        {closet[stage - 1].map((outfit, idx) => ( //이미지 버튼 만들기
+        {closet[stage - 1].map((outfit, idx) => {
+          const Image = outfit;
+          return( //이미지 버튼 만들기
           <button className={stage-1 ==0 ? "options optionsT" : "options"}key={idx} onClick={() => {selectOutfit(stage - 1, outfitPutOn[stage-1][idx]);}}>
-            <img src={outfit} alt={`option ${idx}`}/> 
+            <Image/> 
           </button>
-        ))}
+        )})}
       </div>
     );
   }
 function PrevP({stage, setStage}){ //이전버튼 
+
     return(
         <button className="prevButton" onClick={()=>setStage(stage-1)}>
-          <img src={prevButton} className="imgInserted"/>
+          <PrevButton className="imgInserted"/>
         </button>
     )
 }
 function NextP({stage, setStage}){ //다음버튼
     return(
         <button className="nextButton" onClick={()=>setStage(stage+1)}>
-          <img src={nextButton} className="imgInserted"/>
+          <NextButton className="imgInserted"/>
         </button>
     )
 }
@@ -96,34 +147,34 @@ export default function Dressing() {
     const [codi, setCodi] = useState([null, null, null, null]);
   
     const closet = [ // 버튼용 이미지 저장
-      [soccer, hockey],
-      [shoes1, shoes2, shoes3, shoes4],
-      [head1, head2, head3, head4],
-      [eye1, eye2, eye3, eye4],
+      [svgMap.soccer, svgMap.hockey],
+      [svgMap.shoes1, svgMap.shoes2, svgMap.shoes3, svgMap.shoes4],
+      [svgMap.head1, svgMap.head2, svgMap.head3, svgMap.head4],
+      [svgMap.eye1, svgMap.eye2, svgMap.eye3, svgMap.eye4],
     ];
 
     const outfitPutOn = [ //입혀진 이미지
       [
-       {src: soccerpo, className: "soccerChosen"}, 
-       {src: hockeypo, className: "hockeyChosen"}
+       {src: svgMap.soccerpo, className: "soccerChosen"}, 
+       {src: svgMap.hockeypo, className: "hockeyChosen"}
       ],
       [
-       {src: shoes1po, className: "shoes1Chosen"},
-       {src: shoes2po, className: "shoes2Chosen"},
-       {src: shoes3po, className: "shoes3Chosen"},
-       {src: shoes4po, className: "shoes4Chosen"}
+       {src: svgMap.shoes1po, className: "shoes1Chosen"},
+       {src: svgMap.shoes2po, className: "shoes2Chosen"},
+       {src: svgMap.shoes3po, className: "shoes3Chosen"},
+       {src: svgMap.shoes4po, className: "shoes4Chosen"}
       ],
       [
-       {src: head1po, className: "head1Chosen"}, 
-       {src: head2po, className: "head2Chosen"},
-       {src: head3po, className: "head3Chosen"},
-       {src: head4po, className: "head4Chosen"}
+       {src: svgMap.head1po, className: "head1Chosen"}, 
+       {src: svgMap.head2po, className: "head2Chosen"},
+       {src: svgMap.head3po, className: "head3Chosen"},
+       {src: svgMap.head4po, className: "head4Chosen"}
       ],
       [
-       {src: eye1po, className: "eye1Chosen"}, 
-       {src: eye2po, className: "eye2Chosen"},
-       {src: eye3po, className: "eye3Chosen"},
-       {src: eye4po, className: "eye4Chosen"}
+       {src: svgMap.eye1po, className: "eye1Chosen"}, 
+       {src: svgMap.eye2po, className: "eye2Chosen"},
+       {src: svgMap.eye3po, className: "eye3Chosen"},
+       {src: svgMap.eye4po, className: "eye4Chosen"}
       ]
     ];
     const [name, setName] = useState('');
@@ -358,35 +409,35 @@ export default function Dressing() {
 
   
     return (
-      <div className="mainContainer">
+      <div className="mainContainer" style={{touchAction: 'none'}}>
         {(() => {
           if (stage === 0) {
             return (
               <div className="background05">
-                <img src={background05} className="backgroundImgs"/>
+                <Background05 className="backgroundImgs"/>
                 
                 <div className="page">
                   <div className="page0">
 
                     <div className="title">
-                      <img src={title} className="imgInserted"/>
+                      <Title className="imgInserted"/>
                     </div>
 
                     <div className="firstRio">
-                      <img src={firstRio} className="imgInserted" />
+                      <FirstRio className="imgInserted" />
                     </div>
 
                     <div className='enterNameDiv'> {/*이름입력*/}                  
-                      <img src={enterName} width={`100%`} height={`100%`}></img>            
+                      <EnterName width={`100%`} height={`100%`}/>           
                       <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName" style={{zIndex: 2}}></input>
                     </div>
                     {/*시작버튼 */}
                     <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주리오!'); return;}*/setStage(1)}}>
-                      <img src={startButton} className="imgInserted"/>
+                      <StartButton className="imgInserted" />
                     </button>
 
                     <div className="firstInfo">
-                      <img src={firstInfo} className="imgInserted"/>
+                      <FirstInfo className="imgInserted"/>
                     </div>
                   </div>
                 </div>
@@ -395,25 +446,29 @@ export default function Dressing() {
           } else if (stage >= 1 && stage <= 4) {
             return ( 
               <div className="background14">
-                <img src={backgound14} className="backgroundImgs"/> 
+                <Backgound14 className="backgroundImgs"/> 
                 <div className="page">
                   <div className="page1-4">
                     
                     {codi.map( //선택된 의상 입히기
                       (item, i) =>
+                      {
+                        const Image = item;
+                        return(
                         item && (
-                          <img
-                            src={item.src}
+                          <Image
                             className={item.className}
                             key={i}
                             style={{ position: "absolute" }}
                           />
                         )
+                      )
+                      }
                     )}
                       
                     
                     <div className="rio">
-                      <img src={rioImg} className="imgInserted"/>
+                      <RioImg className="imgInserted"/>
                     </div>
                       
                       {/* ✅ Call 컴포넌트 한 번만 사용 */}
@@ -431,9 +486,9 @@ export default function Dressing() {
           } else if (stage === 5) {
             return (
               <div className="background05">
-                <img src={background05} className="backgroundImgs"/>
+                <Background05 className="backgroundImgs"/>
                 <div className="captureArea">
-                  <img src={background05} className="backgroundImgs"/>
+                  <Background05 className="backgroundImgs"/>
                   <div className="captureContainer">
                     <div className="captureContents">
                       
@@ -450,24 +505,25 @@ export default function Dressing() {
                       </div>
 
                       {codi.map( //옷입은 리오모습
-                        (item, i) =>
-                          item && (
-                            <img
-                              src={item.src}
+                        (item, i) =>{
+                          const Image = item;
+                          return (item && (
+                            <Image
                               className={item.className}
                               key={i}
                               style={{ position: "absolute" }}
                                crossOrigin="anonymous"
                             />
-                          )
+                          ))
+                        }
                       )}
 
                       <div className="rio">
-                        <img src={rioImg} className="imgInserted" crossOrigin="anonymous"/>
+                        <RioImg className="imgInserted" crossOrigin="anonymous"/>
                       </div>
                               
                       <div className="info">
-                        <img src={info} className="imgInserted" crossOrigin="anonymous"/>
+                        <Info className="imgInserted" crossOrigin="anonymous"/>
                       </div>
                     </div>  
                   </div>
@@ -489,27 +545,28 @@ export default function Dressing() {
                     </div>
 
                     {codi.map( //옷입은 리오모습
-                      (item, i) =>
+                      (item, i) =>{
+                        const Image = item
+                        return(
                         item && (
-                          <img
-                            src={item.src}
+                          <Image
                             className={item.className}
                             key={i}
                             style={{ position: "absolute" }}
                           />
-                        )
+                        ))}
                     )}
                     
                     <div className="rio">
-                      <img src={rioImg} className="imgInserted"/>
+                      <RioImg className="imgInserted"/>
                     </div>
                       {/**공유, 이름 저장, 이미지 저장 */}
                     <button className="shareButton" onClick={() => {handleShareAndCapture()}}>
-                      <img src={shareButton} className="imgInserted"/>
+                      <ShareButton className="imgInserted"/>
                     </button>
                       {/**축제정보 */}
                     <div className="info">
-                      <img src={info} className="imgInserted"/>
+                      <Info className="imgInserted"/>
                     </div> 
                   
                   </div>
