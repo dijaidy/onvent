@@ -459,8 +459,8 @@
     object-fit: contain;
 }
 .userName{
-   
-
+    font-family: 'Romance';
+    color: '#d73e8a';
     max-width: 100%;
 
 }

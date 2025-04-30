@@ -159,25 +159,29 @@ export default function Dressing() {
 
 
     
-    // ✅ 폰트 적용 기다리는 함수
-    async function waitForFontApplied(selector, targetFont, timeout = 3000) {
+    async function waitForFontFullyRendered(selector, targetFont, timeout = 3000) {
       const start = Date.now();
-
       while (Date.now() - start < timeout) {
         const el = document.querySelector(selector);
         if (el) {
-          const computedFont = window.getComputedStyle(el).fontFamily;
-          if (computedFont.includes(targetFont)) {
-            console.log('✅ 폰트 적용 완료:', computedFont);
+          const computed = window.getComputedStyle(el);
+          const font = computed.fontFamily;
+          const width = el.scrollWidth;
+          const height = el.offsetHeight;
+    
+          console.log(`⏱️ 폰트 상태 체크: ${font}, size: ${width}x${height}`);
+    
+          if (font.includes(targetFont) && width > 0 && height > 0) {
+            console.log('✅ 폰트 완전 적용 + 렌더 완료');
             return true;
           }
         }
-        await new Promise(r => setTimeout(r, 100)); // 100ms 간격으로 재확인
+        await new Promise(r => setTimeout(r, 100));
       }
-
-      console.warn('⚠️ 폰트 적용 타임아웃!');
+      console.warn('⚠️ 폰트 렌더 타임아웃');
       return false;
     }
+    
     
 
 
@@ -287,7 +291,7 @@ export default function Dressing() {
       await new Promise(resolve => setTimeout(resolve, 800));
     
       // 🔥 1. 폰트 적용 완료 검사
-      const fontReady = await waitForFontApplied('.userName', 'Romance');
+      const fontReady = await waitForFontFullyRendered('.userName', 'Romance');
       if (!fontReady) {
         Swal.fire({
           icon: 'error',
