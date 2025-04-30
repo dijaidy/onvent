@@ -437,7 +437,7 @@ export default function Dressing() {
 
   
     return (
-      <div className="mainContainer" style={{touchAction: 'none'}}>
+      <div className="mainContainer">
         {(() => {
           if (stage === 0) {
             return (
