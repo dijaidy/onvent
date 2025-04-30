@@ -405,14 +405,16 @@ export default function Dressing() {
       const dataUrl = await handleCapture();
     
       if (dataUrl) {
-        const img = new Image();
-        img.src = dataUrl;
+        const decoded = atob(dataUrl.replace(/^data:image\/svg\+xml;base64,/, ''));
+        const parser = new DOMParser();
+        const svgDoc = parser.parseFromString(decoded, "image/svg+xml");
+        const svgElement = new XMLSerializer().serializeToString(svgDoc.documentElement);
     
         img.onload = () => {
           Swal.fire({
             title: '길게 눌러 저장하리오!',
-            html: `<div style="max-height:60vh; overflow:auto; user-select:auto; -webkit-touch-callout: default">
-                    <img src="${dataUrl}" className="capture" style="width:100%; height:auto; "/>
+            html: `<div style="max-height:60vh; overflow:auto; touch-action:none;">
+                    ${svgElement}
                   </div>`,
             confirmButtonText: '확인',
           });
@@ -436,13 +438,14 @@ export default function Dressing() {
 
   
     return (
-      <div className="mainContainer" style={{touchAction: 'none'}}>
+      <div className="mainContainer" style={{}}>
         {(() => {
           if (stage === 0) {
             return (
               <div className="background05">
-                <Background05 className="backgroundImgs"/>
-                
+                <div style={{width: window.innerWidth, position: 'absolute', top: 0}}>
+                  <Background05 className="backgroundImgs"/>
+                </div>
                 <div className="page">
                   <div className="page0">
 
@@ -473,7 +476,9 @@ export default function Dressing() {
           } else if (stage >= 1 && stage <= 4) {
             return ( 
               <div className="background14">
-                <Backgound14 className="backgroundImgs"/> 
+                <div style={{width: window.innerWidth, position: 'absolute', top: 0}}>
+                  <Backgound14 className="backgroundImgs"/> 
+                </div>
                 <div className="page">
                   <div className="page1-4">
                     
@@ -516,7 +521,9 @@ export default function Dressing() {
           } else if (stage === 5) {
             return (
               <div className="background05">
+                <div style={{width: window.innerWidth, position: 'absolute', top: 0}}>
                 <Background05 className="backgroundImgs"/>
+                </div>
                 <div className="captureArea">
                   <Background05 className="backgroundImgs"/>
                   <div className="captureContainer">
