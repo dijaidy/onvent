@@ -529,17 +529,22 @@ export default function Dressing() {
                       <img src={rioImg} className="imgInserted"/>
                     </div>
                       {/**공유, 이름 저장, 이미지 저장 */}
-                      <button
-                        className="shareButton"
-                        onClick={() => {
-                          if (canShare) handleShareAndCapture(); // 3초 안 됐으면 무시
-                        }}
-                        disabled={!canShare} // 버튼 자체도 비활성화
-                      >
-                      <img src={shareButton} className="imgInserted"/>
+                    <button
+                      className="shareButton"
+                      onClick={(e) => {
+                        if (!canShare) {
+                          e.preventDefault();
+                          return;
+                        }
+                        handleShareAndCapture();
+                      }}
+                      disabled={!canShare}
+                    >
+                      <img src={shareButton} className="imgInserted" />
                     </button>
+
                       {/**축제정보 */}
-                    <div className="info">
+                    <div className="info">  
                       <img src={info} className="imgInserted"/>
                     </div> 
                   
