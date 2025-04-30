@@ -15,15 +15,15 @@ export default function MainPage() {
     const [bithumb, setBithumb] = useState(false);
     
     return (
-        <div>
+        <div style={{overflow: 'hidden'}}>
         { (bithumb) &&
-            <button onClick={(e)=>{e.preventDefault();setBithumb(false);}} style={{backgroundColor: '#ee8aa8', borderWidth: 0, display: 'flex', width: window.innerWidth, height: window.innerHeight, justifyContent: 'flex-end', flexDirection: 'column', alignItems: 'center', touchAction: 'none', zIndex: 2}}>
-            <img src={스프링클제목} style={{position: 'absolute', top: 0, zIndex: 2}} width={window.innerWidth}></img>
-            <img src={빗썸화면} height={Math.min(window.innerHeight - window.innerWidth*(342.02/489.84)+rh(20), (window.innerWidth-rw(40))*(665.7/450.04))} style={{marginBottom: rh(30), zIndex: 3}}></img>
+            <button onClick={(e)=>{e.preventDefault();setBithumb(false);}} style={{position: 'absolute', backgroundColor: '#ee8aa8', borderWidth: 0, display: 'flex', width: window.innerWidth, height: window.innerHeight, justifyContent: 'flex-end', flexDirection: 'column', alignItems: 'center', touchAction: 'none', zIndex: 2}}>
+            <img src={스프링클제목} style={{position: 'absolute', top: 0, zIndex: 2}} width={(window.innerWidth > 1.35* rw(440) ? 1.35* rw(440) : (window.innerWidth))}></img>
+            <img src={빗썸화면} height={Math.min(window.innerHeight - (window.innerWidth > 1.35* rw(440) ? 1.35* rw(440) : (window.innerWidth))*(342.02/489.84)+rh(20), (window.innerWidth-rw(40))*(665.7/450.04))} style={{marginBottom: rh(30), zIndex: 3}}></img>
         </button>
 }
-        <div style={{backgroundColor: '#ee8aa8', display: 'flex', flexDirection: 'column', alignItems: 'center', touchAction: 'none',}}>
-            <img src={기본배경} width={deviceRatio>=2 ? 'auto' : window.innerWidth} height={deviceRatio>=2 ? window.innerHeight: 'auto'} ></img>
+        <div style={{ backgroundColor: '#ee8aa8', display: bithumb ? 'none'    : 'flex', flexDirection: 'column', alignItems: 'center', touchAction: 'none',}}>
+            <img src={기본배경} width={deviceRatio>=2 ? 'auto' : (window.innerWidth > 1.35* rw(440) ? 1.35* rw(440) : (window.innerWidth))} height={deviceRatio>=2 ? window.innerHeight: 'auto'} ></img>
             <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <button onClick={()=>{
                     navigate('/escaping')

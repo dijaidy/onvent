@@ -18,6 +18,11 @@ img {
   -webkit-touh-callout: none;
 }
 
+div {
+  user-select: none;              /* ✔️ 텍스트 선택 방지 */
+  -webkit-touch-callout: none;    /* ✔️ iOS에서 길게 누를 때 메뉴 방지 */
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
