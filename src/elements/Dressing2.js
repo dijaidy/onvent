@@ -193,7 +193,7 @@ export default function Dressing() {
         Swal.fire({
           icon: 'info',
           title: '이미지 준비 중이리오!',
-          html: '공유하기 버튼이 활성화 될 때까지 기다려주리오!<br>이미지에 문제가 있다면 다시 시도해주리오..<br>(폰트, 이미지 깨짐 등등)',
+          html: '공유하기 버튼이 활성화 될 때까지 기다려주리오!<br>문제가 생기면 다시 시도해주리오..<br>(폰트, 이미지 깨짐 등등)',
           timer: 3000, // ⏱️ 3초 후 자동 종료
           showConfirmButton: true,
           confirmButtonText: '확인',
