@@ -228,7 +228,7 @@ export default function Dressing() {
       if (isDuplicate) {
         Swal.fire({
           icon: 'warning',
-          html: '중복된 이름이리오! <br> 다른 이름을 입력하리오!'
+          html: '중복된 이름이리오! <br> 다른 이름을 입력해주리오!'
         });
         return;
       }
@@ -236,7 +236,22 @@ export default function Dressing() {
       setStage(1);
     };
     
+    const handleShareName = async () => {
+      if (hasSubmitted.current) return;
 
+      hasSubmitted.current = true;
+
+      try {
+        await sendNameToFirebase(name);
+      } catch (err) {
+        hasSubmitted.current = false;
+        Swal.fire({
+          icon: 'error',
+          title: '이름 저장 실패',
+          html: '문제가 발생했다리오 <br> 다시 시도해 주리오ㅠㅠㅠ',
+        });
+      }
+    };
 
 
 
@@ -257,7 +272,7 @@ export default function Dressing() {
 
 
 
-    
+    /*
     async function waitForFontFullyRendered(selector, targetFont) {
       while (true) {
         const el = document.querySelector(selector);
@@ -279,15 +294,15 @@ export default function Dressing() {
         await new Promise(r => setTimeout(r, 100));
       }
     }
+    /*
     
     
     
-    
 
 
 
 
-
+    /*
     const handleCapture = async () => {
       const node = document.querySelector('.captureArea');
       
@@ -318,27 +333,7 @@ export default function Dressing() {
         return null;
       }
     };
-
-
-
-
-
-    const handleShareName = async () => {
-      if (hasSubmitted.current) return;
-
-      hasSubmitted.current = true;
-
-      try {
-        await sendNameToFirebase(name);
-      } catch (err) {
-        hasSubmitted.current = false;
-        Swal.fire({
-          icon: 'error',
-          title: '이름 저장 실패',
-          html: '문제가 발생했다리오 <br> 다시 시도해 주리오ㅠㅠㅠ',
-        });
-      }
-    };
+    */
 
 
 
@@ -350,6 +345,11 @@ export default function Dressing() {
 
 
 
+
+
+
+
+    /*
     async function ensureElementRendered(selector, timeout = 3000) {
       const start = Date.now();
     
@@ -384,7 +384,7 @@ export default function Dressing() {
           return;
         }
       }*/
-    
+      /*
       // ⏳ 캡처 대기 표시
       Swal.fire({
         title: '이미지를 생성 중이리오...',
@@ -420,7 +420,7 @@ export default function Dressing() {
           html: '이미지를 캡처하는 중 문제가 발생했다리오..<br> 다시 시도해보리오!',
         });
       }
-    };
+    };*/
     
     
     
