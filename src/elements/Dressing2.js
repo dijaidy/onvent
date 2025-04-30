@@ -238,6 +238,41 @@ export default function Dressing() {
 
 
 
+
+
+
+
+
+
+
+    async function ensureElementRendered(selector, timeout = 3000) {
+      const start = Date.now();
+    
+      while (Date.now() - start < timeout) {
+        const el = document.querySelector(selector);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.width > 0 && rect.height > 0) {
+            return true;
+          }
+        }
+        await new Promise(r => setTimeout(r, 100));
+      }
+    
+      console.warn('⚠️ 엘리먼트 렌더 타임아웃');
+      return false;
+    }
+
+    
+
+
+
+
+
+
+    
+
+
     const handleShareAndCapture = async () => {
       Swal.fire({
         html: '이미지를 불러오는 중이리오..<br> 잠시만 기다려주리오!<br>저장된 코디를 인스타에 공유하리오~',
@@ -250,7 +285,7 @@ export default function Dressing() {
     
       await new Promise(resolve => setTimeout(resolve, 800));
     
-      // 🔥 1. 폰트 적용 완료 검사 (형이 만든 waitForFontApplied 사용)
+      // 🔥 1. 폰트 적용 완료 검사
       const fontReady = await waitForFontApplied('.userName', 'Romance');
       if (!fontReady) {
         Swal.fire({
@@ -261,13 +296,23 @@ export default function Dressing() {
         return;
       }
     
+      // 🔥 1.5 실제 렌더 상태 확인
+      const rendered = await ensureElementRendered('.userName');
+      if (!rendered) {
+        Swal.fire({
+          icon: 'error',
+          title: '렌더 지연 발생',
+          html: '텍스트가 완전히 표시되지 않아 캡처를 중단하리오!',
+        });
+        return;
+      }
+    
       // 🔥 2. 이름 보내기 (처음 1회만)
       if (!hasSubmitted.current) {
-        hasSubmitted.current = true;
         try {
-          await handleShareName(); // 🔥 형이 요청한 이름 전송 함수
+          await handleShareName(); // 내부에서만 성공 후 hasSubmitted = true
+          hasSubmitted.current = true;
         } catch (err) {
-          hasSubmitted.current = false;
           Swal.fire({
             icon: 'error',
             title: '이름 저장 실패',
@@ -277,8 +322,8 @@ export default function Dressing() {
         }
       }
     
-      // 🔥 3. 캡처 진행 (형이 만든 handleCapture 사용)
-      const dataUrl = await handleCapture(); 
+      // 🔥 3. 캡처 진행
+      const dataUrl = await handleCapture();
     
       if (dataUrl) {
         const img = new Image();
