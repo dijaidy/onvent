@@ -467,9 +467,9 @@ export default function Dressing() {
           if (stage === 0) {
             return (
               <div className="background05">
-                <div style={{width: window.innerWidth, position: 'absolute', top: 0}}>
-                  <Background05 className="backgroundImgs"/>
-                </div>
+                
+                <Background05 className="backgroundImgs" preserveAspectRatio="none"/>
+                
                 <div className="page">
                   <div className="page0">
 
@@ -500,9 +500,9 @@ export default function Dressing() {
           } else if (stage >= 1 && stage <= 4) {
             return ( 
               <div className="background14">
-                <div style={{width: window.innerWidth, position: 'absolute', top: 0}}>
-                  <Backgound14 className="backgroundImgs"/> 
-                </div>
+                
+                <Backgound14 className="backgroundImgs" preserveAspectRatio="none"/> 
+                
                 <div className="page">
                   <div className="page1-4">
                     
@@ -545,11 +545,11 @@ export default function Dressing() {
           } else if (stage === 5) {
             return (
               <div className="background05">
-                <div style={{width: window.innerWidth, position: 'absolute', top: 0}}>
-                <Background05 className="backgroundImgs"/>
-                </div>
+                
+                <Background05 className="backgroundImgs" preserveAspectRatio="none"/>
+                
                 <div className="captureArea">
-                  <Background05 className="backgroundImgs"/>
+                  <Background05 className="backgroundImgs" preserveAspectRatio="none"/>
                   <div className="captureContainer">
                     <div className="captureContents">
                       

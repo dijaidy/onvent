@@ -22,10 +22,11 @@
     display: block; 
 }
 .backgroundImgs{
-    width: 100%;
-    height: 110%;
+    width: 100vw;
+    height: 100%;
     overflow: hidden;
-
+    object-fit: cover;
+    
 }
 .background05{
     width: 100%;
@@ -37,7 +38,7 @@
     align-items: center;
     position: relative;
     overflow: hidden;
-    
+   
 }
 .background14{
     width: 100%;
