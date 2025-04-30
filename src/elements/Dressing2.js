@@ -412,7 +412,7 @@ export default function Dressing() {
           Swal.fire({
             title: '길게 눌러 저장하리오!',
             html: `<div style="max-height:60vh; overflow:auto;">
-                    <img src="${dataUrl}" className="capture" style="width:100%; height:auto;"/>
+                    <img src="${dataUrl}" className="capture" style="width:100%; height:auto; touch-action: auto"/>
                   </div>`,
             confirmButtonText: '확인',
           });
@@ -459,7 +459,7 @@ export default function Dressing() {
                       <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName" style={{zIndex: 2}}></input>
                     </div>
                     {/*시작버튼 */}
-                    <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주리오!'); return;}*/setStage(1)}}>
+                    <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주리오!'); return;}*/setStage(1);window.scrollTo(0, 0);}}>
                       <StartButton className="imgInserted" />
                     </button>
 
@@ -480,7 +480,10 @@ export default function Dressing() {
                     {codi.map( //선택된 의상 입히기
                       (item, i) =>
                       {
-                        const Image = item;
+                        let Image = null;
+                        if (item) {
+                          Image = item.src;
+                        }
                         return(
                         item && (
                           <Image
@@ -533,7 +536,10 @@ export default function Dressing() {
 
                       {codi.map( //옷입은 리오모습
                         (item, i) =>{
-                          const Image = item;
+                          let Image;
+                          if (item){
+                            Image = item.src;
+                          }
                           return (item && (
                             <Image
                               className={item.className}
@@ -573,7 +579,11 @@ export default function Dressing() {
 
                     {codi.map( //옷입은 리오모습
                       (item, i) =>{
-                        const Image = item
+                        let Image;
+
+                        if (item) {
+                          Image = item.src;
+                        }
                         return(
                         item && (
                           <Image

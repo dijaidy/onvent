@@ -24,12 +24,10 @@
 .backgroundImgs{
     width: 100%;
     height: 100%;
-    object-fit: cover;
 }
 .background05{
     width: 100%;
     height: 100%;
-
     background-size: cover;
     background-position: center;
     display: flex;
