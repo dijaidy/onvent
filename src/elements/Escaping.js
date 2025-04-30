@@ -61,7 +61,7 @@ import 실패문구3 from "../asset/dressingImages/실패문구3.svg"
 import 실패문구4 from "../asset/dressingImages/실패문구4.svg"
 import 공유하기 from "../asset/dressingImages/공유하기.svg"
 
-const failArr = [실패문구1, 실패문구2, 실패문구3, 실패문구4]
+const failArr = [실패문구1, 실패문구2, 실패문구3, 실패문구4];
 
 
 const screenWidth = rw(440);
@@ -140,7 +140,7 @@ export default function Escaping() {
             ridala.current?.setAttribute('src', 리딸라);
           }
         }]],
-        [[0, rh(190), rw(174), rh(96), ()=>{
+        [[0, rh(200), rw(144), rh(36), ()=>{
           setTimeout(()=>{
             setIsBlocked(true);
           }, 190);
@@ -526,7 +526,7 @@ export default function Escaping() {
         console.log(stageRef.current)
         if (isBlocked) return;
         if (teacherWatch.current) {
-          setTimeout(()=>{setFail(fail_teacher);}, 140);
+          setFail(fail_teacher);;
         }
         // joystick setting
         const dx = e.movement[0];
@@ -702,6 +702,7 @@ export default function Escaping() {
             <img style={{opacity: 1, objectFit: 'cover'}} src={chultui_button} width={rw(254.63)} height={rh(63.63)}></img>
             <text style={{fontFamily: 'Yangjin', fontSize: rw(24), color: '#ffffff', marginTop: rh(-50), height: rh(27), marginBottom: rh(23)}}>게임방법</text>
           </button>
+          <text style={{position: 'absolute', color: '#ff0000', bottom: rh(20), fontSize: rw(15), fontFamily: 'Romance'}}>*저전력모드에서는 리오도 느려진다리오 ㅠㅠ*</text>
           {(manual) && <div style={{position: 'absolute', display: 'flex', flexDirection: 'column',alignItems: 'center', width: screenWidth, height: screenHeight, opacity: 1, left: 0, top: 0, backgroundColor: 'transparent', zIndex: 2}}>
             <div style={{position: 'absolute', top: rh(279), display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#ec7fbc', width: screenWidth-rw(20), opacity: 1, zIndex: 3, borderRadius: rw(24)}}>
               <text style={{fontFamily: 'Fighting', fontSize: rw(64),textAlign: 'center', color: '#ffffff', marginTop: rh(58), textAlign: 'center'}}>게임설명</text>
@@ -744,7 +745,7 @@ export default function Escaping() {
             <text style={{marginTop: rh(36), fontSize: rw(40), fontFamily: 'Fighting', }}>{`스테이지 ${stage+1}`}</text>
             <div style={{position: 'relative', backgroundImage: `url(${stageSetting.bgd[stage]})`, backgroundSize: '100% 100%', width: gameScreenWidth, height: gameScreenHeight, touchAction: 'none', borderWidth: 1, borderStyle: 'solid', marginTop: rh(27)}}>
               {stageSetting.barrier[stage].map((pos, i)=>(pos[4] && <img src={pos.length == 6 ? pos[4].current :pos[4] } key={'barrier'+i.toString()} ref={(pos.length == 6) ? pos[4]: null} style={{ position: 'absolute', left: pos[0], top: pos[1], width: pos[2], height: pos[3],  zIndex: pos[4] === 리아_stage1 ? 2 : 'auto'}}></img>))}
-              {stageSetting.object[stage].map((pos, i)=>(pos[4]  && <img src={pos.length == 6 ? pos[4].current :pos[4]} key={'barrier'+i.toString()} ref={(pos.length == 6) ? pos[4]: null} style={{ position: 'absolute', left: pos[0], top: pos[1], width: pos[2], height: pos[3], zIndex: (pos[4] == 나무1 || pos[4] == 장애물사람)  ? 2 : 'auto'}}></img>))}
+              {stageSetting.object[stage].map((pos, i)=>(pos[4]  && <img src={pos.length == 6 ? pos[4].current :pos[4]} key={'barrier'+i.toString()} ref={(pos.length == 6) ? pos[4]: null} style={{ position: 'absolute', left: pos[0], top: pos[1], width: pos[2], height: pos[3], zIndex: (pos[4] == 나무1)  ? 2 : 'auto'}}></img>))}
               {stageSetting.goal[stage][4] ? 
               <img src={stageSetting.goal[stage][4]} style={{ position: 'absolute', left: stageSetting.goal[stage][0], top: stageSetting.goal[stage][1], width: stageSetting.goal[stage][2], height: stageSetting.goal[stage][3]}}></img>
               : 
@@ -770,15 +771,14 @@ export default function Escaping() {
             {(popUp && !alreadyPopUp) && <div style={{position: 'absolute', display: 'flex', flexDirection: 'column',alignItems: 'center', width: screenWidth, height: screenHeight, opacity: 1, left: 0, top: 0, backgroundColor: 'transparent', zIndex: 2}}>
               <img width={rw(350)} style={{ position: 'absolute', left: rw(45), top: rh(50), zIndex: 3}} src={컵홀더}></img>
               <text style={{marginTop: rh(589), fontSize: rw(60), color: '#ea7aba', fontFamily: 'Fighting', }}>리딸라 획득!</text>
-              <button style={{ position: 'absolute', width: '100%', height: '100%',  borderWidth: 0, backgroundColor: 'transparent', WebkitTapHighlightColor: 'transparent'}} onClick={()=>{setAlreadyPopUp(true);setPopUp(false); setIsBlocked(false);}}></button>
+              <button style={{ position: 'absolute', width: '100%', height: '100%',  borderWidth: 0, backgroundColor: 'transparent', WebkitTapHighlightColor: 'transparent', zIndex: 3}} onClick={()=>{setAlreadyPopUp(true);setPopUp(false); setIsBlocked(false);}}></button>
             </div>}
           </div>
           {(fail) &&
-          <div style={{position: 'absolute', top: 0, zIndex: 2, width: screenWidth, height: '100%', display: 'flex', backgroundColor: '#ffffff', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', }}>
-            <img style={{position: 'absolute'}}src={출튀배경실패} width={deviceRatio>=2 ? 'auto' : window.innerWidth} height={deviceRatio>=2 ? window.innerHeight: 'auto'}></img>
-            
+          <div style={{position: 'absolute', top: 0, left: 0, zIndex: 2, display: 'flex', backgroundColor: '#ffffff',width: window.innerWidth, flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', }}>
+            <img style={{position: 'absolute', top:0, left:0}}src={출튀배경실패} width={deviceRatio>=2 ? 'auto' : window.innerWidth} height={deviceRatio>=2 ? window.innerHeight: 'auto'}></img>
             <img src={fail} style={{objectFit: 'cover', alignSelf: 'center', zIndex:2, marginTop: rh(270)}} width={rw(350)} height={rh(438)}></img>
-            <img style={{position: 'absolute', zIndex: 2, top: rh(-220)}} src={failArr[stage]}></img>
+            <img style={{position: 'absolute', zIndex: 2, top: rh(30)}} src={failArr[stage]}></img>
             <button style={{zIndex:2, backgroundColor: 'transparent', display: 'flex', borderWidth: 0, marginTop:rh(40)}} onClick={()=>{
               setFail(false);
               setIsBlocked(false);
@@ -790,6 +790,7 @@ export default function Escaping() {
                 <img src={다시하기} width={rw(270.98)} height={rw(64)}></img>
               </button>
           </div>}
+          
         </div>
       }
       </div>
