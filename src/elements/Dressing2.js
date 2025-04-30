@@ -169,13 +169,16 @@ export default function Dressing() {
 
     useEffect(() => {
       if (stage === 5) {
-        setCanShare(false); // 버튼 잠금
+        console.log("⏱️ Stage 5 진입 - 버튼 3초 잠금 시작");
+        setCanShare(false);
         const timer = setTimeout(() => {
-          setCanShare(true); // 3초 후 버튼 활성화
+          console.log("✅ 3초 지남 - 버튼 활성화");
+          setCanShare(true);
         }, 3000);
-        return () => clearTimeout(timer); // stage 바뀌면 타이머 제거
+        return () => clearTimeout(timer);
       }
     }, [stage]);
+    
 
 
 
