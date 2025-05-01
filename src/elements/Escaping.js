@@ -233,6 +233,7 @@ export default function Escaping() {
       walkingAnimationId.current = null;
     };
 
+    const teacherWatchAni = useRef(null);
     const startTeacherAnimation = () => {
       if (teacherAnimationId.current) return; // 이미 돌아가는 중이면 무시
     
@@ -242,7 +243,7 @@ export default function Escaping() {
         teacherFrame.current = (teacherFrame.current + 1) % 2;
         teacher.current?.setAttribute('src', teacherFrame.current === 0 ? 교수앞 : 교수뒤);
         if (teacherFrame.current == 0) {
-          setTimeout(()=>{
+          teacherWatchAni.current = setTimeout(()=>{
           teacherWatch.current = true;
         }, 400)
         } else {
@@ -465,6 +466,10 @@ export default function Escaping() {
           newY = stageSetting.starting[stageRef.current+1][1];
           if (stageRef.current == 0) {
             teacherWatch.current = false;
+            if (teacherWatchAni.current !== null) {
+              clearInterval(teacherWatchAni.current);
+              teacherWatchAni.current = null
+            }
             stopTeacherAnimation();
             rio.current?.setAttribute('src', walking1);
           } else if (stageRef.current == 1) {
