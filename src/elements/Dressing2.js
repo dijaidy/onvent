@@ -44,7 +44,8 @@ import { ReactComponent as Info } from "../asset/dressingImages/info.svg";
 import { ReactComponent as EnterName } from "../asset/dressingImages/enterName.svg";
 
 import { sendNameToFirebase } from '../utils/sendNameToFirebase';
-import withReactContent from 'sweetalert2-react-content';
+import { checkNameDuplicate } from '../utils/checkNameDuplicate';
+
 
 
 import Swal from "sweetalert2";
@@ -212,8 +213,45 @@ export default function Dressing() {
 
 
 
+    
 
+    const handleStartClick = async () => {
+      if (!name.trim()) {
+        Swal.fire({
+          icon: 'warning',
+          html: '이름을 입력해주리오!'
+        });
+        return;
+      }
+    
+      const isDuplicate = await checkNameDuplicate(name);
+      if (isDuplicate) {
+        Swal.fire({
+          icon: 'warning',
+          html: '중복된 이름이리오! <br> 다른 이름을 입력해주리오!'
+        });
+        return;
+      }
+    
+      setStage(1);
+    };
+    
+    const handleShareName = async () => {
+      if (hasSubmitted.current) return;
 
+      hasSubmitted.current = true;
+
+      try {
+        await sendNameToFirebase(name);
+      } catch (err) {
+        hasSubmitted.current = false;
+        Swal.fire({
+          icon: 'error',
+          title: '이름 저장 실패',
+          html: '문제가 발생했다리오 <br> 다시 시도해 주리오ㅠㅠㅠ',
+        });
+      }
+    };
 
 
 
@@ -234,7 +272,7 @@ export default function Dressing() {
 
 
 
-    
+    /*
     async function waitForFontFullyRendered(selector, targetFont) {
       while (true) {
         const el = document.querySelector(selector);
@@ -256,15 +294,15 @@ export default function Dressing() {
         await new Promise(r => setTimeout(r, 100));
       }
     }
+    /*
     
     
     
-    
 
 
 
 
-
+    /*
     const handleCapture = async () => {
       const node = document.querySelector('.captureArea');
       
@@ -295,27 +333,7 @@ export default function Dressing() {
         return null;
       }
     };
-
-
-
-
-
-    const handleShareName = async () => {
-      if (hasSubmitted.current) return;
-
-      hasSubmitted.current = true;
-
-      try {
-        await sendNameToFirebase(name);
-      } catch (err) {
-        hasSubmitted.current = false;
-        Swal.fire({
-          icon: 'error',
-          title: '이름 저장 실패',
-          html: '문제가 발생했다리오 <br> 다시 시도해 주리오ㅠㅠㅠ',
-        });
-      }
-    };
+    */
 
 
 
@@ -327,6 +345,11 @@ export default function Dressing() {
 
 
 
+
+
+
+
+    /*
     async function ensureElementRendered(selector, timeout = 3000) {
       const start = Date.now();
     
@@ -361,7 +384,7 @@ export default function Dressing() {
           return;
         }
       }*/
-    
+      /*
       // ⏳ 캡처 대기 표시
       Swal.fire({
         title: '이미지를 생성 중이리오...',
@@ -397,7 +420,7 @@ export default function Dressing() {
           html: '이미지를 캡처하는 중 문제가 발생했다리오..<br> 다시 시도해보리오!',
         });
       }
-    };
+    };*/
     
     
     
@@ -440,7 +463,7 @@ export default function Dressing() {
                       <input value={name} onChange={(e)=>{setName(e.target.value)}}type="text" className="enterName" style={{zIndex: 2}}></input>
                     </div>
                     {/*시작버튼 */}
-                    <button className="startbutton" onClick={() =>{/*if(!name.trim()){Swal.fire('이름을 입력해주리오!'); return;}*/setStage(1);window.scrollTo(0, 0);}}>
+                    <button className="startbutton" onClick={handleStartClick}>
                       <StartButton className="imgInserted" />
                     </button>
 

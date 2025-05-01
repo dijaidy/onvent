@@ -62,6 +62,7 @@ import 실패문구3 from "../asset/dressingImages/실패문구3.svg"
 import 실패문구4 from "../asset/dressingImages/실패문구4.svg"
 import 공유하기 from "../asset/dressingImages/공유하기.svg"
 import { sendNameToFirebase } from "../utils/sendNameToFirebase";
+import { checkNameDuplicate } from '../utils/checkNameDuplicate';
 
 const failArr = [실패문구1, 실패문구2, 실패문구3, 실패문구4];
 
@@ -580,7 +581,34 @@ export default function Escaping() {
       }
     };
 
-        
+
+    
+    const handleStartClick = async () => {
+      if (!name.trim()) {
+        Swal.fire({
+          icon: 'warning',
+          html: '별명을 입력해주리오!'
+        });
+        return;
+      }
+    
+      const isDuplicate = await checkNameDuplicate(name);
+      if (isDuplicate) {
+        Swal.fire({
+          icon: 'warning',
+          html: '중복된 별명이리오! <br> 다른 별명을 입력해주리오!'
+        });
+        return;
+      }
+    
+      startTeacherAnimation();
+      setStage(0);
+      setTime(Date.now());
+      startWalkingAnimation();
+      window.scrollTo(0, 0);
+    };    
+    
+    
         
 
     return (
@@ -604,16 +632,7 @@ export default function Escaping() {
             />
           </div>
           <button style={{ backgroundColor: 'transparent', border: 'none', marginTop: rh(20.37), width: rw(254.63), display: 'flex', flexDirection: 'column', alignItems: 'center'
-          }} onClick={()=>{
-            if (!name) {
-              Swal.fire( '이름을 입력해주세요!');
-            } else {
-              startTeacherAnimation();
-              setStage(0);
-              setTime(Date.now());
-              startWalkingAnimation();
-              window.scrollTo(0, 0);
-            }}}>
+          }} onClick={handleStartClick}>
             <img style={{opacity: 1, objectFit: 'cover'}} src={chultui_button} width={rw(254.63)} height={rh(63.63)}></img>
             <text style={{fontFamily: 'Yangjin', fontSize: rw(24), color: '#ffffff', marginTop: rh(-50), height: rh(27), marginBottom: rh(23)}}>게임시작</text>
           </button>
