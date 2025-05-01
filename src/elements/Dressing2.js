@@ -588,6 +588,10 @@ export default function Dressing() {
                       className="shareButton"
                       onClick={()=>{
                         handleShareName();
+                        Swal.fire({
+                          title: '나오는 화면을 캡쳐해 공유하리오!',
+                          confirmButtonText: '확인',
+                        });
                         setStage(6);
                       }}
                     >

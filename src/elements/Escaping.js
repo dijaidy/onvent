@@ -658,6 +658,10 @@ export default function Escaping() {
           { (!isShared) && 
           <button style={{borderWidth: 0, backgroundColor: 'transparent', display: 'flex', marginTop: rh(10)}} onClick={()=>{
             setIsShared(true);
+            Swal.fire({
+                                      title: '나오는 화면을 캡쳐해 공유하리오!',
+                                      confirmButtonText: '확인',
+                                    });
             handleShareName();
           }}>
             <img src={공유하기} width={rw(270.96)} height={rw(64)}></img>
