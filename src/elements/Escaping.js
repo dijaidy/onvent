@@ -105,6 +105,9 @@ export default function Escaping() {
     const hasSubmitted = useRef(false);
     const inputRef = useRef(null);
     const [isShared, setIsShared] = useState(false);
+    const lastTimeRef = useRef(performance.now());
+    const lastTimeTA1Ref = useRef(performance.now());
+    const lastTimeTA2Ref = useRef(performance.now());
 
     const taPos = [useSpring({x: rw(118), y: rh(46)}), useSpring({x: rw(250), y: rh(308)})];
     const taSize = [rw(72), rh(204)];
@@ -274,9 +277,15 @@ export default function Escaping() {
       ridalaAnimationId.current = null;
     };
 
-    const updateTA1Position = () => {
+    const updateTA1Position = (currentTime) => {
+      let deltaTime = currentTime - lastTimeTA1Ref.current;
+      if (lastTimeTA1Ref.current == undefined || currentTime == undefined) {
+        deltaTime = 0;
+      }
+      lastTimeTA1Ref.current = currentTime;
+      
         const i = 0;
-        let newY = taPos[i].y.get() + taVel[i];
+        let newY = taPos[i].y.get() + taVel[i] * deltaTime * 60/1000;
 
         if (newY + taSize[1] >= gameScreenHeight) {
           taFrame[i].current = false;
@@ -328,9 +337,15 @@ export default function Escaping() {
     }
     }
 
-    const updateTA2Position = () => {
+    const updateTA2Position = (currentTime) => {
+      let deltaTime = currentTime - lastTimeTA2Ref.current;
+      if (lastTimeTA2Ref.current == undefined || currentTime == undefined) {
+        deltaTime = 0;
+      }
+      lastTimeTA2Ref.current = currentTime;
+
       const i = 1;
-      let newY = taPos[i].y.get() + taVel[i];
+      let newY = taPos[i].y.get() + taVel[i] * deltaTime * 60/1000;
 
       if (newY + taSize[1] >= gameScreenHeight) {
         taFrame[i].current = false;
@@ -376,12 +391,16 @@ export default function Escaping() {
   }
   }
 
-    const updatePosition = () => {
+    const updatePosition = (currentTime) => {
+      let deltaTime = currentTime - lastTimeRef.current;
+      if (lastTimeRef.current == undefined || currentTime == undefined) {
+        deltaTime = 0;
+      }
+      lastTimeRef.current = currentTime;
+      console.log('deltaTime', deltaTime)
       const rioVelocity = [joystickPos.x.get(), joystickPos.y.get()];
-      
-      let newX = Math.min(Math.max(rioPos.x.get() + rioVelocity[0]*velocity, 0), gameScreenWidth-rioWidth);
-      let newY = Math.min(Math.max(rioPos.y.get() + rioVelocity[1]*velocity, 0), gameScreenHeight-rioHeight);
-
+      let newX = Math.min(Math.max(rioPos.x.get() + rioVelocity[0]*velocity*(deltaTime*60/1000), 0), gameScreenWidth-rioWidth);
+      let newY = Math.min(Math.max(rioPos.y.get() + rioVelocity[1]*velocity*(deltaTime*60/1000), 0), gameScreenHeight-rioHeight);
 
       let boxLeft;
       let boxRight;
