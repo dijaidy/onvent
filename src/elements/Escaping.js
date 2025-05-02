@@ -289,7 +289,6 @@ export default function Escaping() {
 
         if (newY + taSize[1] >= gameScreenHeight) {
           taFrame[i].current = false;
-          console.log('weoifjwioefjwio')
           ta[i].current?.setAttribute('src', 조교뒤1);
 
           newY = taPos[i].y.get();
@@ -397,7 +396,6 @@ export default function Escaping() {
         deltaTime = 0;
       }
       lastTimeRef.current = currentTime;
-      console.log('deltaTime', deltaTime)
       const rioVelocity = [joystickPos.x.get(), joystickPos.y.get()];
       let newX = Math.min(Math.max(rioPos.x.get() + rioVelocity[0]*velocity*(deltaTime*60/1000), 0), gameScreenWidth-rioWidth);
       let newY = Math.min(Math.max(rioPos.y.get() + rioVelocity[1]*velocity*(deltaTime*60/1000), 0), gameScreenHeight-rioHeight);
@@ -523,14 +521,11 @@ export default function Escaping() {
     };
 
     const bindLogoPos = useDrag((e)=>{
-      console.log(e.last)
       if (e.first){
-        console.log(stageRef.current)
         joystickPos.x.set(0);
         joystickPos.y.set(0);
         updatePosition();
       } else if (e.last) {
-        console.log('last')
         joystickPos.x.start(0, {config: {duration: 200}});
         joystickPos.y.start(0, {config: {duration: 200}});
         if (isClear){
@@ -551,7 +546,6 @@ export default function Escaping() {
           e.cancel();
           return;
         }
-        console.log(stageRef.current)
         if (isBlocked) return;
         if (teacherWatch.current) {
           setFail(fail_teacher);;
