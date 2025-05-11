@@ -27,8 +27,13 @@ export default function MainPage() {
             <img src={기본배경} width={deviceRatio>=2 ? 'auto' : (window.innerWidth > 1.35* rw(440) ? 1.35* rw(440) : (window.innerWidth))} height={deviceRatio>=2 ? window.innerHeight: 'auto'} ></img>
             <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <button onClick={()=>{
-                    navigate('/escaping')
+                    navigate('/minimap')
                 }} style={{width: rw(339.94), height: rw(59.17), alignItems: 'center', display: 'flex', justifyContent: 'center', borderRadius: rw(60), backgroundColor: 'transparent', borderWidth: 0, marginTop: rh(418.62)}}>
+                    <img src={출튀버튼} width={rw(339.94)} height={rw(59.17)} ></img>
+                </button>
+                <button onClick={()=>{
+                    navigate('/escaping')
+                }} style={{width: rw(339.94), height: rw(59.17), alignItems: 'center', display: 'flex', justifyContent: 'center', borderRadius: rw(60), backgroundColor: 'transparent', borderWidth: 0, marginTop: rh(35.53)}}>
                     <img src={출튀버튼} width={rw(339.94)} height={rw(59.17)} ></img>
                 </button>
                 <button onClick={()=>{

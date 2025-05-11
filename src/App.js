@@ -105,6 +105,7 @@ import 공유하기 from "./asset/dressingImages/공유하기.svg"
 import 빗썸화면 from "./asset/dressingImages/빗썸화면.svg"
 import 스프링클제목 from "./asset/dressingImages/스프링클제목.svg"
 import 기본배경 from "./asset/dressingImages/기본배경.svg";
+import 기본배경2 from "./asset/dressingImages/기본배경2.svg";
 import 출튀버튼 from "./asset/dressingImages/출튀버튼.svg"
 import 리옷버튼 from "./asset/dressingImages/리옷버튼.svg"
 import 빗썸버튼 from "./asset/dressingImages/빗썸버튼.svg"
@@ -128,7 +129,7 @@ export const imagePaths = [
   background05, background14, rio, enterName, prevButton, nextButton, shareButton, info,
   firstInfo, firstRio, title, startButton,
 
-  빗썸화면, 스프링클제목, 기본배경, 출튀버튼, 리옷버튼, 빗썸버튼
+  빗썸화면, 스프링클제목, 기본배경, 기본배경2, 출튀버튼, 리옷버튼, 빗썸버튼
 ];
 
 const preloadImages = (paths) => {

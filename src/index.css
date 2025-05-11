@@ -28,6 +28,20 @@ input::placeholder {
   font-display: swap;
 }
 
+body {
+  overflow: hidden;
+}
+
+.scrollDiv {
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE, Edge */
+
+  /* 크롬, 사파리 등 Webkit 계열 */
+}
+
+.scrollDiv::-webkit-scrollbar {
+  display: none;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

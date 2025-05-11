@@ -7,6 +7,7 @@ import '../index.css';
 import Swal from 'sweetalert2';
 import * as htmlToImage from 'html-to-image';
 import { ReactComponent as Info } from "../asset/dressingImages/info.svg";
+import 기본배경 from "../asset/dressingImages/기본배경2.svg";
 
 import chultui_intro from "../asset/dressingImages/chultui_intro.svg";
 import chultui_button from "../asset/dressingImages/chultui_button.svg";
