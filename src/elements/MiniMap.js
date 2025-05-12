@@ -117,7 +117,7 @@ export default function Minimap() {
                             <img
                                 src={require(`../asset/minimapImages/${mapPosition[booth].imageName}`)}
                                 style={{
-                                    height: rh(170),
+                                    height: rh(190),
                                     width: 'auto',
                                     marginTop: rh(60),
                                     marginBottom: rh(-40),
