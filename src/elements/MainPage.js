@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import 기본배경 from "../asset/dressingImages/기본배경.svg";
+import 미니맵버튼 from "../asset/buttonImages/minimapButton.svg"
 import 출튀버튼 from "../asset/dressingImages/출튀버튼.svg"
 import 리옷버튼 from "../asset/dressingImages/리옷버튼.svg"
 import 빗썸버튼 from "../asset/dressingImages/빗썸버튼.svg"
@@ -29,7 +30,7 @@ export default function MainPage() {
                     <button onClick={() => {
                         navigate('/minimap')
                     }} style={{ width: rw(339.94), height: rw(59.17), alignItems: 'center', display: 'flex', justifyContent: 'center', borderRadius: rw(60), backgroundColor: 'transparent', borderWidth: 0, marginTop: rh(418.62) }}>
-                        <img src={출튀버튼} width={rw(339.94)} height={rw(59.17)} ></img>
+                        <img src={미니맵버튼} width={rw(339.94)} height={rw(59.17)} ></img>
                     </button>
                     <button onClick={() => {
                         navigate('/escaping')

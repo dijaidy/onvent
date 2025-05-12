@@ -108,11 +108,23 @@ export default function Minimap() {
             {(!detail) && <img src={범례} style={{ zIndex: 4, position: 'absolute', bottom: rh(15), left: rw(20) }} width={rw(250)}></img>}
             {(detail) &&
                 <button onClick={() => { setDetail(false); }} style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', borderRadius: rw(30), width: '100%', height: '100%', backgroundColor: '#ffafc7', zIndex: 3, position: 'absolute', left: 0, top: 0, borderWidth: 0, WebkitTapHighlightColor: 'transparent' }}>
-                    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', marginBottom: rh(40) }}>
-                        <text style={{ color: '#F8FBA6', fontSize: rw(42), fontFamily: 'Romance', textShadow: '0px 3px 4px rgba(117, 47, 56, 0.2)' }}>{booth}</text>
+                    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: rh(40) }}>
+                        <text style={{ color: '#F8FBA6', fontSize: rw(35), fontFamily: 'Romance', textShadow: '0px 3px 4px rgba(117, 47, 56, 0.15)' }}>{booth}</text>
                         <span style={{
-                            fontFamily: 'Pretendard-Semibold', color: '#ffffff', fontSize: rw(25), marginTop: rh(70), whiteSpace: 'pre-line', marginLeft: rw(20), marginRight: rw(20), letterSpacing: rw(-0.8), textShadow: '0px 3px 2px rgba(117, 47, 56, 0.2)'
+                            fontFamily: 'Pretendard-Semibold', color: '#ffffff', fontSize: rw(23), marginTop: rh(60), whiteSpace: 'pre-line', marginLeft: rw(20), marginRight: rw(20), letterSpacing: rw(-0.8), textShadow: '0px 3px 2px rgba(117, 47, 56, 0.15)'
                         }}>{description}</span>
+                        {mapPosition[booth]?.imageName && (
+                            <img
+                                src={require(`../asset/minimapImages/${mapPosition[booth].imageName}`)}
+                                style={{
+                                    height: rh(170),
+                                    width: 'auto',
+                                    marginTop: rh(60),
+                                    marginBottom: rh(-40),
+                                    alignSelf: 'center'
+                                }}
+                            />
+                        )}
                     </div>
                 </button>}
         </div>
