@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -12,19 +12,35 @@ input::placeholder {
 }
 
 @font-face {
-  font-family: 'Fighting'; /* 사용할 폰트의 이름을 정의 */
-  src: url('./asset/fonts/PeoplefirstFighting.otf'); /* 폰트 파일의 위치 */
+  font-family: "Fighting"; /* 사용할 폰트의 이름을 정의 */
+  src: url("./asset/fonts/PeoplefirstFighting.otf"); /* 폰트 파일의 위치 */
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Yangjin'; /* 사용할 폰트의 이름을 정의 */
-  src: url('./asset/fonts/양진체v0.93.otf'); /* 폰트 파일의 위치 */
+  font-family: "Yangjin"; /* 사용할 폰트의 이름을 정의 */
+  src: url("./asset/fonts/양진체v0.93.otf"); /* 폰트 파일의 위치 */
   font-display: swap;
 }
 @font-face {
-  font-family: 'Romance';
-  src: url('./asset/fonts/GumiRomance.otf');
+  font-family: "Romance";
+  src: url("./asset/fonts/GumiRomance.otf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pretendard-Light";
+  src: url("./asset/fonts/Pretendard-Light.otf");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("./asset/fonts/Pretendard-Regular.otf");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Pretendard-Semibold";
+  src: url("./asset/fonts/Pretendard-SemiBold.otf");
   font-display: swap;
 }
 
@@ -33,8 +49,8 @@ body {
 }
 
 .scrollDiv {
-  scrollbar-width: none;          /* Firefox */
-  -ms-overflow-style: none;       /* IE, Edge */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE, Edge */
 
   /* 크롬, 사파리 등 Webkit 계열 */
 }
@@ -44,6 +60,6 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
