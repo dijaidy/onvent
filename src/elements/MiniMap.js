@@ -69,14 +69,14 @@ export default function Minimap() {
     return (<div style={{ touchAction: 'none', overflow: 'hidden', width: window.innerWidth, height: window.innerHeight, backgroundColor: '#ee8aa8', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <img src={기본배경} width={deviceRatio >= 2 ? 'auto' : (window.innerWidth > 1.35 * rw(440) ? 1.35 * rw(440) : (window.innerWidth))} height={deviceRatio >= 2 ? window.innerHeight : 'auto'} style={{ zIndex: 0, position: 'absolute' }} ></img>
         <div style={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between' }}>
-            <button style={{ zIndex: 2, backgroundColor: 'transparent', width: rw(60), height: rw(60), alignSelf: 'flex-start', marginLeft: rw(40), marginTop: rh(20), marginBottom: rh(10), borderWidth: 0 }} onClick={() => { navigate('..'); }}>
-                <img src={HomeButton} width={rw(60)} height={rw(60)}></img>
+            <button style={{ zIndex: 2, backgroundColor: 'transparent', width: rw(50), height: rw(50), alignSelf: 'flex-start', marginLeft: rw(40), marginTop: rh(50), marginBottom: rh(-20), borderWidth: 0 }} onClick={() => { navigate('..'); }}>
+                <img src={HomeButton} width={rw(56)} height={rw(50)}></img>
             </button>
             <div style={{ flexDirection: 'row', display: 'flex', alignItems: 'flex-end' }}>
-                <button style={{ zIndex: 2, backgroundColor: 'transparent', marginRight: rw(0), marginBottom: rh(-40), borderWidth: 0, width: rw(60), height: rw(60) }} onClick={() => { handleZoomIn() }}>
+                <button style={{ zIndex: 2, backgroundColor: 'transparent', marginRight: rw(-5), marginBottom: rh(-30), borderWidth: 0, width: rw(60), height: rw(60) }} onClick={() => { handleZoomIn() }}>
                     <img src={plusButton} width={rw(40)} height={rw(40)}></img>
                 </button>
-                <button style={{ zIndex: 2, backgroundColor: 'transparent', marginRight: rw(50), marginBottom: rh(-40), borderWidth: 0, width: rw(60), height: rw(60) }} onClick={() => { handleZoomOut() }}>
+                <button style={{ zIndex: 2, backgroundColor: 'transparent', marginRight: rw(40), marginBottom: rh(-30), borderWidth: 0, width: rw(60), height: rw(60) }} onClick={() => { handleZoomOut() }}>
                     <img src={minusButton} width={rw(40)} height={rw(40)}></img>
                 </button>
             </div>
@@ -105,13 +105,13 @@ export default function Minimap() {
                     <div style={{ minWidth: rw(170), minHeight: rh(20) }}></div>
                 </div>
             </div>
-            {(!detail) && <img src={범례} style={{ zIndex: 4, position: 'absolute', bottom: rh(20), left: rw(20) }} width={rw(250)}></img>}
+            {(!detail) && <img src={범례} style={{ zIndex: 4, position: 'absolute', bottom: rh(15), left: rw(20) }} width={rw(250)}></img>}
             {(detail) &&
                 <button onClick={() => { setDetail(false); }} style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', borderRadius: rw(30), width: '100%', height: '100%', backgroundColor: '#ffafc7', zIndex: 3, position: 'absolute', left: 0, top: 0, borderWidth: 0, WebkitTapHighlightColor: 'transparent' }}>
                     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', marginBottom: rh(40) }}>
-                        <text style={{ color: '#F8FBA6', fontSize: rw(50), fontFamily: 'Romance', textShadow: '0px 3px 4px rgba(117, 47, 56, 0.2)' }}>{booth}</text>
+                        <text style={{ color: '#F8FBA6', fontSize: rw(42), fontFamily: 'Romance', textShadow: '0px 3px 4px rgba(117, 47, 56, 0.2)' }}>{booth}</text>
                         <span style={{
-                            fontFamily: 'Pretendard-Semibold', color: '#ffffff', fontSize: rw(27), marginTop: rh(70), whiteSpace: 'pre-line', marginLeft: rw(20), marginRight: rw(20), letterSpacing: rw(-0.8), textShadow: '0px 3px 2px rgba(117, 47, 56, 0.2)'
+                            fontFamily: 'Pretendard-Semibold', color: '#ffffff', fontSize: rw(25), marginTop: rh(70), whiteSpace: 'pre-line', marginLeft: rw(20), marginRight: rw(20), letterSpacing: rw(-0.8), textShadow: '0px 3px 2px rgba(117, 47, 56, 0.2)'
                         }}>{description}</span>
                     </div>
                 </button>}
