@@ -117,6 +117,8 @@ import xButton from "./asset/dressingImages/xButton.svg"
 import 배치도 from "./asset/dressingImages/배치도.svg"
 import 범례 from "./asset/dressingImages/범례.svg"
 
+import miraeasset from "./asset/minimapImages/miraeasset.svg"
+
 export const imagePaths = [
   chultui_intro, chultui_button, 리오, 리아, joystick, walking1, walking2,
   bgd1, bgd2, bgd3, bgd4, bgd5,
@@ -138,7 +140,9 @@ export const imagePaths = [
 
   빗썸화면, 스프링클제목, 기본배경, 기본배경2, 출튀버튼, 리옷버튼, 빗썸버튼,
 
-  HomeButton,plusButton, minusButton, xButton, 배치도, 범례
+  HomeButton,plusButton, minusButton, xButton, 배치도, 범례,
+
+  miraeasset
 ];
 
 const preloadImages = (paths) => {
