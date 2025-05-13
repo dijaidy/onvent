@@ -110,6 +110,13 @@ import 출튀버튼 from "./asset/dressingImages/출튀버튼.svg"
 import 리옷버튼 from "./asset/dressingImages/리옷버튼.svg"
 import 빗썸버튼 from "./asset/dressingImages/빗썸버튼.svg"
 
+import HomeButton from "./asset/dressingImages/toHome.svg"
+import plusButton from "./asset/dressingImages/plusButton.svg"
+import minusButton from "./asset/dressingImages/minusButton.svg"
+import xButton from "./asset/dressingImages/xButton.svg"
+import 배치도 from "./asset/dressingImages/배치도.svg"
+import 범례 from "./asset/dressingImages/범례.svg"
+
 export const imagePaths = [
   chultui_intro, chultui_button, 리오, 리아, joystick, walking1, walking2,
   bgd1, bgd2, bgd3, bgd4, bgd5,
@@ -129,7 +136,9 @@ export const imagePaths = [
   background05, background14, rio, enterName, prevButton, nextButton, shareButton, info,
   firstInfo, firstRio, title, startButton,
 
-  빗썸화면, 스프링클제목, 기본배경, 기본배경2, 출튀버튼, 리옷버튼, 빗썸버튼
+  빗썸화면, 스프링클제목, 기본배경, 기본배경2, 출튀버튼, 리옷버튼, 빗썸버튼,
+
+  HomeButton,plusButton, minusButton, xButton, 배치도, 범례
 ];
 
 const preloadImages = (paths) => {
