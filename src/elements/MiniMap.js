@@ -118,7 +118,7 @@ export default function Minimap() {
                                 src={require(`../asset/minimapImages/${mapPosition[booth].imageName}`)}
                                 style={{
                                     height: rh(190),
-                                    width: 'auto',
+                                    width: (booth == 'JC안과' || booth == '빗썸' || booth == '미래에셋') ? window.innerWidth-rw(200) : 'auto',
                                     marginTop: rh(60),
                                     marginBottom: rh(-40),
                                     alignSelf: 'center'
