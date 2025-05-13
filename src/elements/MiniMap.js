@@ -68,6 +68,7 @@ export default function Minimap() {
 
     return (<div style={{ touchAction: 'none', overflow: 'hidden', width: window.innerWidth, height: window.innerHeight, backgroundColor: '#ee8aa8', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <img src={기본배경} width={deviceRatio >= 2 ? 'auto' : (window.innerWidth > 1.35 * rw(440) ? 1.35 * rw(440) : (window.innerWidth))} height={deviceRatio >= 2 ? window.innerHeight : 'auto'} style={{ zIndex: 0, position: 'absolute' }} ></img>
+        <text style={{fontFamily: 'romance', fontSize: rw(20), color: '#ffffff', zIndex: 5, marginTop: rh(20), marginBottom: rh(-30)}}>부스를 눌러 설명을 확인하세요!</text>
         <div style={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between' }}>
             <button style={{ zIndex: 2, backgroundColor: 'transparent', width: rw(50), height: rw(50), alignSelf: 'flex-start', marginLeft: rw(40), marginTop: rh(50), marginBottom: rh(-20), borderWidth: 0 }} onClick={() => { navigate('..'); }}>
                 <img src={HomeButton} width={rw(56)} height={rw(50)}></img>
