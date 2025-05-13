@@ -117,7 +117,18 @@ import xButton from "./asset/dressingImages/xButton.svg"
 import 배치도 from "./asset/dressingImages/배치도.svg"
 import 범례 from "./asset/dressingImages/범례.svg"
 
-import miraeasset from "./asset/minimapImages/miraeasset.svg"
+import game1 from './asset/minimapImages/game1.svg';
+import game2 from './asset/minimapImages/game2.svg';
+import game3 from './asset/minimapImages/game3.svg';
+import game4 from './asset/minimapImages/game4.svg';
+import yunmarch from './asset/minimapImages/yunmarch.svg';
+import miraeasset from './asset/minimapImages/miraeasset.svg';
+import badges from './asset/minimapImages/badges.svg';
+import bandana from './asset/minimapImages/bandana.svg';
+import bitsum from './asset/minimapImages/bitsum.svg';
+import lltd from './asset/minimapImages/lltd.PNG'; // 유일한 PNG
+import shine from './asset/minimapImages/shine.svg';
+import redbull from './asset/minimapImages/redbull.svg';
 
 export const imagePaths = [
   chultui_intro, chultui_button, 리오, 리아, joystick, walking1, walking2,
@@ -142,7 +153,9 @@ export const imagePaths = [
 
   HomeButton,plusButton, minusButton, xButton, 배치도, 범례,
 
-  miraeasset
+  game1, game2, game3, game4, yunmarch,
+  miraeasset, badges, bandana, bitsum, lltd,
+  shine, redbull, rio
 ];
 
 const preloadImages = (paths) => {

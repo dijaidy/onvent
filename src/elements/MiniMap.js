@@ -11,6 +11,36 @@ import 배치도 from "../asset/dressingImages/배치도.svg"
 import 범례 from "../asset/dressingImages/범례.svg"
 import { useEffect, useRef, useState } from "react";
 
+import game1 from '../asset/minimapImages/game1.svg';
+import game2 from '../asset/minimapImages/game2.svg';
+import game3 from '../asset/minimapImages/game3.svg';
+import game4 from '../asset/minimapImages/game4.svg';
+import yunmarch from '../asset/minimapImages/yunmarch.svg';
+import miraeasset from '../asset/minimapImages/miraeasset.svg';
+import badges from '../asset/minimapImages/badges.svg';
+import bandana from '../asset/minimapImages/bandana.svg';
+import bitsum from '../asset/minimapImages/bitsum.svg';
+import lltd from '../asset/minimapImages/lltd.PNG'; // PNG만 예외
+import shine from '../asset/minimapImages/shine.svg';
+import redbull from '../asset/minimapImages/redbull.svg';
+import rio from '../asset/minimapImages/rio.svg';
+
+const boothImageMap = {
+  "비즈비즈 스트로비즈": game1,
+  "아몬드 뻥뻥": game2,
+  "이상한 나라의 알사탕": game3,
+  "체리 올릴레?": game4,
+  "샤운드 오브 뮤직": yunmarch,
+  "미래에셋": miraeasset,
+  "굿즈": bandana,
+  "뱃지 모으리오": badges,
+  "빗썸": bitsum,
+  "대학연대 지역인재 사업단": lltd,
+  "샤인": shine,
+  "레드불": redbull,
+  "리오랑 사진찍자~!!": rio
+};
+
 const deviceRatio = window.innerHeight / window.innerWidth;
 
 export default function Minimap() {
@@ -116,7 +146,7 @@ export default function Minimap() {
                         }}>{description}</span>
                         {mapPosition[booth]?.imageName && (
                             <img
-                                src={require(`../asset/minimapImages/${mapPosition[booth].imageName}`)}
+                                src={boothImageMap[booth]}
                                 style={{
                                     height: rh(190),
                                     width: (booth == 'JC안과' || booth == '빗썸' || booth == '미래에셋') ? window.innerWidth-rw(200) : 'auto',
