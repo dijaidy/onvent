@@ -155,6 +155,9 @@ function App() {
       <text style={{position: 'absolute', color: 'transparent', fontFamily: 'Fighting'}}>a</text> 
       <text style={{position: 'absolute', color: 'transparent', fontFamily: 'Yangjin'}}>a</text> 
       <text style={{position: 'absolute', color: 'transparent', fontFamily: 'Romance'}}>a</text> 
+      <text style={{position: 'absolute', color: 'transparent', fontFamily: 'Pretendard-Light'}}>a</text> 
+      <text style={{position: 'absolute', color: 'transparent', fontFamily: 'Pretendard-Regular'}}>a</text> 
+      <text style={{position: 'absolute', color: 'transparent', fontFamily: 'Pretendard-SemiBold'}}>a</text> 
       {imgArr}
       <Navigation/>
     </div>
